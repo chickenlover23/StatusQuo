@@ -59,6 +59,7 @@ public class Manager_Game : MonoBehaviour
     Vector3Int t_position;
     Ray ray;
     RaycastHit2D hit;
+    TaskInformation taskInfoo;
 
     public List<UserDataCollector> userDataCollectors;
 
@@ -168,6 +169,10 @@ public class Manager_Game : MonoBehaviour
         }
     }
 
+    public void displayTest(){
+        displayTaskPopUp(taskInfoo);
+    }
+
     public void displayTaskPopUp(TaskInformation taskInfo)
     {
         taskHeader.text = taskInfo.taskHeader;
@@ -191,6 +196,7 @@ public class Manager_Game : MonoBehaviour
         taskInfo.taskBlack = "-20";
         taskInfo.allSeconds = 120f;
         taskInfo.remainingAllSeconds = 120f;
+        taskInfoo = taskInfo;
         addTask(taskInfo, "Ev");
     }
 
