@@ -13,6 +13,8 @@ public class Manager_Game : MonoBehaviour
 {
 
     public int num;
+    public TMP_InputField converterBronze, converterGold;
+    public GameObject converterPopUp;
 
     [Header("Store")]
     public GameObject storeParent;
@@ -59,7 +61,7 @@ public class Manager_Game : MonoBehaviour
     Vector3Int t_position;
     Ray ray;
     RaycastHit2D hit;
-    TaskInformation taskInfoo;
+    TaskInformation currentTaskInfo;
 
     public List<UserDataCollector> userDataCollectors;
 
@@ -111,7 +113,6 @@ public class Manager_Game : MonoBehaviour
                 }
             }
         }
-
     }
 
 
@@ -170,7 +171,7 @@ public class Manager_Game : MonoBehaviour
     }
 
     public void displayTest(){
-        displayTaskPopUp(taskInfoo);
+        displayTaskPopUp(currentTaskInfo);
     }
 
     public void displayTaskPopUp(TaskInformation taskInfo)
@@ -194,9 +195,8 @@ public class Manager_Game : MonoBehaviour
         taskInfo.taskGold = "+200";
         taskInfo.taskBronze = "-50";
         taskInfo.taskBlack = "-20";
-        taskInfo.allSeconds = 120f;
-        taskInfo.remainingAllSeconds = 120f;
-        taskInfoo = taskInfo;
+        taskInfo.allSeconds = 60f;
+        taskInfo.remainingAllSeconds = 60f;
         addTask(taskInfo, "Ev");
     }
 
@@ -208,13 +208,24 @@ public class Manager_Game : MonoBehaviour
         {
             if(buildingsTilemap.transform.GetChild(i).name == buildingType)
             {
-                //Debug.Log(buildingsTilemap.transform.GetChild(i).gameObject.GetComponent<TaskInformation>().hasTask);
-                buildingsTilemap.transform.GetChild(i).gameObject.GetComponent<TaskInformation>().hasTask = true;
-                buildingsTilemap.transform.GetChild(i).gameObject.GetComponent<TaskInformation>().allSeconds = taskInfo.allSeconds;
-                buildingsTilemap.transform.GetChild(i).gameObject.GetComponent<TaskInformation>().remainingAllSeconds = taskInfo.remainingAllSeconds;
-                Debug.Log(gameObject.GetComponent<Timer>().tasks.Count);
-                gameObject.GetComponent<Timer>().tasks.Add(buildingsTilemap.transform.GetChild(i).gameObject.GetComponent<TaskInformation>());
+                currentTaskInfo = buildingsTilemap.transform.GetChild(i).gameObject.GetComponent<TaskInformation>();
+           
+                currentTaskInfo.hasTask = true;
+                currentTaskInfo.allSeconds = taskInfo.allSeconds;
+                currentTaskInfo.remainingAllSeconds = taskInfo.remainingAllSeconds;
+                currentTaskInfo.taskGold = taskInfo.taskGold;
+                currentTaskInfo.taskBronze = taskInfo.taskBronze;
+                currentTaskInfo.taskBlack = taskInfo.taskBlack;
+                currentTaskInfo.taskHeader = taskInfo.taskHeader;
+                currentTaskInfo.taskDescription = taskInfo.taskDescription;
+                currentTaskInfo.enabled = true;
+
+                buildingsTilemap.transform.GetChild(i).gameObject.GetComponent<ClickDetecterForBuildings>().enabled = true;
+                buildingsTilemap.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.SetActive(true);
+
+                gameObject.GetComponent<Timer>().tasks.Add(currentTaskInfo);
                 StartCoroutine(gameObject.GetComponent<Timer>().ttime());
+                
                 return;
             }
         }
@@ -242,6 +253,8 @@ public class Manager_Game : MonoBehaviour
                 GameObject houseCp = Instantiate(prefab, buildingsTilemap.transform, false);
                 houseCp.transform.localPosition = Helper.castToVector3(userData.positions);
                 houseCp.name = prefab.name;
+                houseCp.GetComponent<ClickDetecterForBuildings>().managerGame = this;//at the end, add this manually for performance
+                houseCp.GetComponent<ClickDetecterForBuildings>().enabled = false;
             }
             else
             {
@@ -333,21 +346,25 @@ public class Manager_Game : MonoBehaviour
                 try
                 {
 
-
                     userResourceInformation.email = userResources["data"]["email"].ToString();
                     userResourceInformation.username = userResources["data"]["username"].ToString();
                     userResourceInformation.dob = userResources["data"]["dob"].ToString();
+                    
                     userResourceInformation.role_id = Int32.Parse(userResources["data"]["role_id"].ToString());
+                   
                     userResourceInformation.item_id = Int32.Parse(userResources["data"]["item_id"].ToString());
+                  
                     userResourceInformation.region_id = Int32.Parse(userResources["data"]["region_id"].ToString());
                     //userResourceInformation.created_at = userResources["data"]["created_at"].ToString();
+                  
                     userResourceInformation.gold = Int32.Parse(userResources["data"]["gold"].ToString());
                     userResourceInformation.bronze = Int32.Parse(userResources["data"]["bronze"].ToString());
                     userResourceInformation.black = Int32.Parse(userResources["data"]["black"].ToString());
+                    
                     userResourceInformation.water_capacity = Int32.Parse(userResources["data"]["water_capacity"].ToString());
 
-                    updateUserResources(userResourceInformation.gold.ToString(), userResourceInformation.bronze.ToString(), userResourceInformation.black.ToString());
-
+                    
+                    updateUserResources("-" + userResourceInformation.gold.ToString(), "-" + userResourceInformation.bronze.ToString(), "-" + userResourceInformation.black.ToString());
 
                     userNameMenu.text = userResources["data"]["username"].ToString();
                     statusMenu.text = "Status: " + userResources["data"]["role"].ToString();
@@ -464,9 +481,18 @@ public class Manager_Game : MonoBehaviour
         yield return new WaitForSeconds(0.9f);
 
         taskLoadingBar.fillAmount = taskInfo.remainingAllSeconds / taskInfo.allSeconds;
-        taskTime.text = ((int)taskInfo.remainingAllSeconds / 60).ToString() + ":" + ((int)taskInfo.remainingAllSeconds % 60).ToString();
+        Debug.Log(taskInfo.remainingAllSeconds);
+        Debug.Log(taskInfo.allSeconds);
 
-        StartCoroutine(displayTaskTime(taskInfo));
+        taskTime.text = ((int)taskInfo.remainingAllSeconds / 60).ToString() + ":" + ((int)taskInfo.remainingAllSeconds % 60).ToString();
+        if (taskInfo.remainingAllSeconds > 0)
+        {
+            StartCoroutine(displayTaskTime(taskInfo));
+        }
+        else
+        {
+            //the task has ended, the pop up has to show that to the player
+        }
     }
 
 
@@ -594,12 +620,68 @@ public class Manager_Game : MonoBehaviour
         newBuilding.GetComponent<SpriteRenderer>().flipX = buildingInstanceActive.GetComponent<SpriteRenderer>().flipX;
         newBuilding.GetComponent<BuildingInformation>().flipX = Helper.castToInt(buildingInstanceActive.GetComponent<SpriteRenderer>().flipX);
         newBuilding.name = buildingInstanceActive.GetComponent<SpriteRenderer>().sprite.name;
+        newBuilding.GetComponent<ClickDetecterForBuildings>().managerGame = this;//at the end, add this manually for performance
+        newBuilding.GetComponent<ClickDetecterForBuildings>().enabled = false;
+
         buildingInstanceActive.SetActive(false);
     }
 
 
 
 
+
+
+    public void updateConverter()
+    {
+        int amount;
+        if (Int32.TryParse(converterBronze.text, out amount))
+        {
+            converterGold.text = ((int)(amount * 0.8f)).ToString();
+        }
+        else
+        {
+            converterGold.text = "0";
+        }
+    }
+
+    public void sendConverterRequest()
+    {
+        if (Int32.Parse(converterBronze.text) <= Int32.Parse(bronzeBar.text))
+        {
+            StartCoroutine(convertRequest(Int32.Parse(converterBronze.text)));
+            converterPopUp.SetActive(false);
+        }
+    }
+
+    IEnumerator convertRequest(int bronzeAmount)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("bronze_amount", bronzeAmount);
+
+        UnityWebRequest webRequest = UnityWebRequest.Post("http://anar.labproxy.com/convertToGold", form);
+        webRequest.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
+
+        yield return webRequest.SendWebRequest();
+
+
+        if (webRequest.error != null || webRequest.isNetworkError || webRequest.isHttpError)
+        {
+            Debug.LogError(webRequest.error);
+        }
+        else
+        {
+            JsonData data = JsonMapper.ToObject(webRequest.downloadHandler.text);
+
+            if (data["status"].ToString() == "success")
+            {
+                updateUserResources(data["gold"].ToString(), "-" + data["bronze"].ToString(), blackBar.text);
+            }
+            else
+            {
+                Debug.Log("Converting failed");
+            }
+        }
+    }
 
     public void AddToNumber(TMP_Text text, int amount)
     {

@@ -19,7 +19,7 @@ public class Timer : MonoBehaviour
         
         for (int i=len; i>-1; i--)
         {
-            if(tasks[i].remainingAllSeconds == 0)
+            if(tasks[i].remainingAllSeconds <= 0)
             {
                 tasks.RemoveAt(i);
             }

@@ -5,10 +5,11 @@ using UnityEngine.EventSystems;
 
 public class ClickDetecterForBuildings : MonoBehaviour, IPointerClickHandler //, IPointerDownHandler, IPointerUpHandler
 {
+    public Manager_Game managerGame;
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        Debug.Log("Pointer Test: Point Click");
+        managerGame.displayTaskPopUp(GetComponent<TaskInformation>());
     }
 
     //public void OnPointerDown(PointerEventData eventData)

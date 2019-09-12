@@ -28,11 +28,11 @@
     <file>Assets/Plugins/Android/com.android.support.support-media-compat-27.0.2.aar</file>
     <file>Assets/Plugins/Android/com.android.support.support-v4-27.0.2.aar</file>
     <file>Assets/Plugins/Android/com.android.support.support-vector-drawable-27.0.2.aar</file>
-    <file>Assets/Plugins/Android/com.facebook.android.facebook-applinks-5.2.0.aar</file>
-    <file>Assets/Plugins/Android/com.facebook.android.facebook-common-5.2.0.aar</file>
-    <file>Assets/Plugins/Android/com.facebook.android.facebook-core-5.2.0.aar</file>
-    <file>Assets/Plugins/Android/com.facebook.android.facebook-login-5.2.0.aar</file>
-    <file>Assets/Plugins/Android/com.facebook.android.facebook-share-5.2.0.aar</file>
+    <file>Assets/Plugins/Android/com.facebook.android.facebook-applinks-5.5.1.aar</file>
+    <file>Assets/Plugins/Android/com.facebook.android.facebook-common-5.5.1.aar</file>
+    <file>Assets/Plugins/Android/com.facebook.android.facebook-core-5.5.1.aar</file>
+    <file>Assets/Plugins/Android/com.facebook.android.facebook-login-5.5.1.aar</file>
+    <file>Assets/Plugins/Android/com.facebook.android.facebook-share-5.5.1.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-auth-16.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-auth-api-phone-16.0.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-auth-base-16.0.0.aar</file>
