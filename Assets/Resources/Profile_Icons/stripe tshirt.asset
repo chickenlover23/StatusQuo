@@ -15,5 +15,5 @@ MonoBehaviour:
   background: {fileID: 21300000, guid: 55be93f97bc892e4a903ea0b78de463f, type: 3}
   foreground: {fileID: 21300000, guid: 856ba4e024a4bbe4baab2e19efee40ed, type: 3}
   avatar: 1
-  icon_name: stripe tshirt
+  icon_name: 13
   role_id: 

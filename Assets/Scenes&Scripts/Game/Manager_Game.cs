@@ -349,29 +349,22 @@ public class Manager_Game : MonoBehaviour
                     userResourceInformation.email = userResources["data"]["email"].ToString();
                     userResourceInformation.username = userResources["data"]["username"].ToString();
                     userResourceInformation.dob = userResources["data"]["dob"].ToString();
-                    
                     userResourceInformation.role_id = Int32.Parse(userResources["data"]["role_id"].ToString());
-                   
+                    userResourceInformation.role_name = userResources["data"]["role"].ToString();
                     userResourceInformation.item_id = Int32.Parse(userResources["data"]["item_id"].ToString());
-                  
+                    userResourceInformation.avatar_id = userResources["data"]["avatar_id"].ToString();
                     userResourceInformation.region_id = Int32.Parse(userResources["data"]["region_id"].ToString());
-                    //userResourceInformation.created_at = userResources["data"]["created_at"].ToString();
-                  
                     userResourceInformation.gold = Int32.Parse(userResources["data"]["gold"].ToString());
                     userResourceInformation.bronze = Int32.Parse(userResources["data"]["bronze"].ToString());
                     userResourceInformation.black = Int32.Parse(userResources["data"]["black"].ToString());
-                    
                     userResourceInformation.water_capacity = Int32.Parse(userResources["data"]["water_capacity"].ToString());
+                    userResourceInformation.created_at = userResources["data"]["created_at"].ToString();
+                    userResourceInformation.role_date = userResources["data"]["role_date"].ToString();
 
-                    
                     updateUserResources("-" + userResourceInformation.gold.ToString(), "-" + userResourceInformation.bronze.ToString(), "-" + userResourceInformation.black.ToString());
 
-                    userNameMenu.text = userResources["data"]["username"].ToString();
-                    statusMenu.text = "Status: " + userResources["data"]["role"].ToString();
-                    string avatar_name = "stripe tshirt";//this will be changed with actual data
+                    loadDatasToSideMenu(userResourceInformation);
 
-                    userResourceInformation.pic_name = avatar_name;
-                    Helper.LoadAvatarImage(avatar_name, profIcon, true);
                 }
                 catch (Exception ex)
                 {
@@ -385,6 +378,13 @@ public class Manager_Game : MonoBehaviour
             }
         }
 
+    }
+
+    public void loadDatasToSideMenu(UserResourceInformation userResources)
+    {
+        userNameMenu.text = userResources.username;
+        statusMenu.text = "Status: " + userResources.role_name;
+        Helper.LoadAvatarImage(userResources.avatar_id, profIcon, true);
     }
 
     IEnumerator getUserBuildings()

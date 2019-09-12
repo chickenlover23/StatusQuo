@@ -32,6 +32,10 @@ public class All_Urls
             urls.userBuildings = globalUrls.userBuildings;
             urls.setUserBuildings = globalUrls.setUserBuildings;
             urls.getUserTimeLineInfo = globalUrls.getUserTimeLineInfo;
+            urls.resetPassword = globalUrls.resetPassword;
+            urls.edit = globalUrls.edit;
+            urls.changePassword = globalUrls.changePassword;
+            urls.convertToGold = globalUrls.convertToGold;
 
 
         }
@@ -46,7 +50,10 @@ public class All_Urls
             urls.userBuildings = localUrls.userBuildings;
             urls.setUserBuildings = localUrls.setUserBuildings;
             urls.getUserTimeLineInfo = localUrls.getUserTimeLineInfo;
-
+            urls.resetPassword = localUrls.resetPassword;
+            urls.edit = localUrls.edit;
+            urls.changePassword = localUrls.changePassword;
+            urls.convertToGold = localUrls.convertToGold;
         }
         return urls;
     }
@@ -57,6 +64,7 @@ public class All_Urls
     {
         //scene:Login
         public static string login = "http://anar.labproxy.com/api/login";
+        public static string resetPassword = "http://anar.labproxy.com/api/resetPassword/";
 
         //scene:Register
         public static string register = "http://anar.labproxy.com/api/register";
@@ -69,6 +77,10 @@ public class All_Urls
         public static string userBuildings = "http://anar.labproxy.com/getbuildings";
         public static string setUserBuildings = "http://anar.labproxy.com/setUserBuildings ";
         public static string getUserTimeLineInfo = "http://anar.labproxy.com/getUserTimeLineInfo";
+        public static string edit = "http://anar.labproxy.com/api/edit";
+        public static string changePassword = "http://anar.labproxy.com/api/changePassword";
+        public static string convertToGold = "http://anar.labproxy.com/convertToGold";
+
     }
     //Local URLS
     [SerializeField]
@@ -76,6 +88,7 @@ public class All_Urls
     {
         //scene:Login
         public static string login = "http://statusco.test/api/login";
+        public static string resetPassword = "http://statusco.test/api/resetPassword/";
 
         //scene:Register
         public static string register = "http://statusco.test/api/register";
@@ -88,6 +101,9 @@ public class All_Urls
         public static string userBuildings = "http://statusco.test/getbuildings";
         public static string setUserBuildings = "http://statusco.test/setUserBuildings ";
         public static string getUserTimeLineInfo = "http://statusco.test/getUserTimeLineInfo";
+        public static string edit = "http://statusco.test/api/edit";
+        public static string changePassword = "http://statusco.test/api/changePassword";
+        public static string convertToGold = "http://statusco.test/convertToGold";
 
     }
 
@@ -96,6 +112,7 @@ public class All_Urls
     {
         //scene:Login
         public string login = string.Empty;
+        public string resetPassword = string.Empty;
 
         //scene:Register
         public string register = string.Empty;
@@ -108,8 +125,9 @@ public class All_Urls
         public string userBuildings = string.Empty;
         public string setUserBuildings = string.Empty;
         public string getUserTimeLineInfo = string.Empty;
-
-
+        public string edit = string.Empty;
+        public string changePassword = string.Empty;
+        public string convertToGold = string.Empty;
     }
 }
 

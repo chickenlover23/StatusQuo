@@ -10,9 +10,10 @@ using System;
 
 public class Manager_Login : MonoBehaviour
 {
-    public TMP_InputField email, pass;
+    public TMP_InputField email, pass ,resetPassInput;
+    public TMP_Text errorTextForReset;
     public Toggle rememberMe;
-    public GameObject loadPanel;
+    public GameObject loadPanel, resetPasswordPanel;
 
     public Animation loginAnimation, registerAnimation;
     public AnimationClip openLogin, openRegister;
@@ -51,7 +52,7 @@ public class Manager_Login : MonoBehaviour
                     if (dragged)
                     {
                         direction = startTouch - Input.GetTouch(0).position;
-                        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y) && direction.magnitude >= 0.3f * Screen.width)
+                        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y) && direction.magnitude >= 0.03f * Screen.width)
                         {
 
                             if (!RegisterIsOpen && direction.x > 0)
@@ -211,5 +212,62 @@ public class Manager_Login : MonoBehaviour
             loadPanel.SetActive(false);
         }
 
+    }
+
+    public void resetUserPassword()
+    {
+
+        if (Helper.customValidator(resetPassInput.text,4,0))
+        {
+            StartCoroutine(resetUserPasswordCoroutine(resetPassInput.text));
+        }
+        else
+        {
+            //Error text will be here soon...
+            errorTextForReset.text = "*Email düzgün daxil edilməyib!";
+        }
+    }
+
+    IEnumerator resetUserPasswordCoroutine(string email)
+    {
+        UnityWebRequest unityWebRequest = UnityWebRequest.Get(All_Urls.getUrl().resetPassword+email);
+        errorTextForReset.text = string.Empty;
+        yield return unityWebRequest.SendWebRequest();
+        if (unityWebRequest.error != null || unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
+        {
+            //Error text will be here soon...
+            Debug.Log(unityWebRequest.error);
+        }
+        else
+        {
+            try
+            {
+                JsonData jsonData = JsonMapper.ToObject(unityWebRequest.downloadHandler.text);
+                if (jsonData["status"].Equals("success"))
+                {
+                    //Success text will be here soon...
+                    errorTextForReset.text = jsonData["message"].ToString();
+                    Debug.Log(jsonData["message"]);
+                    InputFieldCleaner();
+                    resetPasswordPanel.SetActive(false);
+
+                }
+                else
+                {
+                    //Error text will be here soon...
+                    errorTextForReset.text = "*" + jsonData["message"];
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.Log(ex);
+            }
+        }
+    }
+    
+    public void InputFieldCleaner()
+    {
+        resetPassInput.text = "";
+        errorTextForReset.text = "";
     }
 }

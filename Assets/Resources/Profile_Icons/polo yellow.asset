@@ -15,5 +15,5 @@ MonoBehaviour:
   background: {fileID: 21300000, guid: b1de2600a1672d64c876ff3d8cf974ee, type: 3}
   foreground: {fileID: 21300000, guid: c844f56871963824395961bb46a44e23, type: 3}
   avatar: 1
-  icon_name: polo yellow
+  icon_name: 12
   role_id: 

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac81969413f92584ba8224cf9da2cd83, type: 3}
   m_Name: Vetendash
   m_EditorClassIdentifier: 
-  background: {fileID: 0}
+  background: {fileID: 21300000, guid: a205b7ae2b07427499514f82c39dbf79, type: 3}
   foreground: {fileID: 21300000, guid: 8714aa2a7b9f3ff4daeaf9b5f0f97f03, type: 3}
-  avatar: 0
-  icon_name: "V\u0259t\u0259nda\u015F"
-  role_id: 1
+  avatar: 1
+  icon_name: 14
+  role_id: 

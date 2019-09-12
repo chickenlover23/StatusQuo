@@ -15,5 +15,5 @@ MonoBehaviour:
   background: {fileID: 21300000, guid: 623d659bb7ae5c24da866ff2446632fa, type: 3}
   foreground: {fileID: 21300000, guid: 4c8672d87130c144aaffd746b2199617, type: 3}
   avatar: 1
-  icon_name: pink women
+  icon_name: 11
   role_id: 
