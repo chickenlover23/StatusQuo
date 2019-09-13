@@ -39,6 +39,7 @@ public class Manager_Login : MonoBehaviour
     {
         if (Input.touchCount == 1)
         {
+            Debug.Log(Input.GetTouch(0).phase);
             switch (Input.GetTouch(0).phase)
             {
                 case (TouchPhase.Began):

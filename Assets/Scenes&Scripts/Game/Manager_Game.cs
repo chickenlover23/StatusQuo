@@ -40,7 +40,7 @@ public class Manager_Game : MonoBehaviour
 
 
     [Header("Task")]
-    public GameObject taskPrefab;
+    public GameObject taskPopUp;
     public TMP_Text taskHeader;
     public TMP_Text taskDescription;
     public TMP_Text taskGold;
@@ -48,7 +48,6 @@ public class Manager_Game : MonoBehaviour
     public TMP_Text taskBlack;
     public TMP_Text taskTime;
     public Image taskLoadingBar;
-    public Slider taskSlider;
     [HideInInspector]
     public bool taskPopUpIsOpen;
 
@@ -87,16 +86,19 @@ public class Manager_Game : MonoBehaviour
         {
             if (tempBuilding)
             {
-
-                if (Input.GetTouch(0).phase == TouchPhase.Began)
+                //Debug.Log("here");
+                Debug.Log(Input.GetTouch(0).phase);
+                if (Input.GetTouch(0).phase != TouchPhase.Moved)
                 {
                     ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
                     hit = Physics2D.Raycast(ray.origin, ray.direction);
-
+                    //Debug.Log("enjfenfj");
                     if (hit)
                     {
+                        //Debug.Log(hit.collider);
                         if (hit.collider.gameObject.name.Equals(buildingInstanceActive.name))
                         {
+                            //Debug.Log(hit.collider);
                             dragging = true;
                             cam.GetComponent<TouchCamera>().enabled = false;
                         }
@@ -117,17 +119,15 @@ public class Manager_Game : MonoBehaviour
             }
         }
 
-
         if (taskPopUpIsOpen)
         {
-            taskLoadingBar.fillAmount = Mathf.Lerp(taskLoadingBar.fillAmount, 0, 1/currentTaskInfo.remainingAllSeconds*Time.deltaTime);
-            //taskLoadingBar.fillAmount = currentTaskInfo.remainingAllSeconds / currentTaskInfo.allSeconds;
-            taskSlider.value = currentTaskInfo.remainingAllSeconds / currentTaskInfo.allSeconds;
+            taskLoadingBar.fillAmount = Mathf.Lerp(0, 1, currentTaskInfo.remainingAllSeconds / currentTaskInfo.allSeconds); 
 
             taskTime.text = ((int)currentTaskInfo.remainingAllSeconds / 60).ToString() + ":" + ((int)currentTaskInfo.remainingAllSeconds % 60).ToString();
             if (currentTaskInfo.remainingAllSeconds <= 0)
             {
-                //the task has ended, the pop up has to show that to the player
+                taskPopUpIsOpen = false;
+                taskPopUp.SetActive(false);
             }
         }
     }
@@ -198,7 +198,7 @@ public class Manager_Game : MonoBehaviour
         taskGold.text = taskInfo.taskGold;
         taskBronze.text = taskInfo.taskBronze;
         taskBlack.text = taskInfo.taskBlack;
-        taskPrefab.SetActive(true);
+        taskPopUp.SetActive(true);
         taskLoadingBar.fillAmount = taskInfo.remainingAllSeconds / taskInfo.allSeconds;
         taskPopUpIsOpen = true;
         //StartCoroutine(displayTaskTime(taskInfo));
@@ -242,13 +242,16 @@ public class Manager_Game : MonoBehaviour
                 buildingsTilemap.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.SetActive(true);
 
                 gameObject.GetComponent<Timer>().tasks.Add(currentTaskInfo);
-                StartCoroutine(gameObject.GetComponent<Timer>().ttime());
-                
+                if (!gameObject.GetComponent<Timer>().timerIsRunning)
+                {
+                    gameObject.GetComponent<Timer>().timerIsRunning = true;
+                }
                 return;
             }
         }
         Debug.LogErrorFormat(string.Format("Building type not found for the task {0}", taskInfo.taskHeader).ToString());
     }
+
 
     private void loadPositions()
     {
@@ -296,7 +299,6 @@ public class Manager_Game : MonoBehaviour
         }
         else
         {
-            //Debug.Log(www.downloadHandler.text);
             JsonData storeBuildings = JsonMapper.ToObject(www.downloadHandler.text);
 
 
@@ -306,9 +308,7 @@ public class Manager_Game : MonoBehaviour
             }
             else
             {
-                //Sprite[] buildings = Resources.LoadAll<Sprite>("Buildings");
                 GameObject item;
-
 
                 for (int i = 0; i < storeBuildings["data"].Count; i++)
                 {
@@ -494,13 +494,6 @@ public class Manager_Game : MonoBehaviour
     }
 
 
-    public IEnumerator displayTaskTime(TaskInformation taskInfo)
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        
-    }
-
 
     public void loadBuildingInformation(JsonData jsondata)
     {
@@ -680,7 +673,8 @@ public class Manager_Game : MonoBehaviour
 
             if (data["status"].ToString() == "success")
             {
-                updateUserResources(data["gold"].ToString(), "-" + data["bronze"].ToString(), blackBar.text);
+                Debug.Log(data.ToJson());
+                updateUserResources("-" + data["gold"].ToString(), data["bronze"].ToString(), blackBar.text);
             }
             else
             {
