@@ -137,9 +137,9 @@ public class Manager_Game : MonoBehaviour
     public void updateUserResources(string gold, string bronze, string black)
     {
 
-        AddToNumber(goldBar, Int32.Parse(goldBar.text) - Int32.Parse(gold));
-        AddToNumber(bronzeBar, Int32.Parse(bronzeBar.text) - Int32.Parse(bronze));
-        AddToNumber(blackBar, Int32.Parse(blackBar.text) - Int32.Parse(black));
+        AddToNumber(goldBar,  - Int32.Parse(gold));
+        AddToNumber(bronzeBar, - Int32.Parse(bronze));
+        AddToNumber(blackBar,  - Int32.Parse(black));
 
     }
 
@@ -208,8 +208,8 @@ public class Manager_Game : MonoBehaviour
      public void addTasktest()
     {
         TaskInformation taskInfo = new TaskInformation();
-        taskInfo.taskHeader = "i am a Header";
-        taskInfo.taskDescription = "i am a slih=ghtly long description";
+        taskInfo.taskHeader = "Kommunal";
+        taskInfo.taskDescription = "Siz mülkünüzün kommunal xərclərini ödəməlisiniz!";
         taskInfo.taskGold = "+200";
         taskInfo.taskBronze = "-50";
         taskInfo.taskBlack = "-20";
@@ -480,11 +480,11 @@ public class Manager_Game : MonoBehaviour
         else
         {
             JsonData userResources = JsonMapper.ToObject(www.downloadHandler.text);
-            Debug.Log(userResources.ToJson());
+            //Debug.Log(userResources.ToJson());
             if (userResources["status"].ToString() == "success")
             {
                 purchaseApproved(gameObject);
-                updateUserResources(userResources["data"]["gold"].ToString(), userResources["data"]["bronze"].ToString(), userResources["data"]["black"].ToString());
+                updateUserResources((Int32.Parse(goldBar.text) - Int32.Parse(userResources["data"]["gold"].ToString())).ToString(), "0", "0");
             }
             else
             {
@@ -566,11 +566,11 @@ public class Manager_Game : MonoBehaviour
             
             for (int i = 0; i < building_prefabs.Length; i++)
             {
-                Debug.Log(building_prefabs[i].GetComponent<BuildingInformation>().name);
-                Debug.Log(buildingInstanceActive.GetComponent<SpriteRenderer>().sprite.name);
+                //Debug.Log(building_prefabs[i].GetComponent<BuildingInformation>().name);
+                //Debug.Log(buildingInstanceActive.GetComponent<SpriteRenderer>().sprite.name);
                 if (building_prefabs[i].GetComponent<BuildingInformation>().name == buildingInstanceActive.GetComponent<SpriteRenderer>().sprite.name)
                 {
-                    Debug.Log("true");
+                    //Debug.Log("true");
                     prefab = building_prefabs[i];
                     break;
                 }
@@ -652,6 +652,12 @@ public class Manager_Game : MonoBehaviour
         }
     }
 
+    public void cleanConverter()
+    {
+        converterBronze.text = "0";
+        converterGold.text = "0";
+    }
+
     IEnumerator convertRequest(int bronzeAmount)
     {
         WWWForm form = new WWWForm();
@@ -673,8 +679,14 @@ public class Manager_Game : MonoBehaviour
 
             if (data["status"].ToString() == "success")
             {
-                Debug.Log(data.ToJson());
-                updateUserResources("-" + data["gold"].ToString(), data["bronze"].ToString(), blackBar.text);
+                //Debug.Log(data.ToJson());
+                //Debug.Log(data["gold"].ToString());
+
+                //Debug.Log(bronzeBar.text);
+                Debug.Log(Convert.ToInt32(Convert.ToDouble(data["gold"].ToString())));
+                //Debug.Log((Int32.Parse(bronzeBar.text) - Int32.Parse(data["bronze"].ToString())).ToString());
+                Debug.Log((Convert.ToInt32(goldBar.text) - Convert.ToInt32(data["gold"].ToString())).ToString());
+                updateUserResources((Convert.ToInt32(goldBar.text) - Convert.ToInt32(data["gold"].ToString())).ToString(), (Convert.ToInt32(bronzeBar.text) - Convert.ToInt32(data["bronze"].ToString())).ToString(), blackBar.text);
             }
             else
             {
