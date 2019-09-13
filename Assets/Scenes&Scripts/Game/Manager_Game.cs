@@ -48,13 +48,16 @@ public class Manager_Game : MonoBehaviour
     public TMP_Text taskBlack;
     public TMP_Text taskTime;
     public Image taskLoadingBar;
+    public Slider taskSlider;
+    [HideInInspector]
+    public bool taskPopUpIsOpen;
 
 
 
 
     public GameObject user;
 
-
+    float taskLerpSpeed = 0.25f;
     GameObject buildingInstanceActive;
     bool dragging, tempBuilding;
     Vector3 w_position;
@@ -111,6 +114,20 @@ public class Manager_Game : MonoBehaviour
                     t_position = buildingsTilemap.WorldToCell(w_position);
                     buildingInstanceActive.transform.position = grid.LocalToWorld(grid.CellToLocalInterpolated(new Vector3Int(t_position.x, t_position.y, 0)));
                 }
+            }
+        }
+
+
+        if (taskPopUpIsOpen)
+        {
+            taskLoadingBar.fillAmount = Mathf.Lerp(taskLoadingBar.fillAmount, 0, 1/currentTaskInfo.remainingAllSeconds*Time.deltaTime);
+            //taskLoadingBar.fillAmount = currentTaskInfo.remainingAllSeconds / currentTaskInfo.allSeconds;
+            taskSlider.value = currentTaskInfo.remainingAllSeconds / currentTaskInfo.allSeconds;
+
+            taskTime.text = ((int)currentTaskInfo.remainingAllSeconds / 60).ToString() + ":" + ((int)currentTaskInfo.remainingAllSeconds % 60).ToString();
+            if (currentTaskInfo.remainingAllSeconds <= 0)
+            {
+                //the task has ended, the pop up has to show that to the player
             }
         }
     }
@@ -183,7 +200,8 @@ public class Manager_Game : MonoBehaviour
         taskBlack.text = taskInfo.taskBlack;
         taskPrefab.SetActive(true);
         taskLoadingBar.fillAmount = taskInfo.remainingAllSeconds / taskInfo.allSeconds;
-        StartCoroutine(displayTaskTime(taskInfo));
+        taskPopUpIsOpen = true;
+        //StartCoroutine(displayTaskTime(taskInfo));
     }
 
 
@@ -478,21 +496,9 @@ public class Manager_Game : MonoBehaviour
 
     public IEnumerator displayTaskTime(TaskInformation taskInfo)
     {
-        yield return new WaitForSeconds(0.9f);
+        yield return new WaitForSeconds(0.5f);
 
-        taskLoadingBar.fillAmount = taskInfo.remainingAllSeconds / taskInfo.allSeconds;
-        Debug.Log(taskInfo.remainingAllSeconds);
-        Debug.Log(taskInfo.allSeconds);
-
-        taskTime.text = ((int)taskInfo.remainingAllSeconds / 60).ToString() + ":" + ((int)taskInfo.remainingAllSeconds % 60).ToString();
-        if (taskInfo.remainingAllSeconds > 0)
-        {
-            StartCoroutine(displayTaskTime(taskInfo));
-        }
-        else
-        {
-            //the task has ended, the pop up has to show that to the player
-        }
+        
     }
 
 

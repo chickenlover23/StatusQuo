@@ -9,28 +9,45 @@ public class Timer : MonoBehaviour
     float lastTime, newTime, diffTime;
 
 
-    public IEnumerator ttime()
+
+    private void Update()
     {
-        lastTime = Time.time;
-        yield return new WaitForSecondsRealtime(1f);
-        newTime = Time.time;
-        diffTime = newTime - lastTime;
-        int len = tasks.Count-1;
-        
-        for (int i=len; i>-1; i--)
+        int len = tasks.Count - 1;
+        for (int i = len; i > -1; i--)
         {
-            if(tasks[i].remainingAllSeconds <= 0)
+            if (tasks[i].remainingAllSeconds <= 0)
             {
                 tasks.RemoveAt(i);
             }
             else
             {
-                tasks[i].remainingAllSeconds -= diffTime;
+                tasks[i].remainingAllSeconds -= Time.deltaTime;
             }
         }
-        if (len != -1)
-        {
-            StartCoroutine(ttime());
-        }
+    }
+
+    public IEnumerator ttime()
+    {
+        lastTime = Time.time;
+        yield return new WaitForSecondsRealtime(0.1f);
+        //newTime = Time.time;
+        //diffTime = newTime - lastTime;
+        //int len = tasks.Count-1;
+        
+        //for (int i=len; i>-1; i--)
+        //{
+        //    if(tasks[i].remainingAllSeconds <= 0)
+        //    {
+        //        tasks.RemoveAt(i);
+        //    }
+        //    else
+        //    {
+        //        tasks[i].remainingAllSeconds -= diffTime;
+        //    }
+        //}
+        //if (len != -1)
+        //{
+        //    StartCoroutine(ttime());
+        //}
     }
 }
