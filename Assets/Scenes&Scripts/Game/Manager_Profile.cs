@@ -17,11 +17,14 @@ public class Manager_Profile : MonoBehaviour
     public Image clerkIcon;
     public TMP_InputField usernameInput, emailInput, dobInput, created_atInput;
     public TMP_Text statusText, role_dateText;
-    string avata_id = "";
+    string avatar_id = "";
+    string avatar_id_temp = "";
+    int current_index_pic = -1;
     public GameObject user;
 
     [Header("Edit Section")]
     public Image editIcon;
+    public Image moveLeft, moveRight;
     public GameObject changePasswordPanel;
     public Button saveButtonForProfile;
     public TMP_InputField currentPassInput, newPassInput, newConfirmPassInput;
@@ -30,11 +33,12 @@ public class Manager_Profile : MonoBehaviour
 
 
     int countEdit = 1;
-
+    private List<(Sprite foreground, Sprite backGround, string pic_id)> editableAvatarIcons;
+    private GameObject gameObjectForUserTimeLine;
     private void Start()
     {
+        editableAvatarIcons = new List<(Sprite foregroung, Sprite backGround, string pic_id)>();
         StartCoroutine(getUserProfileDatas());
-        StartCoroutine(getTimeLineInfo());
     }
 
     
@@ -52,16 +56,21 @@ public class Manager_Profile : MonoBehaviour
         {
             loadProfileDatas(userResourceInformation);
             loadProfileClerkDatas(userResourceInformation);
+            StartCoroutine(getTimeLineInfo());
         }
     }
     public void loadProfileDatas(UserResourceInformation userResourceInformation)
+    {
+        avatar_id = userResourceInformation.avatar_id;
+        loadEditableProfileData(userResourceInformation);
+        created_atInput.text = userResourceInformation.created_at;
+    }
+    public void loadEditableProfileData(UserResourceInformation userResourceInformation)
     {
         Helper.LoadAvatarImage(userResourceInformation.avatar_id, avatar, true);
         usernameInput.text = userResourceInformation.username;
         emailInput.text = userResourceInformation.email;
         dobInput.text = userResourceInformation.dob;
-        created_atInput.text = userResourceInformation.created_at;
-        avata_id = userResourceInformation.avatar_id;
     }
     public void loadProfileClerkDatas(UserResourceInformation userResourceInformation)
     {
@@ -115,9 +124,15 @@ public class Manager_Profile : MonoBehaviour
                             }
                             else
                             {
-                                Helper.LoadAvatarImage(avata_id , clerk_icon, false, false);
+                               
+                                Helper.LoadAvatarImage(avatar_id, clerk_icon, false, false);
                             }
-                            Instantiate(game, content.transform);
+
+                            GameObject gameObject = Instantiate(game, content.transform);
+                            if (jsonData["data"][i]["name"].Equals("Vətəndaş"))
+                            {
+                                gameObjectForUserTimeLine = gameObject;
+                            }
                             
                         }
                     }
@@ -142,8 +157,13 @@ public class Manager_Profile : MonoBehaviour
             countEdit = 0;
         }
 
+        currentPassInput.text = "";
+        newPassInput.text = "";
+        newConfirmPassInput.text = "";
+
         if (f)
         {
+            editableAvatarIcons = makeProfilePicSelectable();
             editIcon.sprite = cancelSprite;
             usernameInput.GetComponent<TMP_InputField>().enabled = true;
             emailInput.GetComponent<TMP_InputField>().enabled = true;
@@ -152,6 +172,8 @@ public class Manager_Profile : MonoBehaviour
             profileErrorText.gameObject.SetActive(true);
             changePasswordPanel.SetActive(true);
             saveButtonForProfile.gameObject.SetActive(true);
+            moveLeft.gameObject.SetActive(true);
+            moveRight.gameObject.SetActive(true);
             rightSidePanel.SetActive(false);
         }
         else
@@ -164,6 +186,21 @@ public class Manager_Profile : MonoBehaviour
             profileErrorText.gameObject.SetActive(false);
             changePasswordPanel.SetActive(false);
             saveButtonForProfile.gameObject.SetActive(false);
+            passwordErrorText.text = "";
+            profileErrorText.text = "";
+            //load datas again
+            moveLeft.gameObject.SetActive(false);
+            moveRight.gameObject.SetActive(false);
+            //this part is only for users who is simply vetendash now
+            UserResourceInformation userResourceInformation = user.GetComponent<UserResourceInformation>();
+            if (userResourceInformation.role_id == 1)
+            {
+                Helper.LoadAvatarImage(userResourceInformation.avatar_id,clerkIcon,false,false);
+            }
+
+            Helper.LoadAvatarImage(userResourceInformation.avatar_id, gameObjectForUserTimeLine.gameObject.transform.Find("Image").gameObject.GetComponent<Image>(), false, false);
+            loadEditableProfileData(userResourceInformation);
+            transform.GetComponent<Manager_Game>().loadDatasToSideMenu(user.GetComponent<UserResourceInformation>());//load up to date data to side menu
             rightSidePanel.SetActive(true);
         }
 
@@ -187,11 +224,15 @@ public class Manager_Profile : MonoBehaviour
         }
         else
         {
-            WWWForm form = new WWWForm();
-            form.AddField("old_password", currentPassInput.text);
-            form.AddField("password", newPassInput.text);
-            form.AddField("password_confirmation", newConfirmPassInput.text);
-            StartCoroutine(editUsersPassword(form));
+            UserResourceInformation userResourceCloned = user.GetComponent<UserResourceInformation>();
+            if (!userResourceCloned.username.Equals(usernameInput.text) || !userResourceCloned.email.Equals(emailInput.text) || !userResourceCloned.dob.Equals(dobInput.text))
+            {
+                WWWForm form = new WWWForm();
+                form.AddField("old_password", currentPassInput.text);
+                form.AddField("password", newPassInput.text);
+                form.AddField("password_confirmation", newConfirmPassInput.text);
+                StartCoroutine(editUsersPassword(form));
+            }
         }
     }
 
@@ -248,12 +289,11 @@ public class Manager_Profile : MonoBehaviour
         }
         else
         {
-            string avatar_id = "12";//this will change with the actual one later
             WWWForm form = new WWWForm();
             form.AddField("username",usernameInput.text);
             form.AddField("email", emailInput.text);
             form.AddField("dob", dobInput.text);
-            form.AddField("avatar_id", avatar_id);
+            form.AddField("avatar_id", editableAvatarIcons[current_index_pic].pic_id);
 
             StartCoroutine(saveUserCred(form));
         }
@@ -279,7 +319,13 @@ public class Manager_Profile : MonoBehaviour
                 
                 if (jsonData["status"].Equals("success"))
                 {
+                    user.GetComponent<UserResourceInformation>().username = usernameInput.text;
+                    user.GetComponent<UserResourceInformation>().email = emailInput.text;
+                    user.GetComponent<UserResourceInformation>().dob = dobInput.text;
+                    user.GetComponent<UserResourceInformation>().avatar_id = editableAvatarIcons[current_index_pic].pic_id;
+                    //avatar id will be added there
                     profileErrorText.text = "Məlumatlarınız uğurla yeniləndi!";
+                    
                 }
                 else
                 {
@@ -292,5 +338,51 @@ public class Manager_Profile : MonoBehaviour
             Debug.Log(ex);
         }
 
+    }
+    public void moveToLeft()
+    {
+        if (current_index_pic > 0)
+        {
+            current_index_pic--;
+            avatar.transform.parent.GetComponent<Image>().sprite = editableAvatarIcons[current_index_pic].backGround;
+            avatar.sprite = editableAvatarIcons[current_index_pic].foreground;
+            avatar_id_temp = editableAvatarIcons[current_index_pic].pic_id;
+
+        }
+    }
+
+    public void moveToRight()
+    {
+        if (current_index_pic < editableAvatarIcons.Count-1)
+        {
+            current_index_pic++;
+            avatar.transform.parent.GetComponent<Image>().sprite = editableAvatarIcons[current_index_pic].backGround;
+            avatar.sprite = editableAvatarIcons[current_index_pic].foreground;
+            avatar_id_temp = editableAvatarIcons[current_index_pic].pic_id;
+        }
+    }
+
+    public List<(Sprite foreground,Sprite backGround,string pic_id)> makeProfilePicSelectable()
+    {
+        List<(Sprite foreground, Sprite backGround, string pic_id)> list = new List<(Sprite foreground, Sprite backGround, string pic_id)>();
+        int i = 0;
+        var foundItems = Resources.LoadAll("Profile_Icons/");
+        foreach (IconBuilder iconBuilder in foundItems)
+        {
+            if(iconBuilder.role_id==null || iconBuilder.role_id.Equals(""))
+            {
+                if (iconBuilder.icon_name.Equals(avatar_id))//take the index of current image
+                {
+                    current_index_pic = i;
+                }
+                list.Add((iconBuilder.foreground,iconBuilder.background,iconBuilder.icon_name));
+                i++;
+            }
+            else
+            {
+                continue;
+            }
+        }
+        return list;
     }
 }

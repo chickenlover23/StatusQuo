@@ -4,6 +4,7 @@ using ToastPlugin;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Globalization;
 
 public class Helper
 {
@@ -79,6 +80,9 @@ public class Helper
         }
 
     }
+
+     
+
     //type means type of data that should be validate
     public static bool customValidator(string data="",int data_length=0,int type=0)
     {
@@ -99,9 +103,8 @@ public class Helper
             case 2://validate for datetime
                 try
                 {
-                    if (data.Contains("/"))
-                        return false;
-                    DateTime oDate = DateTime.Parse(data);
+                    CultureInfo provider = CultureInfo.InvariantCulture;
+                    DateTime oDate = DateTime.ParseExact(data, "yyyy-MM-dd", provider);
                     return true;
                 }catch(Exception ex)
                 {
