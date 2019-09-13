@@ -40,7 +40,7 @@ public class Manager_Game : MonoBehaviour
 
 
     [Header("Task")]
-    public GameObject taskPrefab;
+    public GameObject taskPopUp;
     public TMP_Text taskHeader;
     public TMP_Text taskDescription;
     public TMP_Text taskGold;
@@ -48,13 +48,15 @@ public class Manager_Game : MonoBehaviour
     public TMP_Text taskBlack;
     public TMP_Text taskTime;
     public Image taskLoadingBar;
+    [HideInInspector]
+    public bool taskPopUpIsOpen;
 
 
 
 
     public GameObject user;
 
-
+    float taskLerpSpeed = 0.25f;
     GameObject buildingInstanceActive;
     bool dragging, tempBuilding;
     Vector3 w_position;
@@ -84,16 +86,19 @@ public class Manager_Game : MonoBehaviour
         {
             if (tempBuilding)
             {
-
-                if (Input.GetTouch(0).phase == TouchPhase.Began)
+                //Debug.Log("here");
+                Debug.Log(Input.GetTouch(0).phase);
+                if (Input.GetTouch(0).phase != TouchPhase.Moved)
                 {
                     ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
                     hit = Physics2D.Raycast(ray.origin, ray.direction);
-
+                    //Debug.Log("enjfenfj");
                     if (hit)
                     {
+                        //Debug.Log(hit.collider);
                         if (hit.collider.gameObject.name.Equals(buildingInstanceActive.name))
                         {
+                            //Debug.Log(hit.collider);
                             dragging = true;
                             cam.GetComponent<TouchCamera>().enabled = false;
                         }
@@ -113,6 +118,18 @@ public class Manager_Game : MonoBehaviour
                 }
             }
         }
+
+        if (taskPopUpIsOpen)
+        {
+            taskLoadingBar.fillAmount = Mathf.Lerp(0, 1, currentTaskInfo.remainingAllSeconds / currentTaskInfo.allSeconds); 
+
+            taskTime.text = ((int)currentTaskInfo.remainingAllSeconds / 60).ToString() + ":" + ((int)currentTaskInfo.remainingAllSeconds % 60).ToString();
+            if (currentTaskInfo.remainingAllSeconds <= 0)
+            {
+                taskPopUpIsOpen = false;
+                taskPopUp.SetActive(false);
+            }
+        }
     }
 
 
@@ -120,9 +137,9 @@ public class Manager_Game : MonoBehaviour
     public void updateUserResources(string gold, string bronze, string black)
     {
 
-        AddToNumber(goldBar, Int32.Parse(goldBar.text) - Int32.Parse(gold));
-        AddToNumber(bronzeBar, Int32.Parse(bronzeBar.text) - Int32.Parse(bronze));
-        AddToNumber(blackBar, Int32.Parse(blackBar.text) - Int32.Parse(black));
+        AddToNumber(goldBar,  - Int32.Parse(gold));
+        AddToNumber(bronzeBar, - Int32.Parse(bronze));
+        AddToNumber(blackBar,  - Int32.Parse(black));
 
     }
 
@@ -181,17 +198,18 @@ public class Manager_Game : MonoBehaviour
         taskGold.text = taskInfo.taskGold;
         taskBronze.text = taskInfo.taskBronze;
         taskBlack.text = taskInfo.taskBlack;
-        taskPrefab.SetActive(true);
+        taskPopUp.SetActive(true);
         taskLoadingBar.fillAmount = taskInfo.remainingAllSeconds / taskInfo.allSeconds;
-        StartCoroutine(displayTaskTime(taskInfo));
+        taskPopUpIsOpen = true;
+        //StartCoroutine(displayTaskTime(taskInfo));
     }
 
 
      public void addTasktest()
     {
         TaskInformation taskInfo = new TaskInformation();
-        taskInfo.taskHeader = "i am a Header";
-        taskInfo.taskDescription = "i am a slih=ghtly long description";
+        taskInfo.taskHeader = "Kommunal";
+        taskInfo.taskDescription = "Siz mülkünüzün kommunal xərclərini ödəməlisiniz!";
         taskInfo.taskGold = "+200";
         taskInfo.taskBronze = "-50";
         taskInfo.taskBlack = "-20";
@@ -224,13 +242,16 @@ public class Manager_Game : MonoBehaviour
                 buildingsTilemap.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.SetActive(true);
 
                 gameObject.GetComponent<Timer>().tasks.Add(currentTaskInfo);
-                StartCoroutine(gameObject.GetComponent<Timer>().ttime());
-                
+                if (!gameObject.GetComponent<Timer>().timerIsRunning)
+                {
+                    gameObject.GetComponent<Timer>().timerIsRunning = true;
+                }
                 return;
             }
         }
         Debug.LogErrorFormat(string.Format("Building type not found for the task {0}", taskInfo.taskHeader).ToString());
     }
+
 
     private void loadPositions()
     {
@@ -278,7 +299,6 @@ public class Manager_Game : MonoBehaviour
         }
         else
         {
-            //Debug.Log(www.downloadHandler.text);
             JsonData storeBuildings = JsonMapper.ToObject(www.downloadHandler.text);
 
 
@@ -288,9 +308,7 @@ public class Manager_Game : MonoBehaviour
             }
             else
             {
-                //Sprite[] buildings = Resources.LoadAll<Sprite>("Buildings");
                 GameObject item;
-
 
                 for (int i = 0; i < storeBuildings["data"].Count; i++)
                 {
@@ -462,11 +480,11 @@ public class Manager_Game : MonoBehaviour
         else
         {
             JsonData userResources = JsonMapper.ToObject(www.downloadHandler.text);
-            Debug.Log(userResources.ToJson());
+            //Debug.Log(userResources.ToJson());
             if (userResources["status"].ToString() == "success")
             {
                 purchaseApproved(gameObject);
-                updateUserResources(userResources["data"]["gold"].ToString(), userResources["data"]["bronze"].ToString(), userResources["data"]["black"].ToString());
+                updateUserResources((Int32.Parse(goldBar.text) - Int32.Parse(userResources["data"]["gold"].ToString())).ToString(), "0", "0");
             }
             else
             {
@@ -475,25 +493,6 @@ public class Manager_Game : MonoBehaviour
         }
     }
 
-
-    public IEnumerator displayTaskTime(TaskInformation taskInfo)
-    {
-        yield return new WaitForSeconds(0.9f);
-
-        taskLoadingBar.fillAmount = taskInfo.remainingAllSeconds / taskInfo.allSeconds;
-        Debug.Log(taskInfo.remainingAllSeconds);
-        Debug.Log(taskInfo.allSeconds);
-
-        taskTime.text = ((int)taskInfo.remainingAllSeconds / 60).ToString() + ":" + ((int)taskInfo.remainingAllSeconds % 60).ToString();
-        if (taskInfo.remainingAllSeconds > 0)
-        {
-            StartCoroutine(displayTaskTime(taskInfo));
-        }
-        else
-        {
-            //the task has ended, the pop up has to show that to the player
-        }
-    }
 
 
     public void loadBuildingInformation(JsonData jsondata)
@@ -567,11 +566,11 @@ public class Manager_Game : MonoBehaviour
             
             for (int i = 0; i < building_prefabs.Length; i++)
             {
-                Debug.Log(building_prefabs[i].GetComponent<BuildingInformation>().name);
-                Debug.Log(buildingInstanceActive.GetComponent<SpriteRenderer>().sprite.name);
+                //Debug.Log(building_prefabs[i].GetComponent<BuildingInformation>().name);
+                //Debug.Log(buildingInstanceActive.GetComponent<SpriteRenderer>().sprite.name);
                 if (building_prefabs[i].GetComponent<BuildingInformation>().name == buildingInstanceActive.GetComponent<SpriteRenderer>().sprite.name)
                 {
-                    Debug.Log("true");
+                    //Debug.Log("true");
                     prefab = building_prefabs[i];
                     break;
                 }
@@ -653,6 +652,12 @@ public class Manager_Game : MonoBehaviour
         }
     }
 
+    public void cleanConverter()
+    {
+        converterBronze.text = "0";
+        converterGold.text = "0";
+    }
+
     IEnumerator convertRequest(int bronzeAmount)
     {
         WWWForm form = new WWWForm();
@@ -674,7 +679,14 @@ public class Manager_Game : MonoBehaviour
 
             if (data["status"].ToString() == "success")
             {
-                updateUserResources(data["gold"].ToString(), "-" + data["bronze"].ToString(), blackBar.text);
+                //Debug.Log(data.ToJson());
+                //Debug.Log(data["gold"].ToString());
+
+                //Debug.Log(bronzeBar.text);
+                Debug.Log(Convert.ToInt32(Convert.ToDouble(data["gold"].ToString())));
+                //Debug.Log((Int32.Parse(bronzeBar.text) - Int32.Parse(data["bronze"].ToString())).ToString());
+                Debug.Log((Convert.ToInt32(goldBar.text) - Convert.ToInt32(data["gold"].ToString())).ToString());
+                updateUserResources((Convert.ToInt32(goldBar.text) - Convert.ToInt32(data["gold"].ToString())).ToString(), (Convert.ToInt32(bronzeBar.text) - Convert.ToInt32(data["bronze"].ToString())).ToString(), blackBar.text);
             }
             else
             {

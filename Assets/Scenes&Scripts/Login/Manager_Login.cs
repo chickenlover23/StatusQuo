@@ -39,6 +39,7 @@ public class Manager_Login : MonoBehaviour
     {
         if (Input.touchCount == 1)
         {
+            Debug.Log(Input.GetTouch(0).phase);
             switch (Input.GetTouch(0).phase)
             {
                 case (TouchPhase.Began):
@@ -96,19 +97,17 @@ public class Manager_Login : MonoBehaviour
         //List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
         //formData.Add(new MultipartFormFileSection("email", _email));
         //formData.Add(new MultipartFormFileSection("password", _pass));
-        email.text = "IN IE LOGIND";
         WWWForm form = new WWWForm();
         form.AddField("email", _email);
         form.AddField("password", _pass);
 
         UnityWebRequest www = UnityWebRequest.Post(All_Urls.getUrl().login, form);
         yield return www.SendWebRequest();
-        email.text = "AFTER";
 
         if (www.error != null || www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
-            pass.text = www.error;
+            pass.text = "";
         }
         else
         {
@@ -130,7 +129,7 @@ public class Manager_Login : MonoBehaviour
                 PlayerPrefs.SetString("access_token", data["access_token"].ToString());
 
                 loadScene("Game");
-                email.text = PlayerPrefs.GetString("access_token");
+               // email.text = PlayerPrefs.GetString("access_token");
             
         }
     }

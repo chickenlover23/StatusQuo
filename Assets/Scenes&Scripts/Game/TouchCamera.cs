@@ -1,6 +1,4 @@
-﻿// Just add this script to your camera. It doesn't need any configuration.
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class TouchCamera : MonoBehaviour
@@ -18,7 +16,7 @@ public class TouchCamera : MonoBehaviour
 
 
 
-    void FixedUpdate()
+    void Update()
     {
 
         if (Input.touchCount == 0)
@@ -57,7 +55,7 @@ public class TouchCamera : MonoBehaviour
                 {
                     tempVec2.y = minPoint.y;
                 }
-                Debug.Log(tempVec2);
+                //Debug.Log(tempVec2);
 
                 transform.position  = tempVec2;
 
@@ -66,15 +64,7 @@ public class TouchCamera : MonoBehaviour
         }
         else if (Input.touchCount == 2)
         {
-            if (oldTouchPositions[1] == null)
-            {
-                oldTouchPositions[0] = Input.GetTouch(0).position;
-                oldTouchPositions[1] = Input.GetTouch(1).position;
-                oldTouchVector = (Vector2)(oldTouchPositions[0] - oldTouchPositions[1]);
-                oldTouchDistance = oldTouchVector.magnitude;
-            }
-            else
-            {
+            
                 if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId) && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(1).fingerId))
                 {
                     // Store both touches.
@@ -107,7 +97,7 @@ public class TouchCamera : MonoBehaviour
 
                     GetComponent<Camera>().orthographicSize = Mathf.Clamp(temp, minCamMagnitude, maxCamMagnitude);
                 }
-            }
+            
         }
 
     }
