@@ -54,7 +54,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 595830224006319645}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -74,6 +74,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &595830224079750397
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,7 +289,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 595830224176364264}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -308,6 +309,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &595830224242258540
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,7 +675,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 595830224460843872}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -693,6 +695,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &595830224508379581
 GameObject:
   m_ObjectHideFlags: 0
@@ -748,7 +751,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 595830224508379581}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -768,6 +771,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &595830224708330658
 GameObject:
   m_ObjectHideFlags: 0
@@ -823,7 +827,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 595830224708330658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -843,6 +847,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &595830225075622931
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,8 +916,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "V\u0259zif\u0259"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b65a143cb4dbd434792bdf3f2864b908, type: 2}
-  m_sharedMaterial: {fileID: -6536867156101101541, guid: b65a143cb4dbd434792bdf3f2864b908,
+  m_fontAsset: {fileID: 11400000, guid: c60122cc367e6cd4da530c5c7b8c8a24, type: 2}
+  m_sharedMaterial: {fileID: 4863409024932114304, guid: c60122cc367e6cd4da530c5c7b8c8a24,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -944,7 +949,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_textAlignment: 513
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1070,8 +1075,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "V\u0259zif\u0259"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b65a143cb4dbd434792bdf3f2864b908, type: 2}
-  m_sharedMaterial: {fileID: -6536867156101101541, guid: b65a143cb4dbd434792bdf3f2864b908,
+  m_fontAsset: {fileID: 11400000, guid: a2aba21b98030c04cb7ba088035c6f41, type: 2}
+  m_sharedMaterial: {fileID: -5974251526560676332, guid: a2aba21b98030c04cb7ba088035c6f41,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1103,7 +1108,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_textAlignment: 513
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1173,7 +1178,7 @@ GameObject:
   - component: {fileID: 595830225350744175}
   - component: {fileID: 595830225350744172}
   m_Layer: 5
-  m_Name: TMP SubMeshUI [GothamMedium_1 SDF Material + LiberationSans SDF Atlas]
+  m_Name: TMP SubMeshUI [Gotham-Bold SDF Material + LiberationSans SDF Atlas]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1290,7 +1295,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 595830225400122474}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -1310,6 +1315,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &595830225646676947
 GameObject:
   m_ObjectHideFlags: 0
@@ -1322,7 +1328,7 @@ GameObject:
   - component: {fileID: 595830225646676948}
   - component: {fileID: 595830225646676949}
   m_Layer: 5
-  m_Name: TMP SubMeshUI [GothamMedium_1 SDF Material + LiberationSans SDF Atlas]
+  m_Name: TMP SubMeshUI [GothamBold SDF Material + LiberationSans SDF Atlas]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1440,7 +1446,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 595830225805334563}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -1460,3 +1466,4 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1

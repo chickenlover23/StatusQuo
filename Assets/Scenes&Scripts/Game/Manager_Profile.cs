@@ -6,11 +6,12 @@ using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Manager_Profile : MonoBehaviour
 {
     public GameObject content;
-    public GameObject panelTimeLine;
+    public GameObject panelTimeLine,popUpGeneral,logoutPanel;
     public GameObject rightSidePanel;
     [Header("Profile Section")]
     public Image avatar;
@@ -115,8 +116,8 @@ public class Manager_Profile : MonoBehaviour
                             GameObject game = panelTimeLine;
                             game.transform.Find("TextPanel").gameObject.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text="Vəzifə: "+jsonData["data"][i]["name"];
                             game.transform.Find("TextPanel").gameObject.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text="Say: "+ jsonData["data"][i]["count"];
-                            game.transform.Find("TextPanel").gameObject.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text="Başlanğıc:"+Helper.castDateTimeToDate(jsonData["data"][i]["updated_at"].ToString())[0];
-                            game.transform.Find("TextPanel").gameObject.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text="Son:"+jsonData["data"][i]["finished_at"].ToString();
+                            game.transform.Find("TextPanel").gameObject.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text="Başlanğıc: "+Helper.castDateTimeToDate(jsonData["data"][i]["updated_at"].ToString())[0];
+                            game.transform.Find("TextPanel").gameObject.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text="Son: "+jsonData["data"][i]["finished_at"].ToString();
                             Image clerk_icon = game.transform.Find("Image").gameObject.GetComponent<Image>();
                             if (!jsonData["data"][i]["name"].Equals("Vətəndaş"))
                             {
@@ -192,15 +193,7 @@ public class Manager_Profile : MonoBehaviour
             moveLeft.gameObject.SetActive(false);
             moveRight.gameObject.SetActive(false);
             //this part is only for users who is simply vetendash now
-            UserResourceInformation userResourceInformation = user.GetComponent<UserResourceInformation>();
-            if (userResourceInformation.role_id == 1)
-            {
-                Helper.LoadAvatarImage(userResourceInformation.avatar_id,clerkIcon,false,false);
-            }
-
-            Helper.LoadAvatarImage(userResourceInformation.avatar_id, gameObjectForUserTimeLine.gameObject.transform.Find("Image").gameObject.GetComponent<Image>(), false, false);
-            loadEditableProfileData(userResourceInformation);
-            transform.GetComponent<Manager_Game>().loadDatasToSideMenu(user.GetComponent<UserResourceInformation>());//load up to date data to side menu
+            reloadSceneDatas();
             rightSidePanel.SetActive(true);
         }
 
@@ -208,7 +201,18 @@ public class Manager_Profile : MonoBehaviour
         countEdit++;
 
     }
+    public void reloadSceneDatas()
+    {
+        UserResourceInformation userResourceInformation = user.GetComponent<UserResourceInformation>();
+        if (userResourceInformation.role_id == 1)
+        {
+            Helper.LoadAvatarImage(userResourceInformation.avatar_id, clerkIcon, false, false);
+        }
 
+        Helper.LoadAvatarImage(userResourceInformation.avatar_id, gameObjectForUserTimeLine.gameObject.transform.Find("Image").gameObject.GetComponent<Image>(), false, false);
+        loadEditableProfileData(userResourceInformation);
+        transform.GetComponent<Manager_Game>().loadDatasToSideMenu(user.GetComponent<UserResourceInformation>());//load up to date data to side menu
+    }
     public void editPassword()
     {
         passwordErrorText.text = "";
@@ -224,15 +228,12 @@ public class Manager_Profile : MonoBehaviour
         }
         else
         {
-            UserResourceInformation userResourceCloned = user.GetComponent<UserResourceInformation>();
-            if (!userResourceCloned.username.Equals(usernameInput.text) || !userResourceCloned.email.Equals(emailInput.text) || !userResourceCloned.dob.Equals(dobInput.text))
-            {
-                WWWForm form = new WWWForm();
-                form.AddField("old_password", currentPassInput.text);
-                form.AddField("password", newPassInput.text);
-                form.AddField("password_confirmation", newConfirmPassInput.text);
-                StartCoroutine(editUsersPassword(form));
-            }
+            
+            WWWForm form = new WWWForm();
+            form.AddField("old_password", currentPassInput.text);
+            form.AddField("password", newPassInput.text);
+            form.AddField("password_confirmation", newConfirmPassInput.text);
+            StartCoroutine(editUsersPassword(form));
         }
     }
 
@@ -275,27 +276,31 @@ public class Manager_Profile : MonoBehaviour
     public void editUserCredentials()
     {
         profileErrorText.text = "";
-        if (!Helper.customValidator(usernameInput.text, 3, 1))
+        UserResourceInformation information = user.GetComponent<UserResourceInformation>();
+        if (!usernameInput.text.Equals(information.username) || !emailInput.text.Equals(information.email) || !dobInput.text.Equals(information.dob) || !editableAvatarIcons[current_index_pic].pic_id.Equals(avatar_id))
         {
-            profileErrorText.text = "*İstifadəçi adı ən az 3 xarakterdən ibarət olmalıdır!";
-        }
-        else if (!Helper.customValidator(emailInput.text, 4, 0))
-        {
-            profileErrorText.text = "*Email doğru daxil edilməyib!";
-        }
-        else if (!Helper.customValidator(dobInput.text, 0, 2))
-        {
-            profileErrorText.text = "*Yaş günü doğru daxil edilməyib!";
-        }
-        else
-        {
-            WWWForm form = new WWWForm();
-            form.AddField("username",usernameInput.text);
-            form.AddField("email", emailInput.text);
-            form.AddField("dob", dobInput.text);
-            form.AddField("avatar_id", editableAvatarIcons[current_index_pic].pic_id);
+            if (!Helper.customValidator(usernameInput.text, 3, 1))
+            {
+                profileErrorText.text = "*İstifadəçi adı ən az 3 xarakterdən ibarət olmalıdır!";
+            }
+            else if (!Helper.customValidator(emailInput.text, 4, 0))
+            {
+                profileErrorText.text = "*Email doğru daxil edilməyib!";
+            }
+            else if (!Helper.customValidator(dobInput.text, 0, 2))
+            {
+                profileErrorText.text = "*Yaş günü doğru daxil edilməyib!";
+            }
+            else
+            {
+                WWWForm form = new WWWForm();
+                form.AddField("username", usernameInput.text);
+                form.AddField("email", emailInput.text);
+                form.AddField("dob", dobInput.text);
+                form.AddField("avatar_id", editableAvatarIcons[current_index_pic].pic_id);
 
-            StartCoroutine(saveUserCred(form));
+                StartCoroutine(saveUserCred(form));
+            }
         }
     }
 
@@ -310,7 +315,6 @@ public class Manager_Profile : MonoBehaviour
         {
             if (unityWebRequest.error != null || unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
             {
-                Debug.LogError(unityWebRequest.error);
                 profileErrorText.text = "*" + jsonData["data"];
 
             }
@@ -325,7 +329,9 @@ public class Manager_Profile : MonoBehaviour
                     user.GetComponent<UserResourceInformation>().avatar_id = editableAvatarIcons[current_index_pic].pic_id;
                     //avatar id will be added there
                     profileErrorText.text = "Məlumatlarınız uğurla yeniləndi!";
-                    
+                    reloadSceneDatas();
+
+
                 }
                 else
                 {
@@ -384,5 +390,53 @@ public class Manager_Profile : MonoBehaviour
             }
         }
         return list;
+    }
+
+    public void openLogoutPopUp()
+    {
+        popUpGeneral.transform.Find("Text (TMP)_Header").GetComponent<TMP_Text>().text = "Xəbərdarlıq!";
+        popUpGeneral.transform.Find("Text (TMP)_description").GetComponent<TMP_Text>().text = "Hesabdan çıxmağa əminsiniz?";
+        popUpGeneral.transform.Find("Button_yes").GetComponent<Button>().onClick.AddListener(delegate () { logoutButton(); });
+        popUpGeneral.transform.Find("Button_no").GetComponent<Button>().onClick.AddListener(delegate () { logoutPanel.SetActive(false); });
+    }
+
+    public void logoutButton()
+    {
+        StartCoroutine(logoutUserProfile());
+    }
+
+    IEnumerator logoutUserProfile()
+    {
+        
+        UnityWebRequest unityWebRequest = UnityWebRequest.Post(All_Urls.getUrl().logout,new WWWForm());
+        unityWebRequest.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
+
+        yield return unityWebRequest.SendWebRequest();
+        JsonData jsonData = JsonMapper.ToObject(unityWebRequest.downloadHandler.text);
+
+        if (unityWebRequest.error != null || unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
+        {
+            Debug.LogError(unityWebRequest.error);
+        }
+        else
+        {
+            try
+            {
+
+                if (jsonData["status"].Equals("success"))
+                {
+                    PlayerPrefs.SetString("email", "");
+                    PlayerPrefs.SetString("password", "");
+                    PlayerPrefs.SetString("access_token", "");
+
+                    SceneManager.LoadSceneAsync("Login");
+
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.Log(ex);
+            }
+        }
     }
 }

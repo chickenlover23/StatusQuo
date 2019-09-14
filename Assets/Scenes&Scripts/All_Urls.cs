@@ -24,6 +24,7 @@ public class All_Urls
         if (val)//Global Urls will be used
         {
             urls.login = globalUrls.login;
+            urls.logout = globalUrls.logout;
             urls.register = globalUrls.register;
             urls.fbregister = globalUrls.fbregister;
             urls.gregister = globalUrls.gregister;
@@ -42,6 +43,7 @@ public class All_Urls
         else//Local Urls Will be used
         {
             urls.login = localUrls.login;
+            urls.logout = localUrls.logout;
             urls.register = localUrls.register;
             urls.fbregister = localUrls.fbregister;
             urls.gregister = localUrls.gregister;
@@ -65,6 +67,7 @@ public class All_Urls
         //scene:Login
         public static string login = "http://anar.labproxy.com/api/login";
         public static string resetPassword = "http://anar.labproxy.com/api/resetPassword/";
+        public static string logout = "http://anar.labproxy.com/api/logout";
 
         //scene:Register
         public static string register = "http://anar.labproxy.com/api/register";
@@ -89,6 +92,7 @@ public class All_Urls
         //scene:Login
         public static string login = "http://statusco.test/api/login";
         public static string resetPassword = "http://statusco.test/api/resetPassword/";
+        public static string logout = "http://statusco.test/api/logout";
 
         //scene:Register
         public static string register = "http://statusco.test/api/register";
@@ -113,6 +117,7 @@ public class All_Urls
         //scene:Login
         public string login = string.Empty;
         public string resetPassword = string.Empty;
+        public string logout = string.Empty;
 
         //scene:Register
         public string register = string.Empty;
