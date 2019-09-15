@@ -96,6 +96,9 @@ public class Manager_Game : MonoBehaviour
                     if (hit)
                     {
                         //Debug.Log(hit.collider);
+                        Debug.Log(hit.collider.gameObject.name);
+                        Debug.Log(buildingInstanceActive.name);
+
                         if (hit.collider.gameObject.name.Equals(buildingInstanceActive.name))
                         {
                             //Debug.Log(hit.collider);
@@ -106,12 +109,14 @@ public class Manager_Game : MonoBehaviour
                 }
                 else if (Input.GetTouch(0).phase == TouchPhase.Ended)
                 {
+                    Debug.Log("Drag ended");
                     dragging = false;
                     cam.GetComponent<TouchCamera>().enabled = true;
                 }
 
                 if (dragging)
                 {
+                    Debug.Log("Dragging for sure");
                     w_position = cam.ScreenToWorldPoint(Input.GetTouch(0).position);
                     t_position = buildingsTilemap.WorldToCell(w_position);
                     buildingInstanceActive.transform.position = grid.LocalToWorld(grid.CellToLocalInterpolated(new Vector3Int(t_position.x, t_position.y, 0)));

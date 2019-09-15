@@ -67,23 +67,19 @@ public class TouchCamera : MonoBehaviour
             
                 if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId) && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(1).fingerId))
                 {
-                    // Store both touches.
+
                     Touch touchZero = Input.GetTouch(0);
                     Touch touchOne = Input.GetTouch(1);
 
-                    // Find the position in the previous frame of each touch.
+              
                     Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
                     Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
 
-                    // Find the magnitude of the vector (the distance) between the touches in each frame.
+              
                     float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-                    float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
-
-                    // Find the difference in the distances between each frame.
+                    float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;     
                     float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
-                    //Debug.Log(GetComponent<Camera>().orthographicSize);
-
-                    // ... change the orthographic size based on the change in distance between the touches.
+         
                     temp = GetComponent<Camera>().orthographicSize + deltaMagnitudeDiff * zoomSpeed * Time.deltaTime;
 
                     if (temp > maxCamMagnitude)
