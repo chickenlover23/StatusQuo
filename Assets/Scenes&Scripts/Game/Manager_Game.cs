@@ -21,7 +21,7 @@ public class Manager_Game : MonoBehaviour
     public GameObject storeItemPrefab;
     public TMP_Text bronzeBar, goldBar, blackBar;
     public Animator storeAnimator;
-
+    public Image marketUpDown;
 
     [Header("Left Side Menu")]
     public Animation menuSide;
@@ -152,24 +152,44 @@ public class Manager_Game : MonoBehaviour
     {
         bool isopen = storeAnimator.GetBool("open");
         storeAnimator.SetBool("open", !isopen);
+        if (isopen)
+            marketUpDown.transform.eulerAngles = new Vector3(
+                        marketUpDown.transform.eulerAngles.x,
+                        marketUpDown.transform.eulerAngles.y,
+                        marketUpDown.transform.eulerAngles.z + 180
+                    );
+        else
+            marketUpDown.transform.eulerAngles = new Vector3(
+                        marketUpDown.transform.eulerAngles.x,
+                        marketUpDown.transform.eulerAngles.y,
+                        marketUpDown.transform.eulerAngles.z - 180
+                    );
     }
 
     public void openMenu(bool f)
     {
-        menuSide.clip = sideMenuClip;
-        string clipName = sideMenuClip.name;
-        if (f)
+        if (profileShower.transform.position.x < 0)
         {
             menuSide.clip = sideMenuClip;
-            menuSide[clipName].speed = 1;
-            menuSide.Play(clipName);
+            string clipName = sideMenuClip.name;
+            if (f)
+            {
+                menuSide.clip = sideMenuClip;
+                menuSide[clipName].speed = 1;
+                menuSide.Play(clipName);
+            }
+            else
+            {
+                menuSide[clipName].speed = -1;
+                menuSide[clipName].time = menuSide[clipName].length;
+                menuSide.Play(clipName);
+            }
         }
         else
         {
-            menuSide[clipName].speed = -1;
-            menuSide[clipName].time = menuSide[clipName].length;
-            menuSide.Play(clipName);
+            openProfil(false);
         }
+        
     }
 
     public void openProfil(bool f)
@@ -179,6 +199,10 @@ public class Manager_Game : MonoBehaviour
         string clipName = profShowerClip.name;
         if (f)
         {
+            if (storeAnimator.GetBool("open"))
+            {
+                animateStore();
+            }
             openMenu(false);
             profileShower.clip = profShowerClip;
             profileShower[clipName].speed = 1;
@@ -729,6 +753,7 @@ public class Manager_Game : MonoBehaviour
             StartCoroutine(addToNumber(text, number, amount, sign));
        }
     }
+
 
     public class UserDataCollector
     {
