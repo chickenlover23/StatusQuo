@@ -56,9 +56,12 @@ public class Manager_Game : MonoBehaviour
 
     public GameObject user;
 
+
+    public bool isTouchOnUI;
+
     float taskLerpSpeed = 0.25f;
-    GameObject buildingInstanceActive;
-    bool dragging, tempBuilding;
+    GameObject buildingInstanceActive, selectedBuilding;
+    bool dragging, isBuildingInstanceActive, activeForBuying;
     Vector3 w_position;
     Vector3Int t_position;
     Ray ray;
@@ -82,53 +85,58 @@ public class Manager_Game : MonoBehaviour
     private void Update()
     {
 
-        if (Input.touchCount == 1 && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+        if (Input.touchCount == 1)
         {
-            if (tempBuilding)
+            if (isBuildingInstanceActive)
             {
-                //Debug.Log("here");
-                Debug.Log(Input.GetTouch(0).phase);
-                if (Input.GetTouch(0).phase != TouchPhase.Moved)
+                if (Input.GetTouch(0).phase == TouchPhase.Began && !isTouchOnUI)
                 {
-                    ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
-                    hit = Physics2D.Raycast(ray.origin, ray.direction);
-                    //Debug.Log("enjfenfj");
-                    if (hit)
-                    {
-                        //Debug.Log(hit.collider);
-                        Debug.Log(hit.collider.gameObject.name);
-                        Debug.Log(buildingInstanceActive.name);
 
-                        if (hit.collider.gameObject.name.Equals(buildingInstanceActive.name))
-                        {
-                            //Debug.Log(hit.collider);
-                            dragging = true;
-                            cam.GetComponent<TouchCamera>().enabled = false;
-                        }
+                    Ray ray = cam.ScreenPointToRay(Input.GetTouch(0).position);
+                    hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+                    if (hit && hit.collider.gameObject.name.Equals(buildingInstanceActive.name))
+                    {
+                        dragging = true;
+                        cam.GetComponent<TouchCamera>().enabled = false;
                     }
                 }
                 else if (Input.GetTouch(0).phase == TouchPhase.Ended)
                 {
-                    Debug.Log("Drag ended");
                     dragging = false;
                     cam.GetComponent<TouchCamera>().enabled = true;
                 }
-
-                if (dragging)
+                else if (dragging)
                 {
-                    Debug.Log("Dragging for sure");
                     w_position = cam.ScreenToWorldPoint(Input.GetTouch(0).position);
                     t_position = buildingsTilemap.WorldToCell(w_position);
                     buildingInstanceActive.transform.position = grid.LocalToWorld(grid.CellToLocalInterpolated(new Vector3Int(t_position.x, t_position.y, 0)));
                 }
             }
         }
+        else
+        {
+            dragging = false;
+            cam.GetComponent<TouchCamera>().enabled = true;
+        }
 
         if (taskPopUpIsOpen)
         {
-            taskLoadingBar.fillAmount = Mathf.Lerp(0, 1, currentTaskInfo.remainingAllSeconds / currentTaskInfo.allSeconds); 
+            taskLoadingBar.fillAmount = Mathf.Lerp(0, 1, currentTaskInfo.remainingAllSeconds / currentTaskInfo.allSeconds);
 
-            taskTime.text = ((int)currentTaskInfo.remainingAllSeconds / 60).ToString() + ":" + ((int)currentTaskInfo.remainingAllSeconds % 60).ToString();
+            string minute = ((int)currentTaskInfo.remainingAllSeconds / 60).ToString();
+            string second = ((int)currentTaskInfo.remainingAllSeconds % 60).ToString();
+
+            if (minute.Length == 1)
+            {
+                minute = "0" + minute;
+            }
+            if (second.Length == 1)
+            {
+                second = "0" + second;
+            }
+
+            taskTime.text = minute + ":" + second;
             if (currentTaskInfo.remainingAllSeconds <= 0)
             {
                 taskPopUpIsOpen = false;
@@ -142,9 +150,9 @@ public class Manager_Game : MonoBehaviour
     public void updateUserResources(string gold, string bronze, string black)
     {
 
-        AddToNumber(goldBar,  - Int32.Parse(gold));
-        AddToNumber(bronzeBar, - Int32.Parse(bronze));
-        AddToNumber(blackBar,  - Int32.Parse(black));
+        AddToNumber(goldBar, -Int32.Parse(gold));
+        AddToNumber(bronzeBar, -Int32.Parse(bronze));
+        AddToNumber(blackBar, -Int32.Parse(black));
 
     }
 
@@ -189,7 +197,7 @@ public class Manager_Game : MonoBehaviour
         {
             openProfil(false);
         }
-        
+
     }
 
     public void openProfil(bool f)
@@ -216,7 +224,8 @@ public class Manager_Game : MonoBehaviour
         }
     }
 
-    public void displayTest(){
+    public void displayTest()
+    {
         displayTaskPopUp(currentTaskInfo);
     }
 
@@ -234,7 +243,7 @@ public class Manager_Game : MonoBehaviour
     }
 
 
-     public void addTasktest()
+    public void addTasktest()
     {
         TaskInformation taskInfo = new TaskInformation();
         taskInfo.taskHeader = "Kommunal";
@@ -251,12 +260,12 @@ public class Manager_Game : MonoBehaviour
     public void addTask(TaskInformation taskInfo, string buildingType)
     {
         int len = buildingsTilemap.transform.childCount;
-        for(int i=0; i<len; i++)
+        for (int i = 0; i < len; i++)
         {
-            if(buildingsTilemap.transform.GetChild(i).name == buildingType)
+            if (buildingsTilemap.transform.GetChild(i).name == buildingType)
             {
                 currentTaskInfo = buildingsTilemap.transform.GetChild(i).gameObject.GetComponent<TaskInformation>();
-           
+
                 currentTaskInfo.hasTask = true;
                 currentTaskInfo.allSeconds = taskInfo.allSeconds;
                 currentTaskInfo.remainingAllSeconds = taskInfo.remainingAllSeconds;
@@ -267,7 +276,7 @@ public class Manager_Game : MonoBehaviour
                 currentTaskInfo.taskDescription = taskInfo.taskDescription;
                 currentTaskInfo.enabled = true;
 
-                buildingsTilemap.transform.GetChild(i).gameObject.GetComponent<ClickDetecterForBuildings>().enabled = true;
+                //buildingsTilemap.transform.GetChild(i).gameObject.GetComponent<ClickDetecterForBuildings>().enabled = true;
                 buildingsTilemap.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.SetActive(true);
 
                 gameObject.GetComponent<Timer>().tasks.Add(currentTaskInfo);
@@ -304,7 +313,7 @@ public class Manager_Game : MonoBehaviour
                 houseCp.transform.localPosition = Helper.castToVector3(userData.positions);
                 houseCp.name = prefab.name;
                 houseCp.GetComponent<ClickDetecterForBuildings>().managerGame = this;//at the end, add this manually for performance
-                houseCp.GetComponent<ClickDetecterForBuildings>().enabled = false;
+                houseCp.GetComponent<BuildingInformation>().pos = userData.positions;
             }
             else
             {
@@ -422,16 +431,10 @@ public class Manager_Game : MonoBehaviour
             else
             {
                 Debug.LogError("Getting user resources failed");
+                Debug.LogError(userResources.ToJson());
             }
         }
 
-    }
-
-    public void loadDatasToSideMenu(UserResourceInformation userResources)
-    {
-        userNameMenu.text = userResources.username;
-        statusMenu.text = "Status: " + userResources.role_name;
-        Helper.LoadAvatarImage(userResources.avatar_id, profIcon, true);
     }
 
     IEnumerator getUserBuildings()
@@ -465,6 +468,7 @@ public class Manager_Game : MonoBehaviour
                     data.positions = json["position"].ToString();
                     data.type_id = Convert.ToInt16(json["type_id"].ToString());
                     data.name = json["name"].ToString();
+                    //data.flipX = json["flipX"];
                     userDataCollectors.Add(data);
 
                     if (!user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(json["name"].ToString()))
@@ -486,8 +490,8 @@ public class Manager_Game : MonoBehaviour
             }
         }
     }
-    
-    IEnumerator setUserBuildings(GameObject gameObject, int type, string pos, int level, int flipX)
+
+    IEnumerator setNewUserBuilding(GameObject gameObject, int type, string pos, int level, int flipX)
     {
         WWWForm form = new WWWForm();
         form.AddField("type_id", type);
@@ -512,8 +516,11 @@ public class Manager_Game : MonoBehaviour
             //Debug.Log(userResources.ToJson());
             if (userResources["status"].ToString() == "success")
             {
-                purchaseApproved(gameObject);
+
+                purchaseApproved(gameObject, pos);
                 updateUserResources((Int32.Parse(goldBar.text) - Int32.Parse(userResources["data"]["gold"].ToString())).ToString(), "0", "0");
+                activeForBuying = false;
+
             }
             else
             {
@@ -522,7 +529,85 @@ public class Manager_Game : MonoBehaviour
         }
     }
 
+    IEnumerator sendMoveRequest(int building_id, string OldPos, string pos, int flipX)
+    {
 
+        WWWForm form = new WWWForm();
+        form.AddField("building_id", building_id);
+        form.AddField("position", OldPos);
+        form.AddField("newPosition", pos);
+        form.AddField("flipX", flipX);
+
+
+        UnityWebRequest www = UnityWebRequest.Post(All_Urls.getUrl().moveBuilding, form);
+        www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
+        yield return www.SendWebRequest();
+
+        if (www.error != null || www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
+
+            if (data["status"].ToString() == "success")
+            {
+                moveApproved();
+            }
+            else
+            {
+                Debug.LogError("Moving user building failed");
+            }
+        }
+
+      
+    }
+
+
+    IEnumerator sendSellRequest(GameObject _tempBuilding)
+    {
+        int item_id = _tempBuilding.GetComponent<BuildingInformation>().id;
+        string pos = _tempBuilding.GetComponent<BuildingInformation>().pos;
+        Debug.Log(pos);
+        WWWForm form = new WWWForm();
+        form.AddField("position", pos);
+        form.AddField("building_id", item_id);
+
+
+        UnityWebRequest www = UnityWebRequest.Post(All_Urls.getUrl().sellBuilding, form);
+        www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
+        yield return www.SendWebRequest();
+
+        if (www.error != null || www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
+           
+            if (data["status"].ToString() == "success")
+            {
+                string addedGold = (Int32.Parse(goldBar.text) - Int32.Parse(data["message"].ToString())).ToString();
+                updateUserResources(addedGold, "0", "0");
+                sellApproved(_tempBuilding);
+            }
+            else
+            {
+                Debug.LogError("Selling user building failed");
+            }
+        }
+    }
+
+
+
+    public void loadDatasToSideMenu(UserResourceInformation userResources)
+    {
+        userNameMenu.text = userResources.username;
+        statusMenu.text = "Status: " + userResources.role_name;
+        Helper.LoadAvatarImage(userResources.avatar_id, profIcon, true);
+    }
 
     public void loadBuildingInformation(JsonData jsondata)
     {
@@ -553,87 +638,84 @@ public class Manager_Game : MonoBehaviour
 
     public void startBuying()
     {
-
-
+        activeForBuying = true;
         GameObject current = EventSystem.current.currentSelectedGameObject.transform.parent.gameObject;
 
-        float ratio = Math.Max(current.transform.Find("Image").GetComponent<Image>().sprite.rect.width, current.transform.Find("Image").GetComponent<Image>().sprite.rect.height) / current.transform.Find("Image").GetComponent<Image>().sprite.pixelsPerUnit;
-        if (ratio >= 3)
-        {
-            buildingInstanceActive = buildingInstanceBig;
-            buildingInstance.SetActive(false);
-            buildingInstanceLittle.SetActive(false);
-        }
-        else if (ratio >= 1.5)
-        {
-            buildingInstanceActive = buildingInstance;
-            buildingInstanceBig.SetActive(false);
-            buildingInstanceLittle.SetActive(false);
-        }
-        else
-        {
-            buildingInstanceActive = buildingInstanceLittle;
-            buildingInstance.SetActive(false);
-            buildingInstanceBig.SetActive(false);
-        }
+        findCorrectBuildingInstance(current);
 
         animateStore();
+        string tempName = current.transform.Find("Image").GetComponent<Image>().sprite.name;
         buildingInstanceActive.GetComponent<SpriteRenderer>().sprite = current.transform.Find("Image").GetComponent<Image>().sprite;
+
+        selectedBuilding = null;
+        for (int i = 0; i < building_prefabs.Length; i++)
+        {
+
+            if (building_prefabs[i].GetComponent<BuildingInformation>().name == tempName)
+            {
+                selectedBuilding = building_prefabs[i];
+                break;
+            }
+        }
+
+        buildingInstanceActive.GetComponents<PolygonCollider2D>()[1].points = selectedBuilding.GetComponents<PolygonCollider2D>()[1].points;
         buildingInstanceActive.transform.position = cam.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 10));
         buildingInstanceActive.SetActive(true);
-        tempBuilding = true;
+        buildingInstanceActive.transform.GetChild(0).GetChild(0).Find("Button_sat").gameObject.SetActive(false);
+        isBuildingInstanceActive = true;
+
     }
 
-    public void Buy()
+
+    public void BuyOrMove()
     {
-        GameObject prefab = null;
 
         if (!buildingInstanceActive.GetComponent<CollisionDetecter>().colliding)
         {
             dragging = false;
-            tempBuilding = false;
-            
-            for (int i = 0; i < building_prefabs.Length; i++)
-            {
-                //Debug.Log(building_prefabs[i].GetComponent<BuildingInformation>().name);
-                //Debug.Log(buildingInstanceActive.GetComponent<SpriteRenderer>().sprite.name);
-                if (building_prefabs[i].GetComponent<BuildingInformation>().name == buildingInstanceActive.GetComponent<SpriteRenderer>().sprite.name)
-                {
-                    //Debug.Log("true");
-                    prefab = building_prefabs[i];
-                    break;
-                }
-            }
+            isBuildingInstanceActive = false;
+            buildingInstanceActive.SetActive(false);
 
-            int type = prefab.GetComponent<BuildingInformation>().id;
+            int type = selectedBuilding.GetComponent<BuildingInformation>().id;
             string pos = Helper.castToString(buildingInstanceActive.transform.localPosition);
-            int level = prefab.GetComponent<BuildingInformation>().level;
+            string oldPos = selectedBuilding.GetComponent<BuildingInformation>().pos;
+            int level = selectedBuilding.GetComponent<BuildingInformation>().level;
             int flipX = Helper.castToInt(buildingInstanceActive.GetComponent<SpriteRenderer>().flipX);
 
-
-            if (user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(prefab.GetComponent<BuildingInformation>().name))
+            if (activeForBuying)
             {
-                user.GetComponent<UserResourceInformation>().numberOfBuildings[prefab.GetComponent<BuildingInformation>().name] += 1;
+                if (user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(selectedBuilding.GetComponent<BuildingInformation>().name))
+                {
+                    user.GetComponent<UserResourceInformation>().numberOfBuildings[selectedBuilding.GetComponent<BuildingInformation>().name] += 1;
+                }
+                else
+                {
+                    user.GetComponent<UserResourceInformation>().numberOfBuildings[selectedBuilding.GetComponent<BuildingInformation>().name] = 1;
+                }
+
+                if (user.GetComponent<UserResourceInformation>().numberOfBuildings[selectedBuilding.GetComponent<BuildingInformation>().name] >= selectedBuilding.GetComponent<BuildingInformation>().maxCount)
+                {
+                    storeParent.transform.Find(selectedBuilding.GetComponent<BuildingInformation>().name).GetComponentInChildren<Button>().interactable = false;
+                }
+                StartCoroutine(setNewUserBuilding(selectedBuilding, type, pos, level, flipX));
             }
-            else
+            else//moved a building
             {
-                user.GetComponent<UserResourceInformation>().numberOfBuildings[prefab.GetComponent<BuildingInformation>().name] = 1;
+                StartCoroutine(sendMoveRequest(type, oldPos, pos, flipX));
             }
 
-            if(user.GetComponent<UserResourceInformation>().numberOfBuildings[prefab.GetComponent<BuildingInformation>().name] >= prefab.GetComponent<BuildingInformation>().maxCount)
-            {
-                storeParent.transform.Find(prefab.GetComponent<BuildingInformation>().name).GetComponentInChildren<Button>().interactable = false;
-            }
-
-            StartCoroutine(setUserBuildings(prefab, type, pos, level, flipX));
         }
     }
 
-    public void cancelBuy()
+    public void cancelBuyOrMove()
     {
         buildingInstanceActive.SetActive(false);
         dragging = false;
-        tempBuilding = false;
+        isBuildingInstanceActive = false;
+        if (!activeForBuying)
+        {
+            selectedBuilding.SetActive(true);
+        }
     }
 
     public void flip()
@@ -641,20 +723,64 @@ public class Manager_Game : MonoBehaviour
         buildingInstanceActive.GetComponent<SpriteRenderer>().flipX = !buildingInstanceActive.GetComponent<SpriteRenderer>().flipX;
     }
 
-    public void purchaseApproved(GameObject prefab)
+    public void purchaseApproved(GameObject prefab, string pos)
     {
         GameObject newBuilding = Instantiate(prefab, buildingsTilemap.transform);
         newBuilding.transform.localPosition = buildingInstanceActive.transform.localPosition;
         newBuilding.GetComponent<SpriteRenderer>().flipX = buildingInstanceActive.GetComponent<SpriteRenderer>().flipX;
         newBuilding.GetComponent<BuildingInformation>().flipX = Helper.castToInt(buildingInstanceActive.GetComponent<SpriteRenderer>().flipX);
+        newBuilding.GetComponent<BuildingInformation>().pos = pos;
         newBuilding.name = buildingInstanceActive.GetComponent<SpriteRenderer>().sprite.name;
         newBuilding.GetComponent<ClickDetecterForBuildings>().managerGame = this;//at the end, add this manually for performance
-        newBuilding.GetComponent<ClickDetecterForBuildings>().enabled = false;
 
         buildingInstanceActive.SetActive(false);
     }
 
 
+    public void startMoving(GameObject temp_setectedBuilding)
+    {
+        isBuildingInstanceActive = true;
+        activeForBuying = false;
+
+        selectedBuilding = temp_setectedBuilding;
+        selectedBuilding.SetActive(false);
+        findCorrectBuildingInstance(selectedBuilding);
+
+        buildingInstanceActive.GetComponent<SpriteRenderer>().sprite = selectedBuilding.GetComponent<SpriteRenderer>().sprite;
+        buildingInstanceActive.GetComponents<PolygonCollider2D>()[1].points = selectedBuilding.GetComponents<PolygonCollider2D>()[1].points;
+        buildingInstanceActive.transform.position = selectedBuilding.transform.position;
+        buildingInstanceActive.transform.GetChild(0).GetChild(0).Find("Button_sat").gameObject.SetActive(true);
+        selectedBuilding.SetActive(false);
+        buildingInstanceActive.SetActive(true);
+    }
+
+
+    private void moveApproved()
+    {
+        
+        selectedBuilding.transform.position = buildingInstanceActive.transform.position;
+        selectedBuilding.GetComponent<SpriteRenderer>().flipX = buildingInstanceActive.GetComponent<SpriteRenderer>().flipX;
+        selectedBuilding.GetComponent<BuildingInformation>().flipX = Helper.castToInt(buildingInstanceActive.GetComponent<SpriteRenderer>().flipX);
+        selectedBuilding.SetActive(true);
+    }
+
+
+    public void SellBuilding()
+    {
+        StartCoroutine(sendSellRequest(selectedBuilding));
+    }
+
+    private void sellApproved(GameObject _tempBuilding)
+    {
+        buildingInstanceActive.SetActive(false);
+        isBuildingInstanceActive = false;
+        Destroy(_tempBuilding);
+        user.GetComponent<UserResourceInformation>().numberOfBuildings[_tempBuilding.GetComponent<BuildingInformation>().name] -=1;
+        if(user.GetComponent<UserResourceInformation>().numberOfBuildings[_tempBuilding.GetComponent<BuildingInformation>().name] < _tempBuilding.GetComponent<BuildingInformation>().maxCount)
+        {
+            storeParent.transform.Find(selectedBuilding.GetComponent<BuildingInformation>().name).GetComponentInChildren<Button>().interactable = true;
+        }
+    }
 
 
 
@@ -741,18 +867,58 @@ public class Manager_Game : MonoBehaviour
         if (amount != 0)
         {
             yield return new WaitForSeconds(0.01f);
-            int temp = (int)amount / 10;
+            int temp = amount / 10;
             if (amount % 10 != 0)
             {
                 temp += 1;
             }
-            if (sign) number+=temp;
-            else number-=temp;
-            amount-= temp;
+            if (sign) number += temp;
+            else number -= temp;
+            amount -= temp;
             text.text = number.ToString();
             StartCoroutine(addToNumber(text, number, amount, sign));
-       }
+        }
     }
+
+
+    /// <summary>
+    /// Finds correct building instance and assings to "buildingInstanceActive" variable.
+    /// </summary>
+    /// <param name="current"></param>
+    private void findCorrectBuildingInstance(GameObject current)
+    {
+        float ratio;
+
+        if (activeForBuying)
+        {
+            ratio = Math.Max(current.transform.Find("Image").GetComponent<Image>().sprite.rect.width, current.transform.Find("Image").GetComponent<Image>().sprite.rect.height) / current.transform.Find("Image").GetComponent<Image>().sprite.pixelsPerUnit;
+        }
+        else
+        {
+            ratio = Math.Max(current.GetComponent<SpriteRenderer>().sprite.rect.width, current.GetComponent<SpriteRenderer>().sprite.rect.height) / current.GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
+
+        }
+        if (ratio >= 3)
+        {
+            buildingInstanceActive = buildingInstanceBig;
+            buildingInstance.SetActive(false);
+            buildingInstanceLittle.SetActive(false);
+        }
+        else if (ratio >= 1.5)
+        {
+            buildingInstanceActive = buildingInstance;
+            buildingInstanceBig.SetActive(false);
+            buildingInstanceLittle.SetActive(false);
+        }
+        else
+        {
+            buildingInstanceActive = buildingInstanceLittle;
+            buildingInstance.SetActive(false);
+            buildingInstanceBig.SetActive(false);
+        }
+    }
+
+
 
 
     public class UserDataCollector
@@ -763,5 +929,6 @@ public class Manager_Game : MonoBehaviour
         public int level;
         public int type_id;
         public string name;
+        public int flipX;
     }
 }

@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using LitJson;
+using System;
+using System.Collections;
 using TMPro;
-using UnityEngine.UI;
+using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-using LitJson;
-using System;
+using UnityEngine.UI;
 
 public class Manager_Login : MonoBehaviour
 {
-    public TMP_InputField email, pass ,resetPassInput;
+    public TMP_InputField email, pass, resetPassInput;
     public TMP_Text errorTextForReset;
     public Toggle rememberMe;
     public GameObject loadPanel, resetPasswordPanel;
@@ -28,9 +27,9 @@ public class Manager_Login : MonoBehaviour
 
     private void Awake()
     {
-        if(!PlayerPrefs.GetString("email", "").Equals(""))
+        if (!PlayerPrefs.GetString("email", "").Equals(""))
         {
-          StartCoroutine(IE_login(PlayerPrefs.GetString("email"), PlayerPrefs.GetString("password")));
+            StartCoroutine(IE_login(PlayerPrefs.GetString("email"), PlayerPrefs.GetString("password")));
         }
     }
 
@@ -60,7 +59,7 @@ public class Manager_Login : MonoBehaviour
                             {
                                 animateRegister();
                             }
-                            else if(RegisterIsOpen && direction.x < 0)
+                            else if (RegisterIsOpen && direction.x < 0)
                             {
                                 animateRegister();
                             }
@@ -113,24 +112,29 @@ public class Manager_Login : MonoBehaviour
         {
             JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
 
-           
-                if (rememberMe.isOn)
-                {
-                    try
-                    {
-                        PlayerPrefs.SetString("email", _email);
-                        PlayerPrefs.SetString("password", _pass);
-                    }
-                    catch(Exception e)
-                    {
-                        Debug.LogException(e);
-                    }
-                }
-                PlayerPrefs.SetString("access_token", data["access_token"].ToString());
 
-                loadScene("Game");
-               // email.text = PlayerPrefs.GetString("access_token");
-            
+            if (rememberMe.isOn)
+            {
+                try
+                {
+                    PlayerPrefs.SetString("email", _email);
+                    PlayerPrefs.SetString("password", _pass);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogException(e);
+                }
+            }
+            else
+            {
+                PlayerPrefs.SetString("email", "");
+                PlayerPrefs.SetString("password", "");
+            }
+            PlayerPrefs.SetString("access_token", data["access_token"].ToString());
+
+            loadScene("Game");
+            // email.text = PlayerPrefs.GetString("access_token");
+
         }
     }
 
@@ -216,7 +220,7 @@ public class Manager_Login : MonoBehaviour
     public void resetUserPassword()
     {
 
-        if (Helper.customValidator(resetPassInput.text,4,0))
+        if (Helper.customValidator(resetPassInput.text, 4, 0))
         {
             StartCoroutine(resetUserPasswordCoroutine(resetPassInput.text));
         }
@@ -229,7 +233,7 @@ public class Manager_Login : MonoBehaviour
 
     IEnumerator resetUserPasswordCoroutine(string email)
     {
-        UnityWebRequest unityWebRequest = UnityWebRequest.Get(All_Urls.getUrl().resetPassword+email);
+        UnityWebRequest unityWebRequest = UnityWebRequest.Get(All_Urls.getUrl().resetPassword + email);
         errorTextForReset.text = string.Empty;
         yield return unityWebRequest.SendWebRequest();
         if (unityWebRequest.error != null || unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
@@ -257,13 +261,13 @@ public class Manager_Login : MonoBehaviour
                     errorTextForReset.text = "*" + jsonData["message"];
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.Log(ex);
             }
         }
     }
-    
+
     public void InputFieldCleaner()
     {
         resetPassInput.text = "";

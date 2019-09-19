@@ -37,6 +37,8 @@ public class All_Urls
             urls.edit = globalUrls.edit;
             urls.changePassword = globalUrls.changePassword;
             urls.convertToGold = globalUrls.convertToGold;
+            urls.sellBuilding = globalUrls.sellBuilding;
+            urls.moveBuilding = globalUrls.moveBuilding;
 
 
         }
@@ -83,6 +85,9 @@ public class All_Urls
         public static string edit = "http://anar.labproxy.com/api/edit";
         public static string changePassword = "http://anar.labproxy.com/api/changePassword";
         public static string convertToGold = "http://anar.labproxy.com/convertToGold";
+        public static string sellBuilding = "http://anar.labproxy.com/sellBuilding";
+        public static string moveBuilding = "http://anar.labproxy.com/moveBuilding";
+
 
     }
     //Local URLS
@@ -133,6 +138,8 @@ public class All_Urls
         public string edit = string.Empty;
         public string changePassword = string.Empty;
         public string convertToGold = string.Empty;
+        public string sellBuilding = string.Empty;
+        public string moveBuilding = string.Empty;
     }
 }
 

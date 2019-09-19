@@ -19,5 +19,5 @@ public class BuildingInformation : MonoBehaviour
     public int level;
     //[HideInInspector]
     public int flipX = 0;
-    public int collider = 1;
+    public string pos;
 }

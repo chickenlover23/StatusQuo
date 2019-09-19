@@ -1,24 +1,75 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ClickDetecterForBuildings : MonoBehaviour, IPointerClickHandler //, IPointerDownHandler, IPointerUpHandler
+public class ClickDetecterForBuildings : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler //, IPointerClickHandler 
 {
     public Manager_Game managerGame;
 
-    public void OnPointerClick(PointerEventData pointerEventData)
+
+    bool longClicked = false;
+    bool isPointerDown;
+    float holdTime = 2f, tempTime = 0;
+
+    //public void OnPointerClick(PointerEventData pointerEventData)
+    //{
+    //    managerGame.displayTaskPopUp(GetComponent<TaskInformation>());
+    //}
+
+    public void OnPointerDown(PointerEventData eventData)
     {
-        managerGame.displayTaskPopUp(GetComponent<TaskInformation>());
+        longClicked = false;
+        isPointerDown = true;
     }
 
-    //public void OnPointerDown(PointerEventData eventData)
-    //{
-    //    Debug.Log("Pointer Test: Point Down");
-    //}
+    public void OnPointerExit(PointerEventData eventData)
+    {
 
-    //public void OnPointerUp(PointerEventData eventData)
-    //{
-    //    Debug.Log("Pointer Test: Point Up");
-    //}
+        isPointerDown = false;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (isPointerDown && !longClicked)
+        {
+            if (this.GetComponent<TaskInformation>().hasTask)
+            {
+                managerGame.displayTaskPopUp(GetComponent<TaskInformation>());
+            }
+            reset();
+        }
+    }
+
+
+    private void Update()
+    {
+        if (isPointerDown)
+        {
+            tempTime += Time.deltaTime;
+            if(tempTime >= holdTime)
+            {
+                print("Long clicked");
+                longClicked = true;
+                longClick();
+                reset();
+            }
+        }
+    }
+
+
+
+
+    private void longClick()
+    {
+        managerGame.startMoving(this.gameObject);
+    }
+
+
+    private void reset()
+    {
+        isPointerDown = false;
+        tempTime = 0;
+    }
 }

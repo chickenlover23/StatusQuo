@@ -14,6 +14,9 @@ public class TouchCamera : MonoBehaviour
     float oldTouchDistance;
     float temp;
 
+    public Manager_Game gameManager;
+
+
 
 
     void Update()
@@ -24,7 +27,7 @@ public class TouchCamera : MonoBehaviour
             oldTouchPositions[0] = null;
             oldTouchPositions[1] = null;
         }
-        else if (Input.touchCount == 1 && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+        else if (Input.touchCount == 1 && !gameManager.isTouchOnUI)
         {
             if (oldTouchPositions[0] == null || oldTouchPositions[1] != null)
             {
@@ -55,7 +58,6 @@ public class TouchCamera : MonoBehaviour
                 {
                     tempVec2.y = minPoint.y;
                 }
-                //Debug.Log(tempVec2);
 
                 transform.position  = tempVec2;
 
@@ -65,7 +67,7 @@ public class TouchCamera : MonoBehaviour
         else if (Input.touchCount == 2)
         {
             
-                if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId) && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(1).fingerId))
+                if (!gameManager.isTouchOnUI)
                 {
 
                     Touch touchZero = Input.GetTouch(0);
@@ -93,8 +95,6 @@ public class TouchCamera : MonoBehaviour
 
                     GetComponent<Camera>().orthographicSize = Mathf.Clamp(temp, minCamMagnitude, maxCamMagnitude);
                 }
-            
         }
-
     }
 }
