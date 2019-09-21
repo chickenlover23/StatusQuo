@@ -1,15 +1,23 @@
-﻿using System.Collections;
+﻿using LitJson;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+using TMPro;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TaskInformation : MonoBehaviour
 {
-    
-        public bool hasTask = false;
-        public string taskHeader;
-        public string taskDescription;
-        public string taskStart;
-        public string taskGold, taskBronze, taskBlack;
-        public float allSeconds, remainingAllSeconds;
-    
+    public bool hasTask = false;
+    public List<Task> currentTasks = new List<Task>();
+    public List<Task> deprecatedTasks = new List<Task>();
+ }
+
+public class Task
+{
+    //public bool stillActive;
+    public string taskHeader, taskDescription, taskGold, taskBronze, taskBlack;
+    public float allSeconds, remainingAllSeconds;
 }

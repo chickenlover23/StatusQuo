@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ClickDetecterForBuildings : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler //, IPointerClickHandler 
@@ -34,10 +31,9 @@ public class ClickDetecterForBuildings : MonoBehaviour, IPointerDownHandler, IPo
     {
         if (isPointerDown && !longClicked)
         {
-            if (this.GetComponent<TaskInformation>().hasTask)
-            {
-                managerGame.displayTaskPopUp(GetComponent<TaskInformation>());
-            }
+            Debug.Log("Short click!");
+            managerGame.checkIfTaskExist(this.gameObject.GetComponent<TaskInformation>());
+
             reset();
         }
     }
@@ -48,7 +44,7 @@ public class ClickDetecterForBuildings : MonoBehaviour, IPointerDownHandler, IPo
         if (isPointerDown)
         {
             tempTime += Time.deltaTime;
-            if(tempTime >= holdTime)
+            if (tempTime >= holdTime)
             {
                 print("Long clicked");
                 longClicked = true;

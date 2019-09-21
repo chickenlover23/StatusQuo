@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 2348655243960263818}
   - component: {fileID: 2864362045798256172}
   - component: {fileID: 8527354153227940391}
-  - component: {fileID: 8291975949069634222}
   - component: {fileID: -7707075400759495950}
-  - component: {fileID: -8188077906463995729}
   - component: {fileID: -7662054643574925475}
+  - component: {fileID: 8291975949069634222}
+  - component: {fileID: -8188077906463995729}
   m_Layer: 0
   m_Name: Ev
   m_TagString: Untagged
@@ -105,7 +105,41 @@ MonoBehaviour:
   maxCount: 1
   level: 0
   flipX: 0
-  collider: 1
+  pos: 
+--- !u!114 &-7707075400759495950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4266611061372252764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73dfe9d3c8961e64abe25617bc46249e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  managerGame: {fileID: 0}
+--- !u!114 &-7662054643574925475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4266611061372252764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28329c13f87c74943ab4f67b28a4415a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasTask: 0
+  taskHeader: 
+  taskDescription: 
+  taskStart: 
+  taskGold: 
+  taskBronze: 
+  taskBlack: 
+  allSeconds: 0
+  remainingAllSeconds: 0
 --- !u!60 &8291975949069634222
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -135,19 +169,6 @@ PolygonCollider2D:
       - {x: 0.6680255, y: 0.014615059}
       - {x: 0.0439806, y: -0.38779312}
       - {x: -0.66996694, y: 0.02553767}
---- !u!114 &-7707075400759495950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4266611061372252764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73dfe9d3c8961e64abe25617bc46249e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  managerGame: {fileID: 0}
 --- !u!60 &-8188077906463995729
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -185,27 +206,6 @@ PolygonCollider2D:
       - {x: -0.00026273727, y: -0.6122701}
       - {x: -1.0152297, y: 0.018776655}
       - {x: -1.0195231, y: 0.12258947}
---- !u!114 &-7662054643574925475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4266611061372252764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28329c13f87c74943ab4f67b28a4415a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hasTask: 0
-  taskHeader: 
-  taskDescription: 
-  taskStart: 
-  taskGold: 
-  taskBronze: 
-  taskBlack: 
-  allSeconds: 0
-  remainingAllSeconds: 0
 --- !u!1001 &3752769919381613006
 PrefabInstance:
   m_ObjectHideFlags: 0
