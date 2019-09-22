@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5864002981575438660}
   - component: {fileID: 5864002981575438663}
   m_Layer: 5
-  m_Name: Text (TMP)_currentTasks
+  m_Name: Text_completedTasks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 5864002981809948096}
   - component: {fileID: 5864002981809948099}
   m_Layer: 5
-  m_Name: Text (TMP)_allTasks
+  m_Name: Text_totalTasks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -401,7 +401,7 @@ GameObject:
   - component: {fileID: 5864002982168614102}
   - component: {fileID: 5864002982168614097}
   m_Layer: 5
-  m_Name: Text (TMP)_slash
+  m_Name: Text_slash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -556,7 +556,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5864002982323286544}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Panel_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -592,7 +592,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5864002982603123475}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Panel_count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -645,7 +645,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5864002982654098125}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -710,7 +710,7 @@ GameObject:
   - component: {fileID: 5864002982935355566}
   - component: {fileID: 5864002982935355561}
   m_Layer: 5
-  m_Name: Text (TMP)_taskInformation
+  m_Name: Text_taskDescription
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

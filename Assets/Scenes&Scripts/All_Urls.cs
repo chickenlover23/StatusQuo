@@ -39,7 +39,9 @@ public class All_Urls
             urls.convertToGold = globalUrls.convertToGold;
             urls.sellBuilding = globalUrls.sellBuilding;
             urls.moveBuilding = globalUrls.moveBuilding;
-
+            urls.getUserTaskList = globalUrls.getUserTaskList;
+            urls.setUsersTaskResults = globalUrls.setUsersTaskResults;
+            urls.userGetFine = globalUrls.userGetFine;
 
         }
         else//Local Urls Will be used
@@ -58,6 +60,11 @@ public class All_Urls
             urls.edit = localUrls.edit;
             urls.changePassword = localUrls.changePassword;
             urls.convertToGold = localUrls.convertToGold;
+            urls.sellBuilding = localUrls.sellBuilding;
+            urls.moveBuilding = localUrls.moveBuilding;
+            urls.getUserTaskList = localUrls.getUserTaskList;
+            urls.setUsersTaskResults = localUrls.setUsersTaskResults;
+            urls.userGetFine = globalUrls.userGetFine;
         }
         return urls;
     }
@@ -87,7 +94,9 @@ public class All_Urls
         public static string convertToGold = "http://anar.labproxy.com/convertToGold";
         public static string sellBuilding = "http://anar.labproxy.com/sellBuilding";
         public static string moveBuilding = "http://anar.labproxy.com/moveBuilding";
-
+        public static string getUserTaskList = "http://anar.labproxy.com/getUserTaskList";
+        public static string setUsersTaskResults = "http://anar.labproxy.com/setUsersTaskResults";
+        public static string userGetFine = "http://anar.labproxy.com/userGetFine ";
 
     }
     //Local URLS
@@ -113,6 +122,11 @@ public class All_Urls
         public static string edit = "http://statusco.test/api/edit";
         public static string changePassword = "http://statusco.test/api/changePassword";
         public static string convertToGold = "http://statusco.test/convertToGold";
+        public static string sellBuilding = "http://statusco.test/sellBuilding";
+        public static string moveBuilding = "http://statusco.test/moveBuilding";
+        public static string getUserTaskList = "http://statusco.test/getUserTaskList";
+        public static string setUsersTaskResults = "http://statusco.test/setUsersTaskResults";
+        public static string userGetFine = "http://statusco.test/userGetFine ";
 
     }
 
@@ -140,6 +154,9 @@ public class All_Urls
         public string convertToGold = string.Empty;
         public string sellBuilding = string.Empty;
         public string moveBuilding = string.Empty;
+        public string getUserTaskList = string.Empty;
+        public string setUsersTaskResults = string.Empty;
+        public string userGetFine = string.Empty; 
     }
 }
 

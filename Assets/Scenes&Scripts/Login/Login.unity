@@ -9394,6 +9394,7 @@ MonoBehaviour:
   dateMonth: {fileID: 707680733}
   dateDay: {fileID: 760211237}
   privacyToggle: {fileID: 1914104689}
+  managerLogin: {fileID: 662268488}
 --- !u!4 &1700063913
 Transform:
   m_ObjectHideFlags: 0

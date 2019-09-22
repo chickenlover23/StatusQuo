@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63baf08d02b1daa4aa27963ad096a0d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 1
+  id: 2
   name: "\u0130\u015F Binas\u0131"
   price: 50
   income: 10
@@ -132,14 +132,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTask: 0
-  taskHeader: 
-  taskDescription: 
-  taskStart: 
-  taskGold: 
-  taskBronze: 
-  taskBlack: 
-  allSeconds: 0
-  remainingAllSeconds: 0
 --- !u!60 &8291975949069634222
 PolygonCollider2D:
   m_ObjectHideFlags: 0

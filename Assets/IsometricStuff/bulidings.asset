@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: bulidings
   m_EditorClassIdentifier: 
   m_Prefabs:
-  - {fileID: 4266611061372252764, guid: c1a247fe6e58fa544a9de8e11606dd37, type: 3}
+  - {fileID: 1650900815516284396, guid: 022cb1c43a282e24c82afdac575f480c, type: 3}
   m_PerlinScale: 0.001
   m_Z: 0

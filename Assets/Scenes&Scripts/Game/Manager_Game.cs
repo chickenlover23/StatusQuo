@@ -32,7 +32,9 @@ public class Manager_Game : MonoBehaviour
 
 
     [Header("Building Objects")]
-    public Tilemap buildingsTilemap;
+    private Tilemap buildingsTilemapsActive;
+    public Tilemap[] buildingsTilemaps;
+    public Tilemap[] roadTilemaps;
     public Grid grid;
     public GameObject buildingInstanceMedium, buildingInstanceBig, buildingInstanceLittle;
     public Camera cam;
@@ -41,6 +43,9 @@ public class Manager_Game : MonoBehaviour
 
     [Header("Task")]
     public GameObject taskPopUp;
+    public GameObject allTasksPopUP;
+    public GameObject allTasksItemPrefab;
+    public GameObject allTasksItemParent;
     public Button taskRight, taskLeft;
     public TMP_Text taskHeader;
     public TMP_Text taskDescription;
@@ -49,10 +54,19 @@ public class Manager_Game : MonoBehaviour
     public TMP_Text taskBlack;
     public TMP_Text taskTime;
     public Image taskLoadingBar;
+    public Sprite notification_normal, notification_bad, notification_star;
+    public GameObject taskresultPopUP;
+    public TMP_Text taskresultDescription;
+    public TMP_Text taskresultBlack;
+    public TMP_Text taskresultBronze;
+    public TMP_Text taskresultGold;
     [HideInInspector]
     public bool taskPopUpIsOpen;
     [HideInInspector]
     public int taskIndex;
+    public Animation notificationsPanel;
+    public GameObject notificationsPanelParent, notificationsPanelItemPrefab;
+
 
 
 
@@ -81,7 +95,7 @@ public class Manager_Game : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(getUserBuildings());
+        StartCoroutine(getUserTaskList());
     }
 
 
@@ -112,7 +126,7 @@ public class Manager_Game : MonoBehaviour
                 else if (dragging)
                 {
                     w_position = cam.ScreenToWorldPoint(Input.GetTouch(0).position);
-                    t_position = buildingsTilemap.WorldToCell(w_position);
+                    t_position = buildingsTilemapsActive.WorldToCell(w_position);
                     buildingInstanceActive.transform.position = grid.LocalToWorld(grid.CellToLocalInterpolated(new Vector3Int(t_position.x, t_position.y, 0)));
                 }
             }
@@ -131,6 +145,7 @@ public class Manager_Game : MonoBehaviour
             {
                 taskPopUpIsOpen = false;
                 taskPopUp.SetActive(false);
+
             }
             else
             {
@@ -157,7 +172,8 @@ public class Manager_Game : MonoBehaviour
 
                     if (currentTaskInfo.currentTasks[taskIndex].remainingAllSeconds <= 0)
                     {
-                        checkIfTaskExist(currentTaskInfo);
+                        taskPopUpIsOpen = false;
+                        taskPopUp.SetActive(false);
                     }
                 }
                 catch (Exception e) { }
@@ -220,6 +236,32 @@ public class Manager_Game : MonoBehaviour
 
     }
 
+    public void openNotificationsPanel(bool f)
+    {
+        if (profileShower.transform.position.x < 0)
+        {
+            notificationsPanel.clip = sideMenuClip;
+            string clipName = sideMenuClip.name;
+            if (f)
+            {
+                notificationsPanel.clip = sideMenuClip;
+                notificationsPanel[clipName].speed = 1;
+                notificationsPanel.Play(clipName);
+            }
+            else
+            {
+                notificationsPanel[clipName].speed = -1;
+                notificationsPanel[clipName].time = menuSide[clipName].length;
+                notificationsPanel.Play(clipName);
+            }
+        }
+        else
+        {
+            openProfil(false);
+        }
+
+    }
+
     public void openProfil(bool f)
     {
 
@@ -273,7 +315,7 @@ public class Manager_Game : MonoBehaviour
                 taskIndex--;
             }  
         }
-        taskHeader.text = currentTaskInfo.currentTasks[taskIndex].taskHeader;
+        //taskHeader.text = currentTaskInfo.currentTasks[taskIndex].taskHeader;
         taskDescription.text = currentTaskInfo.currentTasks[taskIndex].taskDescription;
         taskGold.text = currentTaskInfo.currentTasks[taskIndex].taskGold;
         taskBronze.text = currentTaskInfo.currentTasks[taskIndex].taskBronze;
@@ -283,13 +325,16 @@ public class Manager_Game : MonoBehaviour
         taskPopUp.SetActive(true);
     }
 
-    //checks is a building has any tasks, if more than one then activates the right and left buttons of the taskPopUp
+    /// <summary>
+    /// Checks if a building has any tasks, if more there is than one then activates the right and left buttons of the taskPopUp, if no task then and there is a taskResult, shows it.
+    /// </summary>
+    /// <param name="taskInfo"></param>
     public void checkIfTaskExist(TaskInformation taskInfo)
     {
         if (taskInfo.hasTask && taskInfo.currentTasks.Count > 0)
         {
-            Debug.Log("has task true");
-            taskIndex = -1;
+            //Debug.Log("has task true");
+   
             currentTaskInfo = taskInfo;
             if (taskInfo.currentTasks.Count == 1)
             {
@@ -301,33 +346,40 @@ public class Manager_Game : MonoBehaviour
                 taskRight.interactable = true;
                 taskLeft.interactable = true;
             }
+            taskIndex = -1;
             displayTaskPopUp(true);
         }
+        else if (taskInfo.hasTaskResult)
+        {
+            buildingResultOnClick(taskInfo.taskResult);
+            taskInfo.hasTaskResult = false;
+        }
         else
         {
             taskPopUpIsOpen = false;
             taskPopUp.SetActive(false);
         }
+       
     }
 
-    public void addOrShowDeprecatedTask()
-    {
-        if(currentTaskInfo.currentTasks.Count > 0)
-        {
-            //Add to the notification panel
-        }
-        else
-        {
-            taskPopUpIsOpen = false;
-            taskPopUp.SetActive(false);
-            //change the notification's image to the bad one
-        }
-    }
+    //public void addOrShowDeprecatedTask()
+    //{
+    //    if(currentTaskInfo.currentTasks.Count > 0)
+    //    {
+    //        //Add to the notification panel
+    //    }
+    //    else
+    //    {
+    //        taskPopUpIsOpen = false;
+    //        taskPopUp.SetActive(false);
+    //        //change the notification's image to the bad one
+    //    }
+    //}
 
     public void addTasktest()
     {
         Task newTask = new Task();
-        newTask.taskHeader = "Kommunal";
+        //newTask.taskHeader = "Kommunal";
         newTask.taskDescription = "Siz mülkünüzün kommunal xərclərini ödəməlisiniz!";
         newTask.taskGold = "+200";
         newTask.taskBronze = "-50";
@@ -340,12 +392,12 @@ public class Manager_Game : MonoBehaviour
 
     public void addTask(Task newTask, string buildingType)
     {
-        int len = buildingsTilemap.transform.childCount;
+        int len = buildingsTilemapsActive.transform.childCount;
         for (int i = 0; i < len; i++)
         {
-            if (buildingsTilemap.transform.GetChild(i).name == buildingType)
+            if (buildingsTilemapsActive.transform.GetChild(i).name == buildingType)
             {
-                currentTaskInfo = buildingsTilemap.transform.GetChild(i).gameObject.GetComponent<TaskInformation>();
+                currentTaskInfo = buildingsTilemapsActive.transform.GetChild(i).gameObject.GetComponent<TaskInformation>();
 
                 currentTaskInfo.hasTask = true;
 
@@ -355,13 +407,14 @@ public class Manager_Game : MonoBehaviour
                 temp.taskGold = newTask.taskGold;
                 temp.taskBronze = newTask.taskBronze;
                 temp.taskBlack = newTask.taskBlack;
-                temp.taskHeader = newTask.taskHeader;
+                //temp.taskHeader = newTask.taskHeader;
                 temp.taskDescription = newTask.taskDescription;
                 ///currentTaskInfo.enabled = true; ????
                 currentTaskInfo.currentTasks.Add(temp);
 
                 //activates the notification, change it to smth good
-                buildingsTilemap.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                checkNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject, notification_normal.name);
+                setProperNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject);
 
                 gameObject.GetComponent<Timer>().taskInfos.Add(currentTaskInfo);
                 if (!gameObject.GetComponent<Timer>().timerIsRunning)
@@ -382,9 +435,74 @@ public class Manager_Game : MonoBehaviour
                 return;
             }
         }
-        Debug.LogErrorFormat(string.Format("Building type not found for the task {0}", newTask.taskHeader).ToString());
+        Debug.LogErrorFormat(string.Format("Building type not found for the task {0}", newTask.taskDescription).ToString());
+    }
+    //tam olaraq men de bilmirem niye yazmisam bunu, daha dogrusu ne ise yarazadigini bildirecek ad tapa bilmedim buna
+    private void checkNotificationForABuilding(GameObject _building, string notificationType)
+    {
+        GameObject temp = _building.transform.Find("Notification").gameObject;
+        if (notificationType == notification_normal.name)
+        {
+            
+
+            if (temp.activeSelf && temp.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.name != notification_normal.name)
+            {
+                addToNotificationPanel(_building.GetComponent<TaskInformation>().taskResult);
+                _building.GetComponent<TaskInformation>().taskResult = null;
+            }
+
+            temp.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = notification_normal;
+            temp.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("this shouldn't have happenend");
+        }
     }
 
+
+    public void setProperNotificationForABuilding(GameObject _building)
+    {
+        Debug.Log("setted");
+
+        if (_building.GetComponent<TaskInformation>().currentTasks.Count > 0)
+        {
+            _building.transform.Find("Notification").GetChild(0).GetComponent<SpriteRenderer>().sprite = notification_normal;
+        }
+        if (_building.GetComponent<TaskInformation>().hasTaskResult)
+        { 
+             if (_building.GetComponent<TaskInformation>().taskResult.completed == 0)
+            {
+                _building.transform.Find("Notification").GetChild(0).GetComponent<SpriteRenderer>().sprite = notification_bad;
+            }
+            else if (_building.GetComponent<TaskInformation>().taskResult.completed == 1)
+            {
+                _building.transform.Find("Notification").GetChild(0).GetComponent<SpriteRenderer>().sprite = notification_star;
+            }
+        }
+        else
+        {
+            _building.transform.Find("Notification").gameObject.SetActive(false);
+        }
+    }
+
+
+    public void taskYesNo(bool b, Task _task, GameObject _building)
+    {
+
+        StartCoroutine(setUsersTaskResults(_building, _task.taskId, Helper.castToInt(b), _task.taskGold, _task. taskBronze, _task.taskBlack)); 
+    }
+    public void taskYesNo(bool b)
+    {
+        GameObject _building = currentTaskInfo.gameObject;
+        Task _task = currentTaskInfo.currentTasks[taskIndex];
+        currentTaskInfo.currentTasks.RemoveAt(taskIndex);
+        string taskId = _task.taskId;
+        string gold = _task.taskGold;
+        string bronze = _task.taskBronze;
+        string black = _task.taskBlack;
+        StartCoroutine(setUsersTaskResults(_building, taskId, 0, gold, bronze, black));
+    }
 
     private void loadPositions()
     {
@@ -404,7 +522,7 @@ public class Manager_Game : MonoBehaviour
 
             if (prefab != null)
             {
-                GameObject houseCp = Instantiate(prefab, buildingsTilemap.transform, false);
+                GameObject houseCp = Instantiate(prefab, buildingsTilemapsActive.transform, false);
                 houseCp.transform.localPosition = Helper.castToVector3(userData.positions);
                 houseCp.name = prefab.name;
                 houseCp.GetComponent<ClickDetecterForBuildings>().managerGame = this;//at the end, add this manually for performance
@@ -437,7 +555,7 @@ public class Manager_Game : MonoBehaviour
         {
             JsonData storeBuildings = JsonMapper.ToObject(www.downloadHandler.text);
 
-            Debug.Log(storeBuildings.ToJson());
+            //Debug.Log(storeBuildings.ToJson());
             if (storeBuildings["status"].ToString() == "error")
             {
                 Debug.LogError("Getting store buildings failed");
@@ -445,31 +563,42 @@ public class Manager_Game : MonoBehaviour
             else
             {
                 GameObject item;
+                int ind;
 
                 for (int i = 0; i < storeBuildings["data"].Count; i++)
                 {
-                    item = Instantiate(storeItemPrefab, storeParent.transform);
-                    item.transform.Find("Image").GetComponent<Image>().sprite = Resources.Load<Sprite>("Buildings/" + storeBuildings["data"][i]["name"].ToString());
-                    item.transform.Find("Header").GetComponent<TMP_Text>().text = storeBuildings["data"][i]["name"].ToString();
-                    item.transform.Find("About").GetComponent<TMP_Text>().text = "price - " + storeBuildings["data"][i]["price"] + "/n" + "income - " + storeBuildings["data"][i]["income"];
-                    item.name = storeBuildings["data"][i]["name"].ToString();
 
-                    item.GetComponent<BuildingInformation>().id = Int32.Parse(storeBuildings["data"][i]["id"].ToString());
-                    item.GetComponent<BuildingInformation>().name = storeBuildings["data"][i]["name"].ToString();
-                    item.GetComponent<BuildingInformation>().price = Int32.Parse(storeBuildings["data"][i]["price"].ToString());
-                    item.GetComponent<BuildingInformation>().income = Int32.Parse(storeBuildings["data"][i]["income"].ToString());
-                    item.GetComponent<BuildingInformation>().maxCount = Int32.Parse(storeBuildings["data"][i]["max_count"].ToString());
-
-                    item.GetComponentInChildren<Button>().onClick.AddListener(delegate { startBuying(); });
-
-                    if (user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(item.GetComponent<BuildingInformation>().name))
+                    ind = loadBuildingInformation(storeBuildings["data"][i]);
+                    if (ind != -1)
                     {
-                        if (item.GetComponent<BuildingInformation>().maxCount <= user.GetComponent<UserResourceInformation>().numberOfBuildings[item.GetComponent<BuildingInformation>().name])
+
+                        item = Instantiate(storeItemPrefab, storeParent.transform);
+                        item.transform.Find("Image").GetComponent<Image>().sprite = building_prefabs[ind].GetComponent<SpriteRenderer>().sprite;
+                        item.transform.Find("Header").GetComponent<TMP_Text>().text = storeBuildings["data"][i]["name"].ToString();
+                        item.transform.Find("About").GetComponent<TMP_Text>().text = "price - " + storeBuildings["data"][i]["price"] + "/n" + "income - " + storeBuildings["data"][i]["income"];
+                        item.name = storeBuildings["data"][i]["name"].ToString();
+
+                        item.GetComponent<BuildingInformation>().id = Int32.Parse(storeBuildings["data"][i]["id"].ToString());
+                        item.GetComponent<BuildingInformation>().name = storeBuildings["data"][i]["name"].ToString();
+                        item.GetComponent<BuildingInformation>().price = Int32.Parse(storeBuildings["data"][i]["price"].ToString());
+                        item.GetComponent<BuildingInformation>().income = Int32.Parse(storeBuildings["data"][i]["income"].ToString());
+                        item.GetComponent<BuildingInformation>().maxCount = Int32.Parse(storeBuildings["data"][i]["max_count"].ToString());
+
+                        item.GetComponentInChildren<Button>().onClick.AddListener(delegate { startBuying(); });
+                        item.GetComponentInChildren<Button>().GetComponent<TouchOnUI>().managerGame = this;
+
+                        if (user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(item.GetComponent<BuildingInformation>().name))
                         {
-                            item.GetComponentInChildren<Button>().interactable = false;
+                            if (item.GetComponent<BuildingInformation>().maxCount <= user.GetComponent<UserResourceInformation>().numberOfBuildings[item.GetComponent<BuildingInformation>().name])
+                            {
+                                item.GetComponentInChildren<Button>().interactable = false;
+                            }
                         }
                     }
-                    loadBuildingInformation(storeBuildings["data"][i]);
+                    //else
+                    //{
+                    //    Debug.Log(storeBuildings["data"][i]["name"].ToString() + " prefab not found in the prefabs array");
+                    //}
 
                 }
             }
@@ -517,6 +646,9 @@ public class Manager_Game : MonoBehaviour
 
                     updateUserResources("-" + userResourceInformation.gold.ToString(), "-" + userResourceInformation.bronze.ToString(), "-" + userResourceInformation.black.ToString());
 
+                    checkUserStatus(userResourceInformation.role_id);
+
+                    StartCoroutine(getUserBuildings());
                     loadDatasToSideMenu(userResourceInformation);
 
                 }
@@ -533,6 +665,25 @@ public class Manager_Game : MonoBehaviour
             }
         }
 
+    }
+
+    public void checkUserStatus(int roleId)
+    {
+        
+        for(int i = 0; i < buildingsTilemaps.Length; i++)
+        {
+            if(i == roleId - 1)
+            {
+                buildingsTilemapsActive = buildingsTilemaps[i];
+                buildingsTilemaps[i].gameObject.SetActive(true);
+                roadTilemaps[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                buildingsTilemaps[i].gameObject.SetActive(false);
+                roadTilemaps[i].gameObject.SetActive(false);
+            }
+        }
     }
 
     IEnumerator getUserBuildings()
@@ -555,7 +706,7 @@ public class Manager_Game : MonoBehaviour
 
             if (userResources["status"].ToString() == "success")
             {
-                Debug.Log(userResources.ToJson());
+                //Debug.Log(userResources.ToJson());
                 foreach (JsonData json in userResources["data"])
                 {
                     BuildingDataCollector data = new BuildingDataCollector();
@@ -597,8 +748,7 @@ public class Manager_Game : MonoBehaviour
         form.AddField("level", level);
         form.AddField("flipX", flipX);
         form.AddField("item_id", user.GetComponent<UserResourceInformation>().item_id);
-        form.AddField("price", gameObject.GetComponent<BuildingInformation>().price);
-
+        
 
         UnityWebRequest www = UnityWebRequest.Post(All_Urls.getUrl().setUserBuildings, form);
         www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
@@ -622,7 +772,9 @@ public class Manager_Game : MonoBehaviour
             }
             else
             {
+                //toast(userResources["data"]["message"])///////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 Debug.LogError("Setting user buildings failed");
+                Debug.Log(userResources.ToJson());
             }
         }
     }
@@ -662,7 +814,6 @@ public class Manager_Game : MonoBehaviour
       
     }
 
-
     IEnumerator sendSellRequest(GameObject _tempBuilding)
     {
         int item_id = _tempBuilding.GetComponent<BuildingInformation>().id;
@@ -698,7 +849,212 @@ public class Manager_Game : MonoBehaviour
         }
     }
 
+    IEnumerator getUserTaskList()
+    {
+        UnityWebRequest www = UnityWebRequest.Get(All_Urls.getUrl().getUserTaskList);
+        www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
+        yield return www.SendWebRequest();
 
+        if (www.error != null || www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
+            //Debug.Log(data.ToJson());
+            if (data["status"].ToString() == "success")
+            {
+                //Debug.Log(data["data"].ToJson());
+                //Debug.Log(data["data"].Count);
+                fillUserTaskList(data["data"]);
+            }
+            else
+            {
+                //toast(data["data"]["message"])///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                Debug.LogError("Getting user TaskList failed");
+            }
+        }
+    }
+
+    private void fillUserTaskList(JsonData data)
+    {
+        
+        int len = data.Count;
+
+        int total, completed;
+        for(int i = 0; i < len; i++)
+        {
+            completed = Int32.Parse(data[i]["comp_succ"].ToString());
+            total = Int32.Parse(data[i]["comp_fail"].ToString()) + completed;
+
+            GameObject tempItem = Instantiate(allTasksItemPrefab, allTasksItemParent.transform);
+            tempItem.transform.Find("Text_taskDescription").GetComponent<TMP_Text>().text = data[i]["description"].ToString();
+            tempItem.transform.Find("Panel_count").Find("Text_completedTasks").GetComponent<Text>().text = completed.ToString();
+            tempItem.transform.Find("Panel_count").Find("Text_totalTasks").GetComponent<Text>().text = total.ToString();
+            tempItem.transform.Find("Panel_Image").Find("Image").GetComponent<Image>().sprite = findSpriteWithID(int.Parse(data[i]["building_id"].ToString()));
+        }
+    }
+
+    private  Sprite findSpriteWithID(int id)
+    {
+        int ind = 0;
+        for(int i = 0; i < building_prefabs.Length; i++)
+        {
+            if (building_prefabs[i].GetComponent<BuildingInformation>().id == id){
+                ind = i;
+                break;
+            }
+        }
+        return (building_prefabs[ind].GetComponent<SpriteRenderer>().sprite);
+    }
+
+    IEnumerator setUsersTaskResults(GameObject _building, string taskId, int completed, string gold, string bronze, string black)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("mission_id", taskId);
+        form.AddField("completed", completed);
+        form.AddField("gold", gold);
+        form.AddField("bronze", bronze);
+        form.AddField("black", black);
+
+
+        UnityWebRequest www = UnityWebRequest.Post(All_Urls.getUrl().setUsersTaskResults, form);
+        www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
+        yield return www.SendWebRequest();
+
+        if (www.error != null || www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
+            Debug.Log(data.ToJson());
+            if (data["status"].ToString() == "success")
+            {
+                TaskResult taskResult = new TaskResult();
+                taskResult.gold = data["items"]["gold"].ToString();
+                taskResult.bronze = data["items"]["bronze"].ToString();
+                taskResult.black = data["items"]["black"].ToString();
+
+                if(int.Parse(taskResult.gold) > 0 && int.Parse(taskResult.bronze) > 0 && int.Parse(taskResult.black) == 0)
+                {
+                    updateUserResources(taskResult.gold, "-" + taskResult.bronze, "0");
+                }
+                else if (int.Parse(taskResult.gold) > 0 && int.Parse(taskResult.bronze) == 0 && int.Parse(taskResult.black) == 0)
+                {
+                    updateUserResources("-" + taskResult.gold, "0", "0");
+                }
+
+
+
+                GameObject temp = _building.transform.Find("Notification").gameObject;
+                if (temp.activeSelf)
+                {
+                    if(temp.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.name == notification_normal.name)
+                    {
+                        addToNotificationPanel(taskResult);
+                    }
+                    else
+                    {
+                        addToNotificationPanel(temp.GetComponent<TaskInformation>().taskResult);
+                        temp.GetComponent<TaskInformation>().taskResult = taskResult;
+                        temp.GetComponent<TaskInformation>().hasTaskResult = true;
+                    }
+                }
+
+                setProperNotificationForABuilding(_building);
+
+            }
+            else
+            {
+                //toast(userResources["data"]["message"])///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                Debug.LogError("Setting user task result failed");
+                Debug.Log(data.ToJson());
+            }
+        }
+    }
+
+    public void addToNotificationPanel(TaskResult taskResult)
+    {
+        GameObject temp = Instantiate(notificationsPanelItemPrefab, notificationsPanelParent.transform);
+        temp.transform.Find("Text_taskDescription").GetComponent<TMP_Text>().text = taskResult.taskDescription;
+        temp.transform.Find("gold").GetComponent<Text>().text = taskResult.gold;
+        temp.transform.Find("bronze").GetComponent<Text>().text = taskResult.bronze;
+        temp.transform.Find("black").GetComponent<Text>().text = taskResult.black;
+        temp.GetComponent<Button>().onClick.AddListener(notificationPAnelItemOnClick);
+    }
+
+    //for being called from the notifications panel
+    public void notificationPAnelItemOnClick()
+    {
+        GameObject temp = EventSystem.current.currentSelectedGameObject;
+
+        openMenu(false);
+        //openNotificationsPanel(false);
+
+        int _gold = int.Parse(temp.transform.Find("gold").GetComponent<Text>().text);
+        int _bronze = int.Parse(temp.transform.Find("bronze").GetComponent<Text>().text);
+        int _black = int.Parse(temp.transform.Find("black").GetComponent<Text>().text);
+        taskresultDescription.text = temp.transform.Find("Text_taskDescription").GetComponent<TMP_Text>().text;
+        Destroy(temp);
+
+        taskresultGold.gameObject.SetActive(false);
+        taskresultGold.gameObject.SetActive(false);
+        taskresultGold.gameObject.SetActive(false);
+
+        if (_gold != 0)
+        {
+            taskresultGold.text = _gold.ToString();
+            taskresultGold.gameObject.SetActive(true);
+        }
+        if(_bronze != 0)
+        {
+            taskresultBronze.text = _bronze.ToString();
+            taskresultBronze.gameObject.SetActive(true);
+        }
+        if(_black != 0)
+        {
+            taskresultBlack.text = _black.ToString();
+            taskresultBlack.gameObject.SetActive(true);
+        }
+
+        taskresultPopUP.SetActive(true);
+    }
+
+    public void buildingResultOnClick(TaskResult _taskResult)
+    {
+        int _gold = int.Parse(_taskResult.gold);
+        int _bronze = int.Parse(_taskResult.bronze);
+        int _black = int.Parse(_taskResult.black);
+
+        taskresultGold.gameObject.SetActive(false);
+        taskresultGold.gameObject.SetActive(false);
+        taskresultGold.gameObject.SetActive(false);
+
+        if (_gold != 0)
+        {
+            taskresultGold.text = _gold.ToString();
+            taskresultGold.gameObject.SetActive(true);
+        }
+        if (_bronze != 0)
+        {
+            taskresultBronze.text = _bronze.ToString();
+            taskresultBronze.gameObject.SetActive(true);
+        }
+        if (_black != 0)
+        {
+            taskresultBlack.text = _black.ToString();
+            taskresultBlack.gameObject.SetActive(true);
+        }
+        taskresultPopUP.SetActive(true);
+    }
+
+    public void getUserTaskListTest()
+    {
+        StartCoroutine(getUserTaskList());
+    }
 
     public void loadDatasToSideMenu(UserResourceInformation userResources)
     {
@@ -707,15 +1063,17 @@ public class Manager_Game : MonoBehaviour
         Helper.LoadAvatarImage(userResources.avatar_id, profIcon, true);
     }
 
-    public void loadBuildingInformation(JsonData jsondata)
+    public int loadBuildingInformation(JsonData jsondata)
     {
         GameObject buildingg = null;
         bool varr = false;
+        int ind = -1;
 
         for (int i = 0; i < building_prefabs.Length; i++)
         {
             if (building_prefabs[i].GetComponent<BuildingInformation>().name == jsondata["name"].ToString())
             {
+                ind = i;
                 buildingg = building_prefabs[i];
                 varr = true;
                 break;
@@ -731,7 +1089,7 @@ public class Manager_Game : MonoBehaviour
             buildingg.GetComponent<BuildingInformation>().income = Int32.Parse(jsondata["income"].ToString());
             buildingg.GetComponent<BuildingInformation>().maxCount = Int32.Parse(jsondata["max_count"].ToString());
         }
-
+        return (ind);
     }
 
     public void startBuying()
@@ -770,10 +1128,7 @@ public class Manager_Game : MonoBehaviour
 
         if (!buildingInstanceActive.GetComponent<CollisionDetecter>().colliding)
         {
-            dragging = false;
-            isBuildingInstanceActive = false;
-            buildingInstanceActive.SetActive(false);
-
+          
             int type = selectedBuilding.GetComponent<BuildingInformation>().id;
             string pos = Helper.castToString(buildingInstanceActive.transform.localPosition);
             string oldPos = selectedBuilding.GetComponent<BuildingInformation>().pos;
@@ -823,15 +1178,17 @@ public class Manager_Game : MonoBehaviour
 
     public void purchaseApproved(GameObject prefab, string pos)
     {
-        GameObject newBuilding = Instantiate(prefab, buildingsTilemap.transform);
+        dragging = false;
+        isBuildingInstanceActive = false;
+        buildingInstanceActive.SetActive(false);
+
+        GameObject newBuilding = Instantiate(prefab, buildingsTilemapsActive.transform);
         newBuilding.transform.localPosition = buildingInstanceActive.transform.localPosition;
         newBuilding.GetComponent<SpriteRenderer>().flipX = buildingInstanceActive.GetComponent<SpriteRenderer>().flipX;
         newBuilding.GetComponent<BuildingInformation>().flipX = Helper.castToInt(buildingInstanceActive.GetComponent<SpriteRenderer>().flipX);
         newBuilding.GetComponent<BuildingInformation>().pos = pos;
         newBuilding.name = buildingInstanceActive.GetComponent<SpriteRenderer>().sprite.name;
         newBuilding.GetComponent<ClickDetecterForBuildings>().managerGame = this;//at the end, add this manually for performance
-
-        buildingInstanceActive.SetActive(false);
     }
 
 
@@ -857,7 +1214,11 @@ public class Manager_Game : MonoBehaviour
 
     private void moveApproved()
     {
-        
+
+        dragging = false;
+        isBuildingInstanceActive = false;
+        buildingInstanceActive.SetActive(false);
+
         selectedBuilding.transform.position = buildingInstanceActive.transform.position;
         selectedBuilding.GetComponent<SpriteRenderer>().flipX = buildingInstanceActive.GetComponent<SpriteRenderer>().flipX;
         selectedBuilding.GetComponent<BuildingInformation>().flipX = Helper.castToInt(buildingInstanceActive.GetComponent<SpriteRenderer>().flipX);
@@ -867,7 +1228,14 @@ public class Manager_Game : MonoBehaviour
 
     public void SellBuilding()
     {
-        StartCoroutine(sendSellRequest(selectedBuilding));
+        if (!(selectedBuilding.GetComponent<TaskInformation>().hasTask || selectedBuilding.GetComponent<TaskInformation>().currentTasks.Count > 0))
+        {
+            StartCoroutine(sendSellRequest(selectedBuilding));
+        }
+        else
+        {
+            //toast(you cannot sell  BUILDING THAT HAS A TASK)
+        }
     }
 
     private void sellApproved(GameObject _tempBuilding)
@@ -900,10 +1268,14 @@ public class Manager_Game : MonoBehaviour
 
     public void sendConverterRequest()
     {
-        if (Int32.Parse(converterBronze.text) <= Int32.Parse(bronzeBar.text))
+        if (Int32.Parse(converterBronze.text) <= Int32.Parse(bronzeBar.text) && Int32.Parse(converterBronze.text) >= 2)
         {
             StartCoroutine(convertRequest(Int32.Parse(converterBronze.text)));
             converterPopUp.SetActive(false);
+        }
+        else
+        {
+            //toast(minimal 2, maximal ise oz buruncunuz qqederi ceonvert ede bilersiniz)
         }
     }
 
@@ -918,7 +1290,7 @@ public class Manager_Game : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("bronze_amount", bronzeAmount);
 
-        UnityWebRequest webRequest = UnityWebRequest.Post("http://anar.labproxy.com/convertToGold", form);
+        UnityWebRequest webRequest = UnityWebRequest.Post(All_Urls.getUrl().convertToGold, form);
         webRequest.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
 
         yield return webRequest.SendWebRequest();
@@ -934,7 +1306,7 @@ public class Manager_Game : MonoBehaviour
 
             if (data["status"].ToString() == "success")
             {
-                updateUserResources((Convert.ToInt32(goldBar.text) - Convert.ToInt32(data["gold"].ToString())).ToString(), (Convert.ToInt32(bronzeBar.text) - Convert.ToInt32(data["bronze"].ToString())).ToString(), blackBar.text);
+                updateUserResources((Convert.ToInt32(goldBar.text) - Convert.ToInt32(data["gold"].ToString())).ToString(), (Convert.ToInt32(bronzeBar.text) - Convert.ToInt32(data["bronze"].ToString())).ToString(), "0");
             }
             else
             {
@@ -948,10 +1320,12 @@ public class Manager_Game : MonoBehaviour
         if (amount > 0)
         {
             StartCoroutine(addToNumber(text, Int32.Parse(text.text), amount, true));
+            return;
         }
         else
         {
             StartCoroutine(addToNumber(text, Int32.Parse(text.text), -amount, false));
+            return;
         }
     }
 
@@ -971,8 +1345,39 @@ public class Manager_Game : MonoBehaviour
             text.text = number.ToString();
             StartCoroutine(addToNumber(text, number, amount, sign));
         }
+        else if(Convert.ToInt32(blackBar.text) >= 5)
+        {
+            StartCoroutine(userGetFine());
+        }
     }
 
+
+    IEnumerator userGetFine()
+    {
+        UnityWebRequest webRequest = UnityWebRequest.Get(All_Urls.getUrl().convertToGold);
+        webRequest.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
+
+        yield return webRequest.SendWebRequest();
+
+
+        if (webRequest.error != null || webRequest.isNetworkError || webRequest.isHttpError)
+        {
+            Debug.LogError(webRequest.error);
+        }
+        else
+        {
+            JsonData data = JsonMapper.ToObject(webRequest.downloadHandler.text);
+
+            if (data["status"].ToString() == "success")
+            {
+                updateUserResources("0", (Convert.ToInt32(bronzeBar.text) - Convert.ToInt32(data["bronze"].ToString())).ToString(), blackBar.text);
+            }
+            else
+            {
+                Debug.Log("Getting user fine failed");
+            }
+        }
+    }
 
     /// <summary>
     /// Finds correct building instance and assings to "buildingInstanceActive" variable.

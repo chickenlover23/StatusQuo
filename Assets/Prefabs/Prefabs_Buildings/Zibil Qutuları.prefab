@@ -260,14 +260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTask: 0
-  taskHeader: 
-  taskDescription: 
-  taskStart: 
-  taskGold: 
-  taskBronze: 
-  taskBlack: 
-  allSeconds: 0
-  remainingAllSeconds: 0
+  hasTaskResult: 0
 --- !u!60 &3313901140728743737
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -293,10 +286,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.0037288666, y: 0.43071017}
-      - {x: 0.6680255, y: 0.014615059}
-      - {x: 0.0439806, y: -0.38779312}
-      - {x: -0.66996694, y: 0.02553767}
+    - - {x: -0.0027518272, y: 0.12318151}
+      - {x: 0.19762087, y: 0.010962844}
+      - {x: 0.0020346642, y: -0.10198107}
+      - {x: -0.19857788, y: 0.01194942}
 --- !u!60 &5814227590591513912
 PolygonCollider2D:
   m_ObjectHideFlags: 0

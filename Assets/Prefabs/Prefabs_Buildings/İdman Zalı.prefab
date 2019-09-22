@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5936552136733041782
+--- !u!1 &1400231248368024339
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,42 +8,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2024738988687070345}
-  - component: {fileID: 3693087668251481376}
-  - component: {fileID: -8633547965504835647}
-  - component: {fileID: -7276226782484779141}
-  - component: {fileID: 9135325096388308481}
-  - component: {fileID: 1389228456270887779}
-  - component: {fileID: 5181470160408904541}
+  - component: {fileID: 8913034614150768850}
+  - component: {fileID: 8703659814206965845}
+  - component: {fileID: 8578403822180190227}
+  - component: {fileID: -5822445842547316671}
+  - component: {fileID: -2139801268772249733}
+  - component: {fileID: 1152328236032027946}
+  - component: {fileID: 4862590307709201429}
   m_Layer: 0
-  m_Name: govermental building
+  m_Name: "\u0130dman Zal\u0131"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2024738988687070345
+--- !u!4 &8913034614150768850
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5936552136733041782}
+  m_GameObject: {fileID: 1400231248368024339}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7847978639554403190}
+  - {fileID: 8162945373791769810}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &3693087668251481376
+--- !u!212 &8703659814206965845
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5936552136733041782}
+  m_GameObject: {fileID: 1400231248368024339}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -75,44 +75,44 @@ SpriteRenderer:
   m_SortingLayerID: -1774093869
   m_SortingLayer: 1
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: c9d2a150999c2b14991661b769d39f9c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8a6ddf48f64b141419911f141c151987, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4, y: 3.1660478}
+  m_Size: {x: 2, y: 1.6488063}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-8633547965504835647
+--- !u!114 &8578403822180190227
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5936552136733041782}
+  m_GameObject: {fileID: 1400231248368024339}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 63baf08d02b1daa4aa27963ad096a0d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  name: "D\xF6vl\u0259t Qurumu"
+  name: "\u0130dman Zal\u0131"
   price: 0
   income: 0
   maxCount: 0
   level: 0
   flipX: 0
-  collider: 1
---- !u!60 &-7276226782484779141
+  pos: 
+--- !u!60 &-5822445842547316671
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5936552136733041782}
+  m_GameObject: {fileID: 1400231248368024339}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -122,39 +122,43 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.3901099}
-    oldSize: {x: 4, y: 3.1660478}
-    newSize: {x: 4, y: 3.1660478}
+    pivot: {x: 0.5, y: 0.37382975}
+    oldSize: {x: 2, y: 1.6488063}
+    newSize: {x: 2, y: 1.6488063}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.006020546, y: 0.93768144}
-      - {x: 1.4479818, y: 0.06336224}
-      - {x: 0.0439806, y: -0.82651865}
-      - {x: -1.3816772, y: 0.02553767}
---- !u!114 &9135325096388308481
+    - - {x: 0.0037288666, y: 0.43071017}
+      - {x: 0.6680255, y: 0.014615059}
+      - {x: 0.0439806, y: -0.38779312}
+      - {x: -0.66996694, y: 0.02553767}
+--- !u!114 &-2139801268772249733
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5936552136733041782}
+  m_GameObject: {fileID: 1400231248368024339}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73dfe9d3c8961e64abe25617bc46249e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   managerGame: {fileID: 0}
---- !u!60 &1389228456270887779
+  dovletBinalari:
+  - "D\xF6vl\u0259t Qurumu"
+  - "Parlament Binas\u0131"
+  - "Prezident Saray\u0131"
+--- !u!60 &1152328236032027946
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5936552136733041782}
+  m_GameObject: {fileID: 1400231248368024339}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -164,54 +168,47 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.3901099}
-    oldSize: {x: 4, y: 3.1660478}
-    newSize: {x: 4, y: 3.1660478}
+    pivot: {x: 0.5, y: 0.37382975}
+    oldSize: {x: 2, y: 1.6488063}
+    newSize: {x: 2, y: 1.6488063}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.28847504, y: 1.5061088}
-      - {x: 0.29059792, y: 1.3750463}
-      - {x: 0.5914917, y: 1.1966414}
-      - {x: 0.70116425, y: 1.2642286}
-      - {x: 1.3752213, y: 0.8473513}
-      - {x: 1.396719, y: 0.3506441}
-      - {x: 1.9718647, y: 0.005093336}
-      - {x: 0.0022068024, y: -1.2049775}
-      - {x: -1.9768372, y: -0.0068382025}
-      - {x: -1.106142, y: 0.52683353}
-      - {x: -1.0887718, y: 1.4940205}
-      - {x: -0.39549446, y: 1.9189193}
---- !u!114 &5181470160408904541
+    - - {x: -0.3979826, y: 0.37188852}
+      - {x: -0.40097994, y: 0.7919206}
+      - {x: -0.401092, y: 0.79034066}
+      - {x: -0.001519605, y: 1.0320015}
+      - {x: 0.64607584, y: 0.63504636}
+      - {x: 0.64694, y: 0.62974316}
+      - {x: 0.6498154, y: 0.21663292}
+      - {x: 0.97714233, y: -0.00012858957}
+      - {x: 0.9817896, y: 0.0030947179}
+      - {x: -0.00026273727, y: -0.6122701}
+      - {x: -0.99234957, y: -0.004690187}
+      - {x: -0.9865893, y: 0.007570153}
+--- !u!114 &4862590307709201429
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5936552136733041782}
+  m_GameObject: {fileID: 1400231248368024339}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28329c13f87c74943ab4f67b28a4415a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hasTask: 0
-  taskHeader: 
-  taskDescription: 
-  taskStart: 
-  taskGold: 
-  taskBronze: 
-  taskBlack: 
-  allSeconds: 0
-  remainingAllSeconds: 0
---- !u!1001 &4285357524758122350
+  hasTaskResult: 0
+--- !u!1001 &2799445225540010186
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 2024738988687070345}
+    m_TransformParent: {fileID: 8913034614150768850}
     m_Modifications:
     - target: {fileID: 6309889461719077913, guid: 11b786df82806d941aca20b3de7f9f57,
         type: 3}
@@ -226,12 +223,12 @@ PrefabInstance:
     - target: {fileID: 6309889461719077912, guid: 11b786df82806d941aca20b3de7f9f57,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.15
+      value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 6309889461719077912, guid: 11b786df82806d941aca20b3de7f9f57,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.35
+      value: 1.02
       objectReference: {fileID: 0}
     - target: {fileID: 6309889461719077912, guid: 11b786df82806d941aca20b3de7f9f57,
         type: 3}
@@ -281,18 +278,18 @@ PrefabInstance:
     - target: {fileID: 6309889461775330174, guid: 11b786df82806d941aca20b3de7f9f57,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 2.5639195
+      value: 2.7234292
       objectReference: {fileID: 0}
     - target: {fileID: 6309889461775330174, guid: 11b786df82806d941aca20b3de7f9f57,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 163.07616
+      value: 173.22166
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11b786df82806d941aca20b3de7f9f57, type: 3}
---- !u!4 &7847978639554403190 stripped
+--- !u!4 &8162945373791769810 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6309889461719077912, guid: 11b786df82806d941aca20b3de7f9f57,
     type: 3}
-  m_PrefabInstance: {fileID: 4285357524758122350}
+  m_PrefabInstance: {fileID: 2799445225540010186}
   m_PrefabAsset: {fileID: 0}

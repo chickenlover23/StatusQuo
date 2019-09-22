@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class ClickDetecterForBuildings : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler //, IPointerClickHandler 
 {
     public Manager_Game managerGame;
-
+    public string[] dovletBinalari = { "Dövlət Qurumu", "Parlament Binası", "Prezident Sarayı" };
 
     bool longClicked = false;
     bool isPointerDown;
-    float holdTime = 2f, tempTime = 0;
+    float holdTime = 1f, tempTime = 0;
 
     //public void OnPointerClick(PointerEventData pointerEventData)
     //{
@@ -31,7 +32,7 @@ public class ClickDetecterForBuildings : MonoBehaviour, IPointerDownHandler, IPo
     {
         if (isPointerDown && !longClicked)
         {
-            Debug.Log("Short click!");
+            //Debug.Log("Short click!");
             managerGame.checkIfTaskExist(this.gameObject.GetComponent<TaskInformation>());
 
             reset();
@@ -46,7 +47,7 @@ public class ClickDetecterForBuildings : MonoBehaviour, IPointerDownHandler, IPo
             tempTime += Time.deltaTime;
             if (tempTime >= holdTime)
             {
-                print("Long clicked");
+                //print("Long clicked");
                 longClicked = true;
                 longClick();
                 reset();
@@ -59,7 +60,10 @@ public class ClickDetecterForBuildings : MonoBehaviour, IPointerDownHandler, IPo
 
     private void longClick()
     {
-        managerGame.startMoving(this.gameObject);
+        if (!arrayContains(dovletBinalari, gameObject.GetComponent<SpriteRenderer>().name))
+        {
+            managerGame.startMoving(this.gameObject);
+        }
     }
 
 
@@ -67,5 +71,18 @@ public class ClickDetecterForBuildings : MonoBehaviour, IPointerDownHandler, IPo
     {
         isPointerDown = false;
         tempTime = 0;
+    }
+
+    private bool arrayContains(string[] arr, string str)
+    {
+        Debug.Log("here");
+        for(int i = 0; i < arr.Length; i++)
+        {
+            if (arr[i] == str)
+            {
+                return (true);
+            }
+        }
+        return (false);
     }
 }

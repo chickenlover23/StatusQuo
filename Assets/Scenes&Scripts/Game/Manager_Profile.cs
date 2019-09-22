@@ -36,6 +36,9 @@ public class Manager_Profile : MonoBehaviour
     int countEdit = 1;
     private List<(Sprite foreground, Sprite backGround, string pic_id)> editableAvatarIcons;
     private GameObject gameObjectForUserTimeLine;
+
+
+
     private void Start()
     {
         editableAvatarIcons = new List<(Sprite foregroung, Sprite backGround, string pic_id)>();
@@ -145,7 +148,7 @@ public class Manager_Profile : MonoBehaviour
             }
             else
             {
-                //ohhh noooo you got trapped, oh noooo you are trapped
+                Debug.Log("Getting timeline info failed");
             }
         }
 
@@ -349,12 +352,15 @@ public class Manager_Profile : MonoBehaviour
     {
         if (current_index_pic > 0)
         {
-            current_index_pic--;
-            avatar.transform.parent.GetComponent<Image>().sprite = editableAvatarIcons[current_index_pic].backGround;
-            avatar.sprite = editableAvatarIcons[current_index_pic].foreground;
-            avatar_id_temp = editableAvatarIcons[current_index_pic].pic_id;
-
+            current_index_pic--; 
         }
+        else
+        {
+            current_index_pic = editableAvatarIcons.Count - 1;
+        }
+        avatar.transform.parent.GetComponent<Image>().sprite = editableAvatarIcons[current_index_pic].backGround;
+        avatar.sprite = editableAvatarIcons[current_index_pic].foreground;
+        avatar_id_temp = editableAvatarIcons[current_index_pic].pic_id;
     }
 
     public void moveToRight()
@@ -362,10 +368,14 @@ public class Manager_Profile : MonoBehaviour
         if (current_index_pic < editableAvatarIcons.Count-1)
         {
             current_index_pic++;
-            avatar.transform.parent.GetComponent<Image>().sprite = editableAvatarIcons[current_index_pic].backGround;
-            avatar.sprite = editableAvatarIcons[current_index_pic].foreground;
-            avatar_id_temp = editableAvatarIcons[current_index_pic].pic_id;
         }
+        else
+        {
+            current_index_pic = 0;
+        }
+        avatar.transform.parent.GetComponent<Image>().sprite = editableAvatarIcons[current_index_pic].backGround;
+        avatar.sprite = editableAvatarIcons[current_index_pic].foreground;
+        avatar_id_temp = editableAvatarIcons[current_index_pic].pic_id;
     }
 
     public List<(Sprite foreground,Sprite backGround,string pic_id)> makeProfilePicSelectable()

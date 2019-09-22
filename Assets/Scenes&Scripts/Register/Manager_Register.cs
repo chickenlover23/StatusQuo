@@ -6,11 +6,14 @@ using TMPro;
 using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using LitJson;
 
 public class Manager_Register : MonoBehaviour
 {
     public TMP_InputField username, mail, pass, confirmPass, dateYear, dateMonth, dateDay;
     public Toggle privacyToggle;
+
+    public Manager_Login managerLogin;
 
     
 
@@ -56,15 +59,6 @@ public class Manager_Register : MonoBehaviour
 
     IEnumerator IE_register(string _username, string _email, string _pass, string _confirmPass, string _date)
     {
-
-        //   Doesn't work
-        //List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
-        //formData.Add(new MultipartFormFileSection("username", _username));
-        //formData.Add(new MultipartFormFileSection("email", _email));
-        //formData.Add(new MultipartFormFileSection("password", _pass));
-        //formData.Add(new MultipartFormFileSection("password_confirmation", _confirmPass));
-        //formData.Add(new MultipartFormFileSection("dob", _date));
-
         WWWForm form = new WWWForm();
         form.AddField("username", _username);
         form.AddField("email", _email);
@@ -75,6 +69,7 @@ public class Manager_Register : MonoBehaviour
         UnityWebRequest www = UnityWebRequest.Post(All_Urls.getUrl().register, form);
         yield return www.SendWebRequest();
 
+        JsonData data = JsonMapper.ToObject(www.downloadHandler.text); 
 
         if (www.error != null || www.isNetworkError || www.isHttpError)
         {
@@ -82,7 +77,23 @@ public class Manager_Register : MonoBehaviour
         }
         else
         {
-            Debug.Log(www.downloadHandler.text);
+            if (data["status"].ToString() == "success")
+            {
+                mail.text = "";
+                username.text = "";
+                pass.text = "";
+                confirmPass.text = "";
+                dateYear.text = "";
+                dateMonth.text = "";
+                dateDay.text = "";
+
+                managerLogin.animateRegister();
+                //Debug.Log();
+            }
+            else
+            {
+                //toast(register failed);
+            }
         }
     }
 
@@ -94,10 +105,4 @@ public class Manager_Register : MonoBehaviour
         return (DateTime.TryParse(yearr + "/" + monthh + "/" + dayy, out dt) && b && j > 1930 && j < DateTime.Now.Year - 3);
     }
 
-
-
-    public void test()
-    {
-        SceneManager.LoadScene("Login");
-    }
 }
