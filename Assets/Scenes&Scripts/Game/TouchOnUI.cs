@@ -11,7 +11,7 @@ public class TouchOnUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         managerGame.isTouchOnUI = true;
-        Debug.Log("touching");
+        //Debug.Log("touching");
     }
 
     public void OnPointerUp(PointerEventData eventData)

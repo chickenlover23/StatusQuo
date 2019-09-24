@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 public class Manager_Game : MonoBehaviour
 {
-
+    public GameObject blurredLoadPanel;
     public int num;
     public TMP_InputField converterBronze, converterGold;
     public GameObject converterPopUp;
@@ -591,6 +591,9 @@ public class Manager_Game : MonoBehaviour
                 Debug.Log(string.Format("{0} prefab is null", userData.name));
             }
         }
+
+
+        blurredLoadPanel.SetActive(false);
     }
 
     IEnumerator getStoreBuildings()
@@ -630,7 +633,7 @@ public class Manager_Game : MonoBehaviour
                         item = Instantiate(storeItemPrefab, storeParent.transform);
                         item.transform.Find("Image").GetComponent<Image>().sprite = building_prefabs[ind].GetComponent<SpriteRenderer>().sprite;
                         item.transform.Find("Header").GetComponent<TMP_Text>().text = storeBuildings["data"][i]["name"].ToString();
-                        item.transform.Find("About").GetComponent<TMP_Text>().text = "price - " + storeBuildings["data"][i]["price"] + "/n" + "income - " + storeBuildings["data"][i]["income"];
+                        item.transform.Find("About").GetComponent<TMP_Text>().text = "price - " + storeBuildings["data"][i]["price"] + "\r\n" + "income - " + storeBuildings["data"][i]["income"];
                         item.name = storeBuildings["data"][i]["name"].ToString();
 
                         item.GetComponent<BuildingInformation>().id = Int32.Parse(storeBuildings["data"][i]["id"].ToString());
@@ -955,6 +958,11 @@ public class Manager_Game : MonoBehaviour
     private void fillUserTaskList(JsonData data)
     {
         
+        for(int i = allTasksItemParent.transform.childCount-1; i > -1 ; i--)
+        {
+            Destroy(allTasksItemParent.transform.GetChild(i).gameObject);
+        }
+
         int len = data.Count;
 
         int total, completed;
@@ -968,6 +976,7 @@ public class Manager_Game : MonoBehaviour
             tempItem.transform.Find("Panel_count").Find("Text_completedTasks").GetComponent<TMP_Text>().text = completed.ToString();
             tempItem.transform.Find("Panel_count").Find("Text_totalTasks").GetComponent<TMP_Text>().text = total.ToString();
             tempItem.transform.Find("Panel_Image").Find("Image").GetComponent<Image>().sprite = findSpriteWithID(int.Parse(data[i]["building_id"].ToString()));
+            
         }
     }
 
@@ -978,9 +987,11 @@ public class Manager_Game : MonoBehaviour
         {
             if (building_prefabs[i].GetComponent<BuildingInformation>().id == id){
                 ind = i;
+                Debug.Log("break");
                 break;
             }
         }
+        
         return (building_prefabs[ind].GetComponent<SpriteRenderer>().sprite);
     }
 
@@ -1012,14 +1023,15 @@ public class Manager_Game : MonoBehaviour
                 taskResult.gold = data["items"]["gold"].ToString();
                 taskResult.bronze = data["items"]["bronze"].ToString();
                 taskResult.black = data["items"]["black"].ToString();
+                taskResult.completed = completed;
 
                 if(int.Parse(taskResult.gold) > 0 && int.Parse(taskResult.bronze) > 0 && int.Parse(taskResult.black) == 0)
                 {
-                    updateUserResources(taskResult.gold, "-" + taskResult.bronze, "0");
+                    updateUserResources(taskResult.gold, "-" + taskResult.bronze, "-" + taskResult.black);
                 }
                 else //if (int.Parse(taskResult.gold) > 0 && int.Parse(taskResult.bronze) == 0 && int.Parse(taskResult.black) == 0)
                 {
-                    updateUserResources("-" + taskResult.gold, "0", "0");
+                    updateUserResources("-" + taskResult.gold, "-" + taskResult.bronze, "-" + taskResult.black);
                 }
                 taskResult.taskDescription = _taskDescription;
 
@@ -1048,7 +1060,7 @@ public class Manager_Game : MonoBehaviour
                 }
 
                 setProperNotificationForABuilding(_building);
-
+                StartCoroutine(getUserTaskList());
             }
             else
             {
@@ -1160,10 +1172,6 @@ public class Manager_Game : MonoBehaviour
         taskresultPopUP.SetActive(true);
     }
 
-    public void getUserTaskListTest()
-    {
-        StartCoroutine(getUserTaskList());
-    }
 
     public void loadDatasToSideMenu(UserResourceInformation userResources)
     {
@@ -1298,6 +1306,9 @@ public class Manager_Game : MonoBehaviour
         newBuilding.GetComponent<BuildingInformation>().pos = pos;
         newBuilding.name = buildingInstanceActive.GetComponent<SpriteRenderer>().sprite.name;
         newBuilding.GetComponent<ClickDetecterForBuildings>().managerGame = this;//at the end, add this manually for performance
+
+        hasNoBuilding = false;//for demo only
+        addTaskToABuilding();//for demo only
     }
 
 
@@ -1461,13 +1472,14 @@ public class Manager_Game : MonoBehaviour
         }
         else if(Convert.ToInt32(blackBar.text) >= 5)
         {
-            StartCoroutine(userGetFine());
+            //StartCoroutine(userGetFine());
         }
     }
 
 
     IEnumerator userGetFine()
     {
+        
         UnityWebRequest webRequest = UnityWebRequest.Get(All_Urls.getUrl().convertToGold);
         webRequest.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
 
