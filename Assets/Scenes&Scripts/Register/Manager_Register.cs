@@ -29,27 +29,27 @@ public class Manager_Register : MonoBehaviour
 
         if (!strMail.Contains("@"))
         {
-            //
+            GetComponent<Toast>().ShowToast("Mail düzgün deyil");
         }
         else if (strUsername.Length < 6)
         {
-            //
+            GetComponent<Toast>().ShowToast("Oyunçu adı ən az 6 simvoldan ibarət olmalıdır");
         }
         else if (!checkDate(strDateYear, strDateMonth, strDateDay))
         {
-            //
+            GetComponent<Toast>().ShowToast("Doğum tarixi düzgün deyil");
         }
         else if (strPass.Length < 6)
         {
-            //
+            GetComponent<Toast>().ShowToast("Parol ən az 6 simvoldan ibarət olmalıdır");
         }
         else if (strPass != strConfirmPass)
         {
-            //
+            GetComponent<Toast>().ShowToast("Parollar eyni deyil");
         }
         else if (!privacyToggle.isOn)
         {
-            //
+            GetComponent<Toast>().ShowToast("Gizlilik qaydalarını qəbul etməlisiniz");
         }
         else
         {
@@ -92,7 +92,7 @@ public class Manager_Register : MonoBehaviour
             }
             else
             {
-                //toast(register failed);
+                GetComponent<Toast>().ShowToast("Xəta");
             }
         }
     }

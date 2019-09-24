@@ -38,13 +38,14 @@ public class Timer : MonoBehaviour
                             //taskInfos[i].currentTasks[j].stillActive = false;
                             //taskInfos[i].deprecatedTasks.Add(taskInfos[i].currentTasks[j]);
                             tempTask = taskInfos[i].currentTasks[j];
-                            gameObject.GetComponent<Manager_Game>().taskYesNo(false, tempTask, taskInfos[i].gameObject);
                             taskInfos[i].currentTasks.RemoveAt(j);
+                            gameObject.GetComponent<Manager_Game>().taskYesNo(false, tempTask, taskInfos[i].gameObject);
+                            
                         }
                         else
                         {
                             //Debug.Log(Time.unscaledDeltaTime);
-                            taskInfos[i].currentTasks[j].remainingAllSeconds -= Time.unscaledDeltaTime;
+                            taskInfos[i].currentTasks[j].remainingAllSeconds -= Time.deltaTime;
                             noActiveTasks = false;
 
                         }

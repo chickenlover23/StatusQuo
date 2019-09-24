@@ -105,7 +105,8 @@ public class Manager_Login : MonoBehaviour
 
         if (www.error != null || www.isNetworkError || www.isHttpError)
         {
-            Debug.Log(www.error);
+            //Debug.Log(www.error);
+            GetComponent<Toast>().ShowToast("Xəta");
             pass.text = "";
         }
         else
@@ -181,12 +182,6 @@ public class Manager_Login : MonoBehaviour
     //}
 
 
-
-    public void test()
-    {
-        SceneManager.LoadSceneAsync("Register");//Rehman fuck you ,please use LoadSceneAsync instead of LoadScene ...wiht love of FRED :3    //Ok fuckface(with love of rahman)
-    }
-
     public void loadScene(string name)
     {
 
@@ -228,6 +223,7 @@ public class Manager_Login : MonoBehaviour
         {
             //Error text will be here soon...
             errorTextForReset.text = "*Email düzgün daxil edilməyib!";
+            GetComponent<Toast>().ShowToast("*Email düzgün daxil edilməyib!");
         }
     }
 
@@ -239,7 +235,8 @@ public class Manager_Login : MonoBehaviour
         if (unityWebRequest.error != null || unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
         {
             //Error text will be here soon...
-            Debug.Log(unityWebRequest.error);
+            GetComponent<Toast>().ShowToast("Xəta");
+            //Debug.Log(unityWebRequest.error);
         }
         else
         {
@@ -248,15 +245,17 @@ public class Manager_Login : MonoBehaviour
                 JsonData jsonData = JsonMapper.ToObject(unityWebRequest.downloadHandler.text);
                 if (jsonData["status"].Equals("success"))
                 {
+                    GetComponent<Toast>().ShowToast("*Email düzgün daxil edilməyib!");
                     //Success text will be here soon...
                     errorTextForReset.text = jsonData["message"].ToString();
-                    Debug.Log(jsonData["message"]);
+                    //Log(jsonData["message"]);
                     InputFieldCleaner();
                     resetPasswordPanel.SetActive(false);
 
                 }
                 else
                 {
+                    GetComponent<Toast>().ShowToast(jsonData["message"].ToString());
                     //Error text will be here soon...
                     errorTextForReset.text = "*" + jsonData["message"];
                 }
