@@ -10,6 +10,8 @@ using LitJson;
 
 public class Manager_Register : MonoBehaviour
 {
+    public GameObject blurredLoadPanel;
+
     public TMP_InputField username, mail, pass, confirmPass, dateYear, dateMonth, dateDay;
     public Toggle privacyToggle;
 
@@ -53,6 +55,7 @@ public class Manager_Register : MonoBehaviour
         }
         else
         {
+            blurredLoadPanel.SetActive(true);
             StartCoroutine(IE_register(strUsername, strMail, strPass, strConfirmPass, strDateYear + "-" + strDateMonth + "-" + strDateDay));
         }
     }
@@ -69,11 +72,12 @@ public class Manager_Register : MonoBehaviour
         UnityWebRequest www = UnityWebRequest.Post(All_Urls.getUrl().register, form);
         yield return www.SendWebRequest();
 
-        JsonData data = JsonMapper.ToObject(www.downloadHandler.text); 
-
+        JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
+        blurredLoadPanel.SetActive(false);
         if (www.error != null || www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
+            GetComponent<Toast>().ShowToast("Xəta");
         }
         else
         {
@@ -86,7 +90,6 @@ public class Manager_Register : MonoBehaviour
                 dateYear.text = "";
                 dateMonth.text = "";
                 dateDay.text = "";
-
                 managerLogin.animateRegister();
                 //Debug.Log();
             }
