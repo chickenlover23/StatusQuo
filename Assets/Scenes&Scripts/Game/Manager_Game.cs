@@ -566,6 +566,7 @@ public class Manager_Game : MonoBehaviour
 
         foreach (BuildingDataCollector userData in userDataCollectors)
         {
+            //Debug.Log(userData.name);
             for (int i = 0; i < building_prefabs.Length; i++)
             {
                 if (building_prefabs[i].GetComponent<BuildingInformation>().name == userData.name)
@@ -629,12 +630,12 @@ public class Manager_Game : MonoBehaviour
                     ind = loadBuildingInformation(storeBuildings["data"][i]);
                     if (ind != -1)
                     {
-
-                        item = Instantiate(storeItemPrefab, storeParent.transform);
+                                                item = Instantiate(storeItemPrefab, storeParent.transform);
                         item.transform.Find("Image").GetComponent<Image>().sprite = building_prefabs[ind].GetComponent<SpriteRenderer>().sprite;
                         item.transform.Find("Header").GetComponent<TMP_Text>().text = storeBuildings["data"][i]["name"].ToString();
                         item.transform.Find("About").GetComponent<TMP_Text>().text = "price - " + storeBuildings["data"][i]["price"] + "\r\n" + "income - " + storeBuildings["data"][i]["income"];
                         item.name = storeBuildings["data"][i]["name"].ToString();
+                        
 
                         item.GetComponent<BuildingInformation>().id = Int32.Parse(storeBuildings["data"][i]["id"].ToString());
                         item.GetComponent<BuildingInformation>().name = storeBuildings["data"][i]["name"].ToString();
@@ -649,6 +650,8 @@ public class Manager_Game : MonoBehaviour
                         {
                             if (item.GetComponent<BuildingInformation>().maxCount <= user.GetComponent<UserResourceInformation>().numberOfBuildings[item.GetComponent<BuildingInformation>().name])
                             {
+                                Debug.Log(item.name);
+
                                 item.GetComponentInChildren<Button>().interactable = false;
                             }
                         }
