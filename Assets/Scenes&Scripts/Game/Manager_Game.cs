@@ -1600,7 +1600,7 @@ public class Manager_Game : MonoBehaviour
         form.AddField("req_type", req_type);
         form.AddField("mission_id", mission_id);
 
-        UnityWebRequest www = UnityWebRequest.Post("http://anar.labproxy.com/getUsersPossMissTemp", form);
+        UnityWebRequest www = UnityWebRequest.Post(All_Urls.getUrl().getUsersPossMissTemp, form);
         www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
         yield return www.SendWebRequest();
 

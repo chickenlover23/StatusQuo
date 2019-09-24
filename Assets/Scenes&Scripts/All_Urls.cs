@@ -11,6 +11,9 @@ public class All_Urls
 {
     public static bool val = true;//true -->  Global ; false -->  Local
 
+    private static string global_url = "http://anifan.club";
+    private static string local_url = "http://statusco.test";
+
     public static generalUrls getUrl(string strng="unchanged")//can be modified from other sources
     {
         if (strng.Equals("global"))
@@ -42,6 +45,7 @@ public class All_Urls
             urls.getUserTaskList = globalUrls.getUserTaskList;
             urls.setUsersTaskResults = globalUrls.setUsersTaskResults;
             urls.userGetFine = globalUrls.userGetFine;
+            urls.getUsersPossMissTemp = globalUrls.getUsersPossMissTemp;
 
         }
         else//Local Urls Will be used
@@ -65,6 +69,7 @@ public class All_Urls
             urls.getUserTaskList = localUrls.getUserTaskList;
             urls.setUsersTaskResults = localUrls.setUsersTaskResults;
             urls.userGetFine = globalUrls.userGetFine;
+            urls.getUsersPossMissTemp = globalUrls.getUsersPossMissTemp;
         }
         return urls;
     }
@@ -74,29 +79,30 @@ public class All_Urls
     public class globalUrls
     {
         //scene:Login
-        public static string login = "http://anar.labproxy.com/api/login";
-        public static string resetPassword = "http://anar.labproxy.com/api/resetPassword/";
-        public static string logout = "http://anar.labproxy.com/api/logout";
+        public static string login = global_url+"/api/login";
+        public static string resetPassword = global_url+"/api/resetPassword/";
+        public static string logout = global_url + "/api/logout";
 
         //scene:Register
-        public static string register = "http://anar.labproxy.com/api/register";
-        public static string fbregister = "http://anar.labproxy.com/login/facebook";
-        public static string gregister = "http://anar.labproxy.com/login/google";
+        public static string register = global_url + "/api/register";
+        public static string fbregister = global_url + "/login/facebook";
+        public static string gregister = global_url + "/login/google";
 
         //scene:GAME
-        public static string store = "http://anar.labproxy.com/getStoreBuildings";
-        public static string userResource = "http://anar.labproxy.com/getUserInfo";
-        public static string userBuildings = "http://anar.labproxy.com/getbuildings";
-        public static string setUserBuildings = "http://anar.labproxy.com/setUserBuildings ";
-        public static string getUserTimeLineInfo = "http://anar.labproxy.com/getUserTimeLineInfo";
-        public static string edit = "http://anar.labproxy.com/api/edit";
-        public static string changePassword = "http://anar.labproxy.com/api/changePassword";
-        public static string convertToGold = "http://anar.labproxy.com/convertToGold";
-        public static string sellBuilding = "http://anar.labproxy.com/sellBuilding";
-        public static string moveBuilding = "http://anar.labproxy.com/moveBuilding";
-        public static string getUserTaskList = "http://anar.labproxy.com/getUserTaskList";
-        public static string setUsersTaskResults = "http://anar.labproxy.com/setUsersTaskResults";
-        public static string userGetFine = "http://anar.labproxy.com/userGetFine ";
+        public static string store = global_url + "/getStoreBuildings";
+        public static string userResource = global_url + "/getUserInfo";
+        public static string userBuildings = global_url + "/getbuildings";
+        public static string setUserBuildings = global_url + "/setUserBuildings ";
+        public static string getUserTimeLineInfo = global_url + "/getUserTimeLineInfo";
+        public static string edit = global_url + "/api/edit";
+        public static string changePassword = global_url + "/api/changePassword";
+        public static string convertToGold = global_url + "/convertToGold";
+        public static string sellBuilding = global_url + "/sellBuilding";
+        public static string moveBuilding = global_url + "/moveBuilding";
+        public static string getUserTaskList = global_url + "/getUserTaskList";
+        public static string setUsersTaskResults = global_url + "/setUsersTaskResults";
+        public static string userGetFine = global_url+"/userGetFine ";
+        public static string getUsersPossMissTemp = global_url + "/getUsersPossMissTemp";
 
     }
     //Local URLS
@@ -104,29 +110,30 @@ public class All_Urls
     public class localUrls
     {
         //scene:Login
-        public static string login = "http://statusco.test/api/login";
-        public static string resetPassword = "http://statusco.test/api/resetPassword/";
-        public static string logout = "http://statusco.test/api/logout";
+        public static string login = local_url+"/api/login";
+        public static string resetPassword = local_url + "/api/resetPassword/";
+        public static string logout = local_url + "/api/logout";
 
         //scene:Register
-        public static string register = "http://statusco.test/api/register";
-        public static string fbregister = "http://statusco.test/login/facebook";
-        public static string gregister = "http://statusco.test/login/google";
+        public static string register = local_url + "/api/register";
+        public static string fbregister = local_url + "/login/facebook";
+        public static string gregister = local_url + "/login/google";
 
         //scene:GAME
-        public static string store = "http://statusco.test/getStoreBuildings";
-        public static string userResource = "http://statusco.test/getUserInfo";
-        public static string userBuildings = "http://statusco.test/getbuildings";
-        public static string setUserBuildings = "http://statusco.test/setUserBuildings ";
-        public static string getUserTimeLineInfo = "http://statusco.test/getUserTimeLineInfo";
-        public static string edit = "http://statusco.test/api/edit";
-        public static string changePassword = "http://statusco.test/api/changePassword";
-        public static string convertToGold = "http://statusco.test/convertToGold";
-        public static string sellBuilding = "http://statusco.test/sellBuilding";
-        public static string moveBuilding = "http://statusco.test/moveBuilding";
-        public static string getUserTaskList = "http://statusco.test/getUserTaskList";
-        public static string setUsersTaskResults = "http://statusco.test/setUsersTaskResults";
-        public static string userGetFine = "http://statusco.test/userGetFine ";
+        public static string store = local_url + "/getStoreBuildings";
+        public static string userResource = local_url + "/getUserInfo";
+        public static string userBuildings = local_url + "/getbuildings";
+        public static string setUserBuildings = local_url + "/setUserBuildings ";
+        public static string getUserTimeLineInfo = local_url + "/getUserTimeLineInfo";
+        public static string edit = local_url + "/api/edit";
+        public static string changePassword = local_url + "/api/changePassword";
+        public static string convertToGold = local_url + "/convertToGold";
+        public static string sellBuilding = local_url + "/sellBuilding";
+        public static string moveBuilding = local_url + "/moveBuilding";
+        public static string getUserTaskList = local_url + "/getUserTaskList";
+        public static string setUsersTaskResults = local_url + "/setUsersTaskResults";
+        public static string userGetFine = local_url + "/userGetFine ";
+        public static string getUsersPossMissTemp = local_url + "/getUsersPossMissTemp";
 
     }
 
@@ -156,7 +163,8 @@ public class All_Urls
         public string moveBuilding = string.Empty;
         public string getUserTaskList = string.Empty;
         public string setUsersTaskResults = string.Empty;
-        public string userGetFine = string.Empty; 
+        public string userGetFine = string.Empty;
+        public string getUsersPossMissTemp = string.Empty;
     }
 }
 
