@@ -1684,6 +1684,7 @@ public class Manager_Game : MonoBehaviour
 
     void fillRelevantTaskList(JsonData data)
     {
+        Debug.Log(data.ToJson());
         for (int i = 0; i < data.Count; i++)
         {
             for (int j = 0; j < buildingsTilemapsActive.transform.childCount; j++)
@@ -1694,6 +1695,7 @@ public class Manager_Game : MonoBehaviour
                     buildingsTilemapsActive.transform.GetChild(j).name == buildingInstanceMedium.name ||
                     buildingsTilemapsActive.transform.GetChild(j).name == buildingInstanceBig.name))
                 {
+                    Debug.Log(buildingsTilemapsActive.transform.GetChild(j).GetComponent<BuildingInformation>().id); 
                     if (buildingsTilemapsActive.transform.GetChild(j).GetComponent<BuildingInformation>().id.ToString() == data[i]["require_building_id"].ToString())
                     {
                         relevantTasksList.Add(new Vector2Int(int.Parse(data[i]["mission_id"].ToString()), int.Parse(data[i]["require_building_id"].ToString())));
