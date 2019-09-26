@@ -935,7 +935,7 @@ public class Manager_Game : MonoBehaviour
         UnityWebRequest www = UnityWebRequest.Get(All_Urls.getUrl().getUserTaskList);
         www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
         yield return www.SendWebRequest();
-
+     
         if (www.error != null || www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
@@ -1573,7 +1573,7 @@ public class Manager_Game : MonoBehaviour
     {
         if(relevantTasksList.Count == 0)
         {
-            Debug.Log("list is zero");
+            //Debug.Log("list is zero");
             StartCoroutine(getUserMissionsTemp(0));
             return;
         }
@@ -1591,7 +1591,7 @@ public class Manager_Game : MonoBehaviour
             {
                 if (buildingsTilemapsActive.transform.GetChild(i).GetComponent<BuildingInformation>().id == tempTaskInfo[1])
                 {
-                    Debug.Log("task selected and sent api request to get the detailes");
+                    //Debug.Log("task selected and sent api request to get the detailes");
                     added = true;
                     
                     StartCoroutine(getUserMissionsTemp(1, tempTaskInfo[0]));
@@ -1602,7 +1602,7 @@ public class Manager_Game : MonoBehaviour
         //if a bulding is deleted and there is no clone of it then
         if (!added)
         {
-            Debug.Log("a bulding is deleted and there is no clone of it then");
+            //Debug.Log("a bulding is deleted and there is no clone of it then");
             addTaskToABuilding();
         }
         
@@ -1625,7 +1625,7 @@ public class Manager_Game : MonoBehaviour
         }
         else
         {
-            Debug.Log(req_type);
+            //Debug.Log(req_type);
             JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
             if (req_type == 0)
             {
@@ -1667,7 +1667,7 @@ public class Manager_Game : MonoBehaviour
 
     IEnumerator waid2Minutes()
     {
-        yield return new WaitForSeconds(120f);
+        yield return new WaitForSeconds(1f);
         if (hasNoBuilding)
         {
             Debug.Log("has no building");
