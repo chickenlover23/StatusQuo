@@ -151,7 +151,7 @@ public class Manager_Game : MonoBehaviour
             {
                 try
                 {
-                    taskLoadingBar.fillAmount = Mathf.Lerp(0, 1, currentTaskInfo.currentTasks[taskIndex].remainingAllSeconds / currentTaskInfo.currentTasks[taskIndex].allSeconds);
+                    taskLoadingBar.fillAmount = currentTaskInfo.currentTasks[taskIndex].remainingAllSeconds / currentTaskInfo.currentTasks[taskIndex].allSeconds;
 
                     string minute = ((int)currentTaskInfo.currentTasks[taskIndex].remainingAllSeconds / 60).ToString();
                     string second = ((int)currentTaskInfo.currentTasks[taskIndex].remainingAllSeconds % 60).ToString();
@@ -431,6 +431,7 @@ public class Manager_Game : MonoBehaviour
     {
         Debug.Log("add Taks is called");
         int len = buildingsTilemapsActive.transform.childCount;
+        TaskInformation newTaskInfo;
         for (int i = 0; i < len; i++)
         {
             if (!(buildingsTilemapsActive.transform.GetChild(i).name == buildingInstanceLittle.name ||
@@ -440,9 +441,9 @@ public class Manager_Game : MonoBehaviour
                 if (buildingsTilemapsActive.transform.GetChild(i).GetComponent<BuildingInformation>().id.ToString() == buildingType_id)
                 {
                     Debug.Log("add task found correct building");
-                    currentTaskInfo = buildingsTilemapsActive.transform.GetChild(i).gameObject.GetComponent<TaskInformation>();
+                    newTaskInfo = buildingsTilemapsActive.transform.GetChild(i).gameObject.GetComponent<TaskInformation>();
 
-                    currentTaskInfo.hasTask = true;
+                    newTaskInfo.hasTask = true;
 
                     Task temp = new Task();
                     temp.allSeconds = newTask.allSeconds;
@@ -454,13 +455,13 @@ public class Manager_Game : MonoBehaviour
                     //temp.taskHeader = newTask.taskHeader;
                     temp.taskDescription = newTask.taskDescription;
                     ///currentTaskInfo.enabled = true; ????
-                    currentTaskInfo.currentTasks.Add(temp);
+                    newTaskInfo.currentTasks.Add(temp);
 
                     //activates the notification, change it to smth good
                     checkNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject, notification_normal.name);
                     setProperNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject);
 
-                    gameObject.GetComponent<Timer>().taskInfos.Add(currentTaskInfo);
+                    gameObject.GetComponent<Timer>().taskInfos.Add(newTaskInfo);
                     if (!gameObject.GetComponent<Timer>().timerIsRunning)
                     {
                         gameObject.GetComponent<Timer>().timerIsRunning = true;
@@ -1667,7 +1668,7 @@ public class Manager_Game : MonoBehaviour
 
     IEnumerator waid2Minutes()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(60f);
         if (hasNoBuilding)
         {
             Debug.Log("has no building");

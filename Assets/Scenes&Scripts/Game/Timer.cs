@@ -10,61 +10,105 @@ public class Timer : MonoBehaviour
 
     Task tempTask;
     bool noActiveTasks;
+    int len2, len;
+
+    //private void Update()
+    //{
+    //    if (timerIsRunning)
+    //    {
+    //        len = taskInfos.Count - 1;
 
 
-    private void Update()
+
+    //        for (int i = len; i > -1; i--)
+    //        {
+    //            noActiveTasks = true;
+    //            len2 = taskInfos[i].currentTasks.Count - 1;
+    //            for (int j = len2; j > -1; j--)
+    //            {
+    //                //if (!taskInfos[i].currentTasks[j].stillActive)
+    //                //{
+    //                //    noActiveTasks = false;
+    //                //    continue;
+    //                //}
+    //                //else
+    //                {
+    //                    if (taskInfos[i].currentTasks[j].remainingAllSeconds <= 0)
+    //                    {
+    //                        //taskInfos[i].currentTasks[j].stillActive = false;
+    //                        //taskInfos[i].deprecatedTasks.Add(taskInfos[i].currentTasks[j]);
+    //                        tempTask = taskInfos[i].currentTasks[j];
+    //                        taskInfos[i].currentTasks.RemoveAt(j);
+    //                        gameObject.GetComponent<Manager_Game>().taskYesNo(false, tempTask, taskInfos[i].gameObject);
+
+    //                    }
+    //                    else
+    //                    {
+    //                        //Debug.Log(Time.unscaledDeltaTime);
+    //                        taskInfos[i].currentTasks[j].remainingAllSeconds -= Time.deltaTime;
+    //                        noActiveTasks = false;
+
+    //                    }
+    //                }
+    //            }
+    //            if(len2 < 0)
+    //            {
+    //                Debug.Log("len2 < 0");
+    //                taskInfos[i].hasTask = false;
+    //            }
+    //            if (noActiveTasks)
+    //            {
+    //                taskInfos.RemoveAt(i);
+    //            }
+    //        }
+
+    //        if (len < 0)
+    //        {
+    //            timerIsRunning = false;
+    //        }
+    //    }
+    //}
+
+    private void Start()
     {
-        if (timerIsRunning)
+        InvokeRepeating("decreaseTaskTime", 0.1f, 0.1f); 
+    }
+
+
+
+    public void decreaseTaskTime()
+    {
+        len = taskInfos.Count - 1;
+        
+
+
+        for (int i = len; i > -1; i--)
         {
-            int len = taskInfos.Count - 1;
-            int len2;
-          
-
-            for (int i = len; i > -1; i--)
+            noActiveTasks = true;
+            len2 = taskInfos[i].currentTasks.Count - 1;
+            for (int j = len2; j > -1; j--)
             {
-                noActiveTasks = true;
-                len2 = taskInfos[i].currentTasks.Count - 1;
-                for (int j = len2; j > -1; j--)
-                {
-                    //if (!taskInfos[i].currentTasks[j].stillActive)
-                    //{
-                    //    noActiveTasks = false;
-                    //    continue;
-                    //}
-                    //else
+
+                
+                    if (taskInfos[i].currentTasks[j].remainingAllSeconds <= 0)
                     {
-                        if (taskInfos[i].currentTasks[j].remainingAllSeconds <= 0)
-                        {
-                            //taskInfos[i].currentTasks[j].stillActive = false;
-                            //taskInfos[i].deprecatedTasks.Add(taskInfos[i].currentTasks[j]);
-                            tempTask = taskInfos[i].currentTasks[j];
-                            taskInfos[i].currentTasks.RemoveAt(j);
-                            gameObject.GetComponent<Manager_Game>().taskYesNo(false, tempTask, taskInfos[i].gameObject);
-                            
-                        }
-                        else
-                        {
-                            //Debug.Log(Time.unscaledDeltaTime);
-                            taskInfos[i].currentTasks[j].remainingAllSeconds -= Time.deltaTime;
-                            noActiveTasks = false;
-
-                        }
+                        tempTask = taskInfos[i].currentTasks[j];
+                        taskInfos[i].currentTasks.RemoveAt(j);
+                        gameObject.GetComponent<Manager_Game>().taskYesNo(false, tempTask, taskInfos[i].gameObject);
                     }
-                }
-                if(len2 < 0)
-                {
-                    Debug.Log("len2 < 0");
-                    taskInfos[i].hasTask = false;
-                }
-                if (noActiveTasks)
-                {
-                    taskInfos.RemoveAt(i);
-                }
+                    else
+                    {
+                        taskInfos[i].currentTasks[j].remainingAllSeconds -= 0.1f;
+                        noActiveTasks = false;
+                    }    
             }
-
-            if (len < 0)
+            if (len2 < 0)
+            { 
+                taskInfos[i].hasTask = false;
+            }
+            if (noActiveTasks)
             {
-                timerIsRunning = false;
+                taskInfos.RemoveAt(i);
             }
         }
     }
