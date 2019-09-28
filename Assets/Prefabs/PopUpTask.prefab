@@ -995,7 +995,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "Tap\u015F\u0131r\u0131q"
+  m_text: "Tap\u015Firiq"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 98dfe2b2181c3654f8c508cdd30a2424, type: 2}
   m_sharedMaterial: {fileID: 4987399450724163076, guid: 98dfe2b2181c3654f8c508cdd30a2424,

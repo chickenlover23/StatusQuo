@@ -7128,7 +7128,7 @@ PrefabInstance:
     - target: {fileID: 3704428680459988827, guid: 4e2e0c1623f12c5428db2b01f0e8dac0,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3704428680459988826, guid: 4e2e0c1623f12c5428db2b01f0e8dac0,
         type: 3}
@@ -34366,7 +34366,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "Bronzdan Q\u0131z\u0131la konvertor"
+  m_text: Bronzdan Qizila konvertor
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 98dfe2b2181c3654f8c508cdd30a2424, type: 2}
   m_sharedMaterial: {fileID: 4987399450724163076, guid: 98dfe2b2181c3654f8c508cdd30a2424,
@@ -36422,11 +36422,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PopUpTask
       objectReference: {fileID: 0}
-    - target: {fileID: 7622613123453531162, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4867238437218667939, guid: 805c458b3d7fdf44085ea6b7631cae57,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -36554,96 +36549,6 @@ PrefabInstance:
       propertyPath: managerGame
       value: 
       objectReference: {fileID: 697407018}
-    - target: {fileID: 6654715515751717899, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715515751717899, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715515751717899, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715515751717899, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715515751717899, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715515751717899, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514676475258, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514676475258, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514676475258, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514676475258, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514676475258, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514676475258, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514909161833, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514909161833, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514909161833, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514909161833, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514909161833, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514909161833, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1804448144, guid: 805c458b3d7fdf44085ea6b7631cae57, type: 3}
       propertyPath: m_Material
       value: 
@@ -36651,22 +36556,6 @@ PrefabInstance:
     - target: {fileID: 1804448144, guid: 805c458b3d7fdf44085ea6b7631cae57, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1804448144, guid: 805c458b3d7fdf44085ea6b7631cae57, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 713249861, guid: 805c458b3d7fdf44085ea6b7631cae57, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 713249861, guid: 805c458b3d7fdf44085ea6b7631cae57, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 713249861, guid: 805c458b3d7fdf44085ea6b7631cae57, type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 805c458b3d7fdf44085ea6b7631cae57, type: 3}
@@ -37076,7 +36965,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "B\xFCt\xFCn tap\u015F\u0131r\u0131qlar"
+  m_text: "B\xFCt\xFCn tap\u015Firiqlar"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 98dfe2b2181c3654f8c508cdd30a2424, type: 2}
   m_sharedMaterial: {fileID: 4987399450724163076, guid: 98dfe2b2181c3654f8c508cdd30a2424,
@@ -37880,7 +37769,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "Binan\u0131 satmaq ist\u0259diyin\u0259 \u0259mins\u0259n?"
+  m_text: "Binani satmaq ist\u0259diyin\u0259 \u0259mins\u0259n?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 98dfe2b2181c3654f8c508cdd30a2424, type: 2}
   m_sharedMaterial: {fileID: 4987399450724163076, guid: 98dfe2b2181c3654f8c508cdd30a2424,

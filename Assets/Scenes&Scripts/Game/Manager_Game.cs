@@ -79,7 +79,7 @@ public class Manager_Game : MonoBehaviour
     float taskLerpSpeed = 0.25f;
     GameObject buildingInstanceActive, selectedBuilding;
     bool dragging, isBuildingInstanceActive, activeForBuying;
-    Vector3 w_position;
+    Vector3 w_position, diffPos;
     Vector3Int t_position;
     Ray ray;
     RaycastHit2D hit;
@@ -101,7 +101,7 @@ public class Manager_Game : MonoBehaviour
 
     private void Update()
     {
-
+        
         if (Input.touchCount == 1)
         {
             if (isBuildingInstanceActive)
@@ -116,18 +116,22 @@ public class Manager_Game : MonoBehaviour
                     {
                         dragging = true;
                         cam.GetComponent<TouchCamera>().enabled = false;
+                        diffPos = cam.ScreenToWorldPoint(Input.GetTouch(0).position) - buildingInstanceActive.transform.position;
                     }
                 }
                 else if (Input.GetTouch(0).phase == TouchPhase.Ended)
                 {
                     dragging = false;
+                    //w_position = cam.ScreenToWorldPoint(Input.GetTouch(0).position);
+                    t_position = buildingsTilemapsActive.WorldToCell(buildingInstanceActive.transform.position);
+                    buildingInstanceActive.transform.position = grid.LocalToWorld(grid.CellToLocalInterpolated(new Vector3Int(t_position.x, t_position.y, 0)));
                     cam.GetComponent<TouchCamera>().enabled = true;
                 }
                 else if (dragging)
                 {
                     w_position = cam.ScreenToWorldPoint(Input.GetTouch(0).position);
-                    t_position = buildingsTilemapsActive.WorldToCell(w_position);
-                    buildingInstanceActive.transform.position = grid.LocalToWorld(grid.CellToLocalInterpolated(new Vector3Int(t_position.x, t_position.y, 0)));
+                    //t_position = buildingsTilemapsActive.WorldToCell(w_position);
+                    buildingInstanceActive.transform.position = new Vector3(w_position.x-diffPos.x, w_position.y-diffPos.y, 0);
                 }
             }
         }
@@ -320,6 +324,7 @@ public class Manager_Game : MonoBehaviour
         else
         {
             taskGold.text = currentTaskInfo.currentTasks[taskIndex].taskGold;
+            taskGold.transform.parent.gameObject.SetActive(true);
         }
 
         if (currentTaskInfo.currentTasks[taskIndex].taskBronze == "0")
@@ -329,6 +334,7 @@ public class Manager_Game : MonoBehaviour
         else
         {
             taskBronze.text = currentTaskInfo.currentTasks[taskIndex].taskBronze;
+            taskBronze.transform.parent.gameObject.SetActive(true);
         }
 
         if (currentTaskInfo.currentTasks[taskIndex].taskBlack == "0")
@@ -338,6 +344,7 @@ public class Manager_Game : MonoBehaviour
         else
         {
             taskBlack.text = currentTaskInfo.currentTasks[taskIndex].taskBlack;
+            taskBlack.transform.parent.gameObject.SetActive(true);
         }
        
         if(taskGold.gameObject.activeSelf && taskBronze.gameObject.activeSelf && taskBlack.gameObject.activeSelf)
@@ -645,7 +652,7 @@ public class Manager_Game : MonoBehaviour
                         {
                             if (item.GetComponent<BuildingInformation>().maxCount <= user.GetComponent<UserResourceInformation>().numberOfBuildings[item.GetComponent<BuildingInformation>().name])
                             {
-                                Debug.Log(item.name);
+                                //Debug.Log(item.name);
 
                                 item.GetComponentInChildren<Button>().interactable = false;
                             }
