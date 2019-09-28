@@ -381,18 +381,19 @@ public class Manager_Profile : MonoBehaviour
     public List<(Sprite foreground,Sprite backGround,string pic_id)> makeProfilePicSelectable()
     {
         List<(Sprite foreground, Sprite backGround, string pic_id)> list = new List<(Sprite foreground, Sprite backGround, string pic_id)>();
-        int i = 0;
-        var foundItems = Resources.LoadAll("Profile_Icons/");
-        foreach (IconBuilder iconBuilder in foundItems)
+        int ind = 0;
+        var foundItems = Resources.LoadAll<IconBuilder>("Profile_Icons/");
+        for(int i = 0; i < foundItems.Length; i++)
+        //foreach (IconBuilder foundItems in foundItems)
         {
-            if(iconBuilder.role_id==null || iconBuilder.role_id.Equals(""))
+            if(foundItems[i].role_id==null || foundItems[i].role_id.Equals(""))
             {
-                if (iconBuilder.icon_name.Equals(avatar_id))//take the index of current image
+                if (foundItems[i].icon_name.Equals(avatar_id))//take the index of current image
                 {
-                    current_index_pic = i;
+                    current_index_pic = ind;
                 }
-                list.Add((iconBuilder.foreground,iconBuilder.background,iconBuilder.icon_name));
-                i++;
+                list.Add((foundItems[i].foreground,foundItems[i].background,foundItems[i].icon_name));
+                ind++;
             }
             else
             {

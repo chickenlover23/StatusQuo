@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1389228456270887779}
   - component: {fileID: 5181470160408904541}
   m_Layer: 0
-  m_Name: Dovler
+  m_Name: "D\xF6vl\u0259t Qurumu"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63baf08d02b1daa4aa27963ad096a0d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 13
   name: "D\xF6vl\u0259t Qurumu"
   price: 0
   income: 0
@@ -148,6 +148,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   managerGame: {fileID: 0}
+  dovletBinalari:
+  - "D\xF6vl\u0259t Qurumu"
+  - "Parlament Binas\u0131"
+  - "Prezident Saray\u0131"
 --- !u!60 &1389228456270887779
 PolygonCollider2D:
   m_ObjectHideFlags: 0

@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63baf08d02b1daa4aa27963ad096a0d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 9
   name: "\u0130dman Zal\u0131"
   price: 0
   income: 0

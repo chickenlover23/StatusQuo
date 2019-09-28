@@ -24,8 +24,7 @@ public class ClickDetecterForBuildings : MonoBehaviour, IPointerDownHandler, IPo
 
     public void OnPointerExit(PointerEventData eventData)
     {
-
-        isPointerDown = false;
+        reset();
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -33,10 +32,9 @@ public class ClickDetecterForBuildings : MonoBehaviour, IPointerDownHandler, IPo
         if (isPointerDown && !longClicked)
         {
             //Debug.Log("Short click!");
-            managerGame.checkIfTaskExist(this.gameObject.GetComponent<TaskInformation>());
-
-            reset();
+            managerGame.checkIfTaskExist(this.gameObject.GetComponent<TaskInformation>());            
         }
+        reset();
     }
 
 

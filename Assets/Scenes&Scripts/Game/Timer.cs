@@ -71,7 +71,7 @@ public class Timer : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("decreaseTaskTime", 0.1f, 0.1f); 
+        InvokeRepeating("decreaseTaskTime", 0.1f, 0.1f);
     }
 
 
@@ -79,7 +79,7 @@ public class Timer : MonoBehaviour
     public void decreaseTaskTime()
     {
         len = taskInfos.Count - 1;
-        
+
 
 
         for (int i = len; i > -1; i--)
@@ -89,21 +89,25 @@ public class Timer : MonoBehaviour
             for (int j = len2; j > -1; j--)
             {
 
-                
-                    if (taskInfos[i].currentTasks[j].remainingAllSeconds <= 0)
+
+                if (taskInfos[i].currentTasks[j].remainingAllSeconds <= 0)
+                {
+                    tempTask = taskInfos[i].currentTasks[j];
+                    taskInfos[i].currentTasks.RemoveAt(j);
+                    if (taskInfos[i].currentTasks.Count <= 0)
                     {
-                        tempTask = taskInfos[i].currentTasks[j];
-                        taskInfos[i].currentTasks.RemoveAt(j);
-                        gameObject.GetComponent<Manager_Game>().taskYesNo(false, tempTask, taskInfos[i].gameObject);
+                        taskInfos[i].hasTask = false;
                     }
-                    else
-                    {
-                        taskInfos[i].currentTasks[j].remainingAllSeconds -= 0.1f;
-                        noActiveTasks = false;
-                    }    
+                    gameObject.GetComponent<Manager_Game>().taskYesNo(false, tempTask, taskInfos[i].gameObject);
+                }
+                else
+                {
+                    taskInfos[i].currentTasks[j].remainingAllSeconds -= 0.1f;
+                    noActiveTasks = false;
+                }
             }
             if (len2 < 0)
-            { 
+            {
                 taskInfos[i].hasTask = false;
             }
             if (noActiveTasks)

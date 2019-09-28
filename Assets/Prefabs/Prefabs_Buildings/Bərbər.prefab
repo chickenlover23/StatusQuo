@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63baf08d02b1daa4aa27963ad096a0d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 1
+  id: 7
   name: "B\u0259rb\u0259r"
   price: 50
   income: 10
@@ -247,6 +247,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   managerGame: {fileID: 0}
+  dovletBinalari:
+  - "D\xF6vl\u0259t Qurumu"
+  - "Parlament Binas\u0131"
+  - "Prezident Saray\u0131"
 --- !u!114 &6684234995003874079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,14 +264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTask: 0
-  taskHeader: 
-  taskDescription: 
-  taskStart: 
-  taskGold: 
-  taskBronze: 
-  taskBlack: 
-  allSeconds: 0
-  remainingAllSeconds: 0
+  hasTaskResult: 0
 --- !u!60 &4213893178233030380
 PolygonCollider2D:
   m_ObjectHideFlags: 0

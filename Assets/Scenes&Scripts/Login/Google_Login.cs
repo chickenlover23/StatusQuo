@@ -161,9 +161,10 @@ namespace Google_Login_main
             }
             messages.Add(text);
             string txt = "";
-            foreach (string s in messages)
+            for(int i = 0; i < messages.Count; i++)
+            //foreach (string s in messages)
             {
-                txt += "\n" + s;
+                txt += "\n" + messages[i];
             }
             statusText.text = txt;
         }

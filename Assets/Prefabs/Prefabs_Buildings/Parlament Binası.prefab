@@ -98,14 +98,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63baf08d02b1daa4aa27963ad096a0d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 15
   name: Parlament Binasi
   price: 0
   income: 0
   maxCount: 0
   level: 0
   flipX: 0
-  collider: 1
+  pos: 
 --- !u!60 &8180971360835500801
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -148,6 +148,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   managerGame: {fileID: 0}
+  dovletBinalari:
+  - "D\xF6vl\u0259t Qurumu"
+  - "Parlament Binas\u0131"
+  - "Prezident Saray\u0131"
 --- !u!60 &4170315438931531026
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -196,14 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTask: 0
-  taskHeader: 
-  taskDescription: 
-  taskStart: 
-  taskGold: 
-  taskBronze: 
-  taskBlack: 
-  allSeconds: 0
-  remainingAllSeconds: 0
+  hasTaskResult: 0
 --- !u!1001 &6398506547729544178
 PrefabInstance:
   m_ObjectHideFlags: 0

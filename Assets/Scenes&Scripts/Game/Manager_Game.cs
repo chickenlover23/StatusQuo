@@ -286,10 +286,6 @@ public class Manager_Game : MonoBehaviour
         }
     }
 
-    public void displayTest()
-    {
-        displayTaskPopUp(currentTaskInfo);
-    }
 
     public void displayTaskPopUp(bool shouldIncrease)
     {
@@ -387,14 +383,17 @@ public class Manager_Game : MonoBehaviour
         }
         else if (taskInfo.hasTaskResult)
         {
+            Debug.Log("has result true");
             buildingResultOnClick(taskInfo.taskResult);
             taskInfo.hasTaskResult = false;
             //taskInfo.transform.Find("Notification").gameObject.SetActive(false);
         }
         else
         {
+            Debug.Log("no result or task");
             taskPopUpIsOpen = false;
             taskPopUp.SetActive(false);
+            Debug.Log(taskInfo.currentTasks[0].taskDescription);
         }
         setProperNotificationForABuilding(taskInfo.gameObject);
     }
@@ -434,10 +433,7 @@ public class Manager_Game : MonoBehaviour
         TaskInformation newTaskInfo;
         for (int i = 0; i < len; i++)
         {
-            if (!(buildingsTilemapsActive.transform.GetChild(i).name == buildingInstanceLittle.name ||
-                    buildingsTilemapsActive.transform.GetChild(i).name == buildingInstanceMedium.name ||
-                    buildingsTilemapsActive.transform.GetChild(i).name == buildingInstanceBig.name))
-            {
+            
                 if (buildingsTilemapsActive.transform.GetChild(i).GetComponent<BuildingInformation>().id.ToString() == buildingType_id)
                 {
                     Debug.Log("add task found correct building");
@@ -479,7 +475,7 @@ public class Manager_Game : MonoBehaviour
                     //}
                     return;
                 }
-            }
+            
         }
         //Debug.LogErrorFormat(string.Format("Building type not found for the task {0}", newTask.taskDescription).ToString());
     }
@@ -513,7 +509,7 @@ public class Manager_Game : MonoBehaviour
 
         if (_building.GetComponent<TaskInformation>().hasTask)
         {
-            Debug.Log("1");
+            //Debug.Log("1");
             _building.transform.Find("Notification").GetChild(0).GetComponent<SpriteRenderer>().sprite = notification_normal;
             _building.transform.Find("Notification").gameObject.SetActive(true);
         }
@@ -521,13 +517,13 @@ public class Manager_Game : MonoBehaviour
         { 
              if (_building.GetComponent<TaskInformation>().taskResult.completed == 0)
             {
-                Debug.Log("2");
+                //Debug.Log("2");
 
                 _building.transform.Find("Notification").GetChild(0).GetComponent<SpriteRenderer>().sprite = notification_bad;
             }
             else if (_building.GetComponent<TaskInformation>().taskResult.completed == 1)
             {
-                Debug.Log("3");
+                //Debug.Log("3");
 
                 _building.transform.Find("Notification").GetChild(0).GetComponent<SpriteRenderer>().sprite = notification_star;
             }
@@ -535,8 +531,7 @@ public class Manager_Game : MonoBehaviour
         }
         else
         {
-            Debug.Log("4");
-
+            //Debug.Log("4");
             _building.transform.Find("Notification").gameObject.SetActive(false);
         }
 
@@ -564,15 +559,14 @@ public class Manager_Game : MonoBehaviour
     {
         GameObject prefab = null;
 
-
-        foreach (BuildingDataCollector userData in userDataCollectors)
+        for(int i = 0; i < userDataCollectors.Count; i++)
+        ///foreach (BuildingDataCollector userDataCollectors in userDataCollectors)
         {
-            //Debug.Log(userData.name);
-            for (int i = 0; i < building_prefabs.Length; i++)
+            for (int j = 0; j < building_prefabs.Length; j++)
             {
-                if (building_prefabs[i].GetComponent<BuildingInformation>().name == userData.name)
+                if (building_prefabs[j].GetComponent<BuildingInformation>().id == userDataCollectors[i].type_id)
                 {
-                    prefab = building_prefabs[i];
+                    prefab = building_prefabs[j];
                     break;
                 }
             }
@@ -580,17 +574,17 @@ public class Manager_Game : MonoBehaviour
             if (prefab != null)
             {
                 GameObject houseCp = Instantiate(prefab, buildingsTilemapsActive.transform, false);
-                houseCp.transform.localPosition = Helper.castToVector3(userData.positions);
+                houseCp.transform.localPosition = Helper.castToVector3(userDataCollectors[i].positions);
                 houseCp.name = prefab.name;
                 houseCp.GetComponent<ClickDetecterForBuildings>().managerGame = this;//at the end, add this manually for performance
-                houseCp.GetComponent<BuildingInformation>().pos = userData.positions;
-                houseCp.GetComponent<BuildingInformation>().flipX = userData.flipX;
-                houseCp.GetComponent<SpriteRenderer>().flipX = Helper.castToBool(userData.flipX);
+                houseCp.GetComponent<BuildingInformation>().pos = userDataCollectors[i].positions;
+                houseCp.GetComponent<BuildingInformation>().flipX = userDataCollectors[i].flipX;
+                houseCp.GetComponent<SpriteRenderer>().flipX = Helper.castToBool(userDataCollectors[i].flipX);
 
             }
             else
             {
-                Debug.Log(string.Format("{0} prefab is null", userData.name));
+                Debug.Log(string.Format("{0} prefab is null", userDataCollectors[i].name));
             }
         }
 
@@ -631,7 +625,7 @@ public class Manager_Game : MonoBehaviour
                     ind = loadBuildingInformation(storeBuildings["data"][i]);
                     if (ind != -1)
                     {
-                                                item = Instantiate(storeItemPrefab, storeParent.transform);
+                        item = Instantiate(storeItemPrefab, storeParent.transform);
                         item.transform.Find("Image").GetComponent<Image>().sprite = building_prefabs[ind].GetComponent<SpriteRenderer>().sprite;
                         item.transform.Find("Header").GetComponent<TMP_Text>().text = storeBuildings["data"][i]["name"].ToString();
                         item.transform.Find("About").GetComponent<TMP_Text>().text = "price - " + storeBuildings["data"][i]["price"] + "\r\n" + "income - " + storeBuildings["data"][i]["income"];
@@ -789,26 +783,26 @@ public class Manager_Game : MonoBehaviour
             if (userResources["status"].ToString() == "success")
             {
                 //Debug.Log(userResources.ToJson());
-                foreach (JsonData json in userResources["data"])
+                for(int i = 0; i < userResources["data"].Count; i++)
                 {
                     BuildingDataCollector data = new BuildingDataCollector();
                     
-                    data.level = Convert.ToInt16(json["level"].ToString());
-                    data.role_id = Convert.ToInt16(json["role_id"].ToString());
-                    data.region_id = Convert.ToInt16(json["region_id"].ToString());
-                    data.positions = json["position"].ToString();
-                    data.type_id = Convert.ToInt16(json["type_id"].ToString());
-                    data.name = json["name"].ToString();
-                    data.flipX = Convert.ToInt16(json["flipX"].ToString());
+                    data.level = Convert.ToInt16(userResources["data"][i]["level"].ToString());
+                    data.role_id = Convert.ToInt16(userResources["data"][i]["role_id"].ToString());
+                    data.region_id = Convert.ToInt16(userResources["data"][i]["region_id"].ToString());
+                    data.positions = userResources["data"][i]["position"].ToString();
+                    data.type_id = Convert.ToInt16(userResources["data"][i]["type_id"].ToString());
+                    data.name = userResources["data"][i]["name"].ToString();
+                    data.flipX = Convert.ToInt16(userResources["data"][i]["flipX"].ToString());
                     userDataCollectors.Add(data);
 
-                    if (!user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(json["name"].ToString()))
+                    if (!user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(userResources["data"][i]["name"].ToString()))
                     {
-                        user.GetComponent<UserResourceInformation>().numberOfBuildings[json["name"].ToString()] = 1;
+                        user.GetComponent<UserResourceInformation>().numberOfBuildings[userResources["data"][i]["name"].ToString()] = 1;
                     }
                     else
                     {
-                        user.GetComponent<UserResourceInformation>().numberOfBuildings[json["name"].ToString()] += 1;
+                        user.GetComponent<UserResourceInformation>().numberOfBuildings[userResources["data"][i]["name"].ToString()] += 1;
                     }
 
                 }
@@ -976,10 +970,10 @@ public class Manager_Game : MonoBehaviour
             total = Int32.Parse(data[i]["comp_fail"].ToString()) + completed;
 
             GameObject tempItem = Instantiate(allTasksItemPrefab, allTasksItemParent.transform);
-            tempItem.transform.Find("Text_taskDescription").GetComponent<TMP_Text>().text = data[i]["description"].ToString();
-            tempItem.transform.Find("Panel_count").Find("Text_completedTasks").GetComponent<TMP_Text>().text = completed.ToString();
-            tempItem.transform.Find("Panel_count").Find("Text_totalTasks").GetComponent<TMP_Text>().text = total.ToString();
-            tempItem.transform.Find("Panel_Image").Find("Image").GetComponent<Image>().sprite = findSpriteWithID(int.Parse(data[i]["building_id"].ToString()));
+            tempItem.transform.GetChild(0).Find("Text_taskDescription").GetComponent<TMP_Text>().text = data[i]["description"].ToString();
+            tempItem.transform.GetChild(0).Find("Panel_count").Find("Text_completedTasks").GetComponent<TMP_Text>().text = completed.ToString();
+            tempItem.transform.GetChild(0).Find("Panel_count").Find("Text_totalTasks").GetComponent<TMP_Text>().text = total.ToString();
+            tempItem.transform.GetChild(0).Find("Panel_Image").Find("Image").GetComponent<Image>().sprite = findSpriteWithID(int.Parse(data[i]["building_id"].ToString()));
             
         }
     }
@@ -991,7 +985,7 @@ public class Manager_Game : MonoBehaviour
         {
             if (building_prefabs[i].GetComponent<BuildingInformation>().id == id){
                 ind = i;
-                Debug.Log("break");
+                //Debug.Log("break");
                 break;
             }
         }
@@ -1187,21 +1181,21 @@ public class Manager_Game : MonoBehaviour
     public int loadBuildingInformation(JsonData jsondata)
     {
         GameObject buildingg = null;
-        bool varr = false;
+        bool exists = false;
         int ind = -1;
 
         for (int i = 0; i < building_prefabs.Length; i++)
         {
-            if (building_prefabs[i].GetComponent<BuildingInformation>().name == jsondata["name"].ToString())
+            if (building_prefabs[i].GetComponent<BuildingInformation>().id.ToString() == jsondata["id"].ToString())
             {
                 ind = i;
                 buildingg = building_prefabs[i];
-                varr = true;
+                exists = true;
                 break;
             }
         }
 
-        if (varr)
+        if (exists)
         {
 
             buildingg.GetComponent<BuildingInformation>().id = Int32.Parse(jsondata["id"].ToString());
@@ -1221,14 +1215,14 @@ public class Manager_Game : MonoBehaviour
         findCorrectBuildingInstance(current);
 
         animateStore();
-        string tempName = current.transform.Find("Image").GetComponent<Image>().sprite.name;
+        
         buildingInstanceActive.GetComponent<SpriteRenderer>().sprite = current.transform.Find("Image").GetComponent<Image>().sprite;
 
         selectedBuilding = null;
         for (int i = 0; i < building_prefabs.Length; i++)
         {
 
-            if (building_prefabs[i].GetComponent<BuildingInformation>().name == tempName)
+            if (building_prefabs[i].GetComponent<BuildingInformation>().id == current.GetComponent<BuildingInformation>().id)
             {
                 selectedBuilding = building_prefabs[i];
                 break;
@@ -1586,10 +1580,7 @@ public class Manager_Game : MonoBehaviour
         //check if there is a building for the task
         for (int i = 0; i < buildingsTilemapsActive.transform.childCount; i++)
         {
-            if (!(buildingsTilemapsActive.transform.GetChild(i).name == buildingInstanceLittle.name ||
-                    buildingsTilemapsActive.transform.GetChild(i).name == buildingInstanceMedium.name ||
-                    buildingsTilemapsActive.transform.GetChild(i).name == buildingInstanceBig.name))
-            {
+            
                 if (buildingsTilemapsActive.transform.GetChild(i).GetComponent<BuildingInformation>().id == tempTaskInfo[1])
                 {
                     //Debug.Log("task selected and sent api request to get the detailes");
@@ -1598,7 +1589,7 @@ public class Manager_Game : MonoBehaviour
                     StartCoroutine(getUserMissionsTemp(1, tempTaskInfo[0]));
                     break;
                 }
-            }
+            
         }
         //if a bulding is deleted and there is no clone of it then
         if (!added)
@@ -1691,16 +1682,13 @@ public class Manager_Game : MonoBehaviour
             {
                 //Debug.Log(buildingsTilemapsActive.transform.GetChild(i).gameObject.name);
                 //Debug.Log(data[i]["require_building_id"].ToString());
-                if (!(buildingsTilemapsActive.transform.GetChild(j).name == buildingInstanceLittle.name ||
-                    buildingsTilemapsActive.transform.GetChild(j).name == buildingInstanceMedium.name ||
-                    buildingsTilemapsActive.transform.GetChild(j).name == buildingInstanceBig.name))
-                {
-                    Debug.Log(buildingsTilemapsActive.transform.GetChild(j).GetComponent<BuildingInformation>().id); 
+               
+                    //Debug.Log(buildingsTilemapsActive.transform.GetChild(j).GetComponent<BuildingInformation>().id); 
                     if (buildingsTilemapsActive.transform.GetChild(j).GetComponent<BuildingInformation>().id.ToString() == data[i]["require_building_id"].ToString())
                     {
                         relevantTasksList.Add(new Vector2Int(int.Parse(data[i]["mission_id"].ToString()), int.Parse(data[i]["require_building_id"].ToString())));
                     }
-                }
+                
             }
         }
         if (relevantTasksList.Count == 0)

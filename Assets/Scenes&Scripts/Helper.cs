@@ -63,18 +63,19 @@ public class Helper
     {
         
         
-        var foundItems = Resources.LoadAll("Profile_Icons/");
-        foreach (IconBuilder iconBuilder in foundItems)
+        var foundItems = Resources.LoadAll<IconBuilder>("Profile_Icons/");
+        for(int i = 0; i < foundItems.Length; i++)
+        //foreach (IconBuilder foundItems in foundItems)
         {
-            if (!clerkIcon && iconBuilder.icon_name.Equals(picName))
+            if (!clerkIcon && foundItems[i].icon_name.Equals(picName))
             {
                 if (haveBackground)
-                    icon.transform.parent.GetComponent<Image>().sprite = iconBuilder.background;
-                icon.sprite = iconBuilder.foreground;
+                    icon.transform.parent.GetComponent<Image>().sprite = foundItems[i].background;
+                icon.sprite = foundItems[i].foreground;
                 break;
-            }else if (clerkIcon && iconBuilder.icon_name.Equals(picName))
+            }else if (clerkIcon && foundItems[i].icon_name.Equals(picName))
             {
-                icon.sprite = iconBuilder.foreground;
+                icon.sprite = foundItems[i].foreground;
                 break;
             }
         }
