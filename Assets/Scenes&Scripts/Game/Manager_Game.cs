@@ -636,7 +636,7 @@ public class Manager_Game : MonoBehaviour
                         item = Instantiate(storeItemPrefab, storeParent.transform);
                         item.transform.Find("Image").GetComponent<Image>().sprite = building_prefabs[ind].GetComponent<SpriteRenderer>().sprite;
                         item.transform.Find("Header").GetComponent<TMP_Text>().text = storeBuildings["data"][i]["name"].ToString();
-                        item.transform.Find("About").GetComponent<TMP_Text>().text = "price - " + storeBuildings["data"][i]["price"] + "\r\n" + "income - " + storeBuildings["data"][i]["income"];
+                        item.transform.Find("About").GetComponent<TMP_Text>().text = "qızıl -" + storeBuildings["data"][i]["price"] + "\r\n" + "gümuüş +" + storeBuildings["data"][i]["income"];
                         item.name = storeBuildings["data"][i]["name"].ToString();
 
 
