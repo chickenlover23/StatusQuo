@@ -83,18 +83,48 @@ public class TouchCamera : MonoBehaviour
                     float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
          
                     temp = GetComponent<Camera>().orthographicSize + deltaMagnitudeDiff * zoomSpeed * Time.deltaTime;
+                    
 
+                    //bu lazim deyil mence, asagidaki clamp bunun isini gormelidi eslinde sadece indi  bunu silib apk eleiyib sinra da feridin telefonuna atmaga erinirem
                     if (temp > maxCamMagnitude)
                     {
                         temp = maxCamMagnitude;
                     }
                     else if (temp < minCamMagnitude)
                     {
+
                         temp = minCamMagnitude;
                     }
 
                     GetComponent<Camera>().orthographicSize = Mathf.Clamp(temp, minCamMagnitude, maxCamMagnitude);
                 }
         }
+    }
+
+
+
+    public void adjustCameraZoomForUser(int role_id)
+    {
+        switch (role_id)
+        {
+            case (1)://vetendas
+                maxCamMagnitude = 6f;
+                minCamMagnitude = 3f;
+                break;
+            case (2)://belediyye
+                maxCamMagnitude = 6f;
+                minCamMagnitude = 3f;
+                break;
+            case (3)://parlament
+                maxCamMagnitude = 6f;
+                minCamMagnitude = 3f;
+                break;
+            case (4)://prezident
+                maxCamMagnitude = 3f;
+                minCamMagnitude = 5f;
+                break;
+        }
+
+        GetComponent<Camera>().orthographicSize = Mathf.Clamp(GetComponent<Camera>().orthographicSize, minCamMagnitude, maxCamMagnitude);
     }
 }

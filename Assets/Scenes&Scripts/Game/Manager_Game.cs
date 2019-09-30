@@ -465,10 +465,10 @@ public class Manager_Game : MonoBehaviour
                 checkNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject, notification_normal.name);
                 setProperNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject);
 
-                gameObject.GetComponent<Timer>().taskInfos.Add(newTaskInfo);
-                if (!gameObject.GetComponent<Timer>().timerIsRunning)
+                gameObject.GetComponent<TimerClass>().taskInfos.Add(newTaskInfo);
+                if (!gameObject.GetComponent<TimerClass>().timerIsRunning)
                 {
-                    gameObject.GetComponent<Timer>().timerIsRunning = true;
+                    gameObject.GetComponent<TimerClass>().timerIsRunning = true;
                 }
 
                 //if(currentTaskInfo.currentTasks.Count > 1)
@@ -634,8 +634,8 @@ public class Manager_Game : MonoBehaviour
                         item = Instantiate(storeItemPrefab, storeParent.transform);
                         item.transform.Find("Image").GetComponent<Image>().sprite = building_prefabs[ind].GetComponent<SpriteRenderer>().sprite;
                         item.transform.Find("Header").GetComponent<TMP_Text>().text = storeBuildings["data"][i]["name"].ToString();
-                        item.transform.Find("gold").GetComponent<TMP_Text>().text = storeBuildings["data"][i]["price"].ToString();
-                        item.transform.Find("silver").GetComponent<TMP_Text>().text = storeBuildings["data"][i]["income"].ToString();
+                        item.transform.Find("gold_amount").GetComponent<TMP_Text>().text = "-" + storeBuildings["data"][i]["price"].ToString();
+                        item.transform.Find("silver_amount").GetComponent<TMP_Text>().text = "+" + storeBuildings["data"][i]["income"].ToString();
                         item.name = storeBuildings["data"][i]["name"].ToString();
 
 
@@ -665,7 +665,7 @@ public class Manager_Game : MonoBehaviour
                     //}
 
                 }
-
+                checkAffordableStoreBuildings();
                 addTaskToABuilding();
             }
         }
@@ -765,6 +765,8 @@ public class Manager_Game : MonoBehaviour
         buildingInstanceBig.transform.SetParent(buildingsTilemapsActive.transform);
         buildingInstanceMedium.transform.SetParent(buildingsTilemapsActive.transform);
         buildingInstanceLittle.transform.SetParent(buildingsTilemapsActive.transform);
+
+        cam.GetComponent<TouchCamera>().adjustCameraZoomForUser(roleId);
     }
 
     IEnumerator getUserBuildings()
@@ -1080,7 +1082,7 @@ public class Manager_Game : MonoBehaviour
         int gold_amount = int.Parse(goldBar.text);
         for (int i = 0; i < storeParent.transform.childCount; i++)
         {
-            if (int.Parse(storeParent.transform.GetChild(i).Find("gold").GetComponent<TMP_Text>().text) > gold_amount)
+            if (int.Parse(storeParent.transform.GetChild(i).Find("gold_amount").GetComponent<TMP_Text>().text) > gold_amount)
             {
                 storeParent.transform.GetChild(i).GetComponentInChildren<Button>().interactable = false;
             }

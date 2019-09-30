@@ -117,10 +117,18 @@ public class Manager_Profile : MonoBehaviour
                         for (int i = 0; i < dataCount; i++)
                         {
                             GameObject game = panelTimeLine;
+                            if(jsonData["data"][i]["updated_at"] != null)
+                            {
+                                game.transform.Find("TextPanel").gameObject.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Başlanğıc: " + Helper.castDateTimeToDate(jsonData["data"][i]["updated_at"].ToString())[0];
+                            }
+                            if (jsonData["data"][i]["finished_at"] != null)
+                            {
+                                game.transform.Find("TextPanel").gameObject.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Son: " + jsonData["data"][i]["finished_at"].ToString();
+                            }
                             game.transform.Find("TextPanel").gameObject.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text="Vəzifə: "+jsonData["data"][i]["name"];
                             game.transform.Find("TextPanel").gameObject.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text="Say: "+ jsonData["data"][i]["count"];
-                            game.transform.Find("TextPanel").gameObject.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text="Başlanğıc: "+Helper.castDateTimeToDate(jsonData["data"][i]["updated_at"].ToString())[0];
-                            game.transform.Find("TextPanel").gameObject.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text="Son: "+jsonData["data"][i]["finished_at"].ToString();
+
+                            
                             Image clerk_icon = game.transform.Find("Image").gameObject.GetComponent<Image>();
                             if (!jsonData["data"][i]["name"].Equals("Vətəndaş"))
                             {
@@ -434,15 +442,14 @@ public class Manager_Profile : MonoBehaviour
             try
             {
 
-                if (jsonData["status"].Equals("success"))
-                {
+                
                     PlayerPrefs.SetString("email", "");
                     PlayerPrefs.SetString("password", "");
                     PlayerPrefs.SetString("access_token", "");
 
                     SceneManager.LoadSceneAsync("Login");
 
-                }
+                
             }
             catch(Exception ex)
             {

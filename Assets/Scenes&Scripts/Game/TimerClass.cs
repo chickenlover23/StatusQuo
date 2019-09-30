@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Timer : MonoBehaviour
+public class TimerClass : MonoBehaviour
 {
     public List<TaskInformation> taskInfos;
     public bool timerIsRunning = false;
