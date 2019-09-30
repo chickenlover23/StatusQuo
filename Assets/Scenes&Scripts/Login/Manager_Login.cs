@@ -245,7 +245,7 @@ public class Manager_Login : MonoBehaviour
                 JsonData jsonData = JsonMapper.ToObject(unityWebRequest.downloadHandler.text);
                 if (jsonData["status"].Equals("success"))
                 {
-                    GetComponent<Toast>().ShowToast("*Email düzgün daxil edilməyib!");
+                    GetComponent<Toast>().ShowToast("*Yeni şifrəniz mailinzə göndərildi!");
                     //Success text will be here soon...
                     errorTextForReset.text = jsonData["message"].ToString();
                     //Log(jsonData["message"]);

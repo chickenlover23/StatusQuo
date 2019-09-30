@@ -35,7 +35,7 @@ public class Manager_Register : MonoBehaviour
         }
         else if (strUsername.Length < 6)
         {
-            GetComponent<Toast>().ShowToast("Oyunçu adı ən az 6 simvoldan ibarət olmalıdır");
+            GetComponent<Toast>().ShowToast("Oyunçu adı ən az 8 simvoldan ibarət olmalıdır");
         }
         else if (!checkDate(strDateYear, strDateMonth, strDateDay))
         {
@@ -43,11 +43,11 @@ public class Manager_Register : MonoBehaviour
         }
         else if (strPass.Length < 6)
         {
-            GetComponent<Toast>().ShowToast("Parol ən az 6 simvoldan ibarət olmalıdır");
+            GetComponent<Toast>().ShowToast("Şifrə ən az 8 simvoldan ibarət olmalıdır");
         }
         else if (strPass != strConfirmPass)
         {
-            GetComponent<Toast>().ShowToast("Parollar eyni deyil");
+            GetComponent<Toast>().ShowToast("Şifrə eyni deyil");
         }
         else if (!privacyToggle.isOn)
         {
