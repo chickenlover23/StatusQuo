@@ -617,7 +617,6 @@ public class Manager_Game : MonoBehaviour
         {
             JsonData storeBuildings = JsonMapper.ToObject(www.downloadHandler.text);
 
-            //Debug.Log(storeBuildings.ToJson());
             if (storeBuildings["status"].ToString() == "error")
             {
                 Debug.LogError("Getting store buildings failed");
@@ -629,14 +628,14 @@ public class Manager_Game : MonoBehaviour
 
                 for (int i = 0; i < storeBuildings["data"].Count; i++)
                 {
-
                     ind = loadBuildingInformation(storeBuildings["data"][i]);
                     if (ind != -1)
                     {
                         item = Instantiate(storeItemPrefab, storeParent.transform);
                         item.transform.Find("Image").GetComponent<Image>().sprite = building_prefabs[ind].GetComponent<SpriteRenderer>().sprite;
                         item.transform.Find("Header").GetComponent<TMP_Text>().text = storeBuildings["data"][i]["name"].ToString();
-                        item.transform.Find("About").GetComponent<TMP_Text>().text = "qızıl -" + storeBuildings["data"][i]["price"] + "\r\n" + "gümuüş +" + storeBuildings["data"][i]["income"];
+                        item.transform.Find("gold").GetComponent<TMP_Text>().text = storeBuildings["data"][i]["price"].ToString();
+                        item.transform.Find("silver").GetComponent<TMP_Text>().text = storeBuildings["data"][i]["income"].ToString();
                         item.name = storeBuildings["data"][i]["name"].ToString();
 
 
@@ -653,8 +652,6 @@ public class Manager_Game : MonoBehaviour
                         {
                             if (item.GetComponent<BuildingInformation>().maxCount <= user.GetComponent<UserResourceInformation>().numberOfBuildings[item.GetComponent<BuildingInformation>().name])
                             {
-                                //Debug.Log(item.name);
-
                                 item.GetComponentInChildren<Button>().interactable = false;
                             }
                         }
@@ -1078,6 +1075,22 @@ public class Manager_Game : MonoBehaviour
         }
     }
 
+    private void checkAffordableStoreBuildings()
+    {
+        int gold_amount = int.Parse(goldBar.text);
+        for (int i = 0; i < storeParent.transform.childCount; i++)
+        {
+            if (int.Parse(storeParent.transform.GetChild(i).Find("gold").GetComponent<TMP_Text>().text) > gold_amount)
+            {
+                storeParent.transform.GetChild(i).GetComponentInChildren<Button>().interactable = false;
+            }
+            else
+            {
+                storeParent.transform.GetChild(i).GetComponentInChildren<Button>().interactable = true;
+            }
+        }
+    }
+
     public void addToNotificationPanel(TaskResult taskResult)
     {
         GameObject temp = Instantiate(notificationsPanelItemPrefab, notificationsPanelParent.transform);
@@ -1478,9 +1491,10 @@ public class Manager_Game : MonoBehaviour
             text.text = number.ToString();
             StartCoroutine(addToNumber(text, number, amount, sign));
         }
-        else if (Convert.ToInt32(blackBar.text) >= 5)
+
+        else
         {
-            //StartCoroutine(userGetFine());
+            checkAffordableStoreBuildings();
         }
     }
 
