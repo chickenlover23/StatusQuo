@@ -666,7 +666,7 @@ public class Manager_Game : MonoBehaviour
 
                 }
                 checkAffordableStoreBuildings();
-                addTaskToABuilding();
+              //  addTaskToABuilding();
             }
         }
     }
@@ -1331,7 +1331,7 @@ public class Manager_Game : MonoBehaviour
         newBuilding.GetComponent<ClickDetecterForBuildings>().managerGame = this;//at the end, add this manually for performance
 
         hasNoBuilding = false;//for demo only
-        addTaskToABuilding();//for demo only
+      //  addTaskToABuilding();//for demo only
     }
 
 
@@ -1592,37 +1592,37 @@ public class Manager_Game : MonoBehaviour
 
     void addTaskToABuilding()
     {
-        if (relevantTasksList.Count == 0)
-        {
-            //Debug.Log("list is zero");
-            StartCoroutine(getUserMissionsTemp(0));
-            return;
-        }
-        int _ind = UnityEngine.Random.Range(0, relevantTasksList.Count - 1);
-        Vector2Int tempTaskInfo = relevantTasksList[_ind];
-        relevantTasksList.RemoveAt(_ind);
+        //if (relevantTasksList.Count == 0)
+        //{
+        //    //Debug.Log("list is zero");
+        //    StartCoroutine(getUserMissionsTemp(0));
+        //    return;
+        //}
+        //int _ind = UnityEngine.Random.Range(0, relevantTasksList.Count - 1);
+        //Vector2Int tempTaskInfo = relevantTasksList[_ind];
+        //relevantTasksList.RemoveAt(_ind);
 
-        bool added = false;
-        //check if there is a building for the task
-        for (int i = 0; i < buildingsTilemapsActive.transform.childCount; i++)
-        {
+        //bool added = false;
+        ////check if there is a building for the task
+        //for (int i = 0; i < buildingsTilemapsActive.transform.childCount; i++)
+        //{
 
-            if (buildingsTilemapsActive.transform.GetChild(i).GetComponent<BuildingInformation>().id == tempTaskInfo[1])
-            {
-                //Debug.Log("task selected and sent api request to get the detailes");
-                added = true;
+        //    if (buildingsTilemapsActive.transform.GetChild(i).GetComponent<BuildingInformation>().id == tempTaskInfo[1])
+        //    {
+        //        //Debug.Log("task selected and sent api request to get the detailes");
+        //        added = true;
 
-                StartCoroutine(getUserMissionsTemp(1, tempTaskInfo[0]));
-                break;
-            }
+        //        StartCoroutine(getUserMissionsTemp(1, tempTaskInfo[0]));
+        //        break;
+        //    }
 
-        }
-        //if a bulding is deleted and there is no clone of it then
-        if (!added)
-        {
-            //Debug.Log("a bulding is deleted and there is no clone of it then");
-            addTaskToABuilding();
-        }
+        //}
+        ////if a bulding is deleted and there is no clone of it then
+        //if (!added)
+        //{
+        //    //Debug.Log("a bulding is deleted and there is no clone of it then");
+        //    addTaskToABuilding();
+        //}
 
 
     }
