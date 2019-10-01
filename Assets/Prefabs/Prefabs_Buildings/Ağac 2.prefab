@@ -105,7 +105,7 @@ MonoBehaviour:
   maxCount: 1
   level: 0
   flipX: 0
-  collider: 1
+  pos: 
 --- !u!60 &-6375067284614219418
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -122,7 +122,7 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5582452, y: 0.3203446}
+    pivot: {x: 0.5607774, y: 0.21225986}
     oldSize: {x: 0.5690691, y: 1}
     newSize: {x: 0.5690691, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -131,10 +131,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.0029559135, y: 0.039126515}
-      - {x: 0.21707106, y: -0.11401701}
-      - {x: 0.003308773, y: -0.26667315}
-      - {x: -0.21962118, y: -0.11184609}
+    - - {x: -0.0063610077, y: 0.1821469}
+      - {x: 0.20749092, y: 0.01588881}
+      - {x: -0.000096321106, y: -0.1168423}
+      - {x: -0.20940542, y: 0.00733757}
 --- !u!114 &-4246158135633341950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +148,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   managerGame: {fileID: 0}
+  dovletBinalari:
+  - "D\xF6vl\u0259t Qurumu"
+  - "Parlament Binas\u0131"
+  - "Prezident Saray\u0131"
 --- !u!60 &467888364046378061
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -164,7 +168,7 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5582452, y: 0.3203446}
+    pivot: {x: 0.5607774, y: 0.21225986}
     oldSize: {x: 0.5690691, y: 1}
     newSize: {x: 0.5690691, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -173,19 +177,19 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.15742302, y: 0.43112016}
-      - {x: 0.15088463, y: 0.18743443}
-      - {x: 0.098192215, y: 0.10279715}
-      - {x: 0.03368759, y: 0.071816325}
-      - {x: 0.03660965, y: -0.10213506}
-      - {x: -0.028196335, y: -0.12712514}
-      - {x: -0.04078293, y: 0.069205284}
-      - {x: -0.1453762, y: 0.17179096}
-      - {x: -0.18980026, y: 0.32950854}
-      - {x: -0.11271286, y: 0.5914304}
-      - {x: -0.029296875, y: 0.6712258}
-      - {x: 0.07525444, y: 0.6257491}
-      - {x: 0.1464653, y: 0.51531315}
+    - - {x: 0.15742302, y: 0.42771494}
+      - {x: 0.12704802, y: 0.23851317}
+      - {x: 0.019871235, y: 0.16068637}
+      - {x: 0.03009224, y: 0.0082915425}
+      - {x: -0.030567646, y: 0.0045056343}
+      - {x: -0.022787094, y: 0.17179096}
+      - {x: -0.102944374, y: 0.2258144}
+      - {x: -0.16737127, y: 0.3077708}
+      - {x: -0.18601704, y: 0.47899187}
+      - {x: -0.1366911, y: 0.6492735}
+      - {x: -0.029296875, y: 0.77678835}
+      - {x: 0.07866001, y: 0.72109616}
+      - {x: 0.15327597, y: 0.56979716}
 --- !u!114 &-7102217908408742053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,14 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTask: 0
-  taskHeader: 
-  taskDescription: 
-  taskStart: 
-  taskGold: 
-  taskBronze: 
-  taskBlack: 
-  allSeconds: 0
-  remainingAllSeconds: 0
+  hasTaskResult: 0
 --- !u!1001 &7756755595804825411
 PrefabInstance:
   m_ObjectHideFlags: 0
