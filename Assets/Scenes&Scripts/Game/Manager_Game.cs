@@ -400,7 +400,7 @@ public class Manager_Game : MonoBehaviour
             Debug.Log("no result or task");
             taskPopUpIsOpen = false;
             taskPopUp.SetActive(false);
-            Debug.Log(taskInfo.currentTasks[0].taskDescription);
+            
         }
         setProperNotificationForABuilding(taskInfo.gameObject);
     }
@@ -666,7 +666,7 @@ public class Manager_Game : MonoBehaviour
 
                 }
                 checkAffordableStoreBuildings();
-              //  addTaskToABuilding();
+                addTaskToABuilding();
             }
         }
     }
@@ -744,18 +744,19 @@ public class Manager_Game : MonoBehaviour
 
     public void checkUserStatus(int roleId)
     {
-
+        //Debug.Log(roleId);
         for (int i = 0; i < buildingsTilemaps.Length; i++)
         {
             if (i == roleId - 1)
             {
-
+                //Debug.Log(i);
                 buildingsTilemapsActive = buildingsTilemaps[i];
                 buildingsTilemaps[i].gameObject.SetActive(true);
                 roadTilemaps[i].gameObject.SetActive(true);
             }
             else
             {
+                //Debug.Log(i);
                 buildingsTilemaps[i].gameObject.SetActive(false);
                 roadTilemaps[i].gameObject.SetActive(false);
             }
@@ -1082,13 +1083,13 @@ public class Manager_Game : MonoBehaviour
         int gold_amount = int.Parse(goldBar.text);
         for (int i = 0; i < storeParent.transform.childCount; i++)
         {
-            if (int.Parse(storeParent.transform.GetChild(i).Find("gold_amount").GetComponent<TMP_Text>().text) > gold_amount)
+            if (storeParent.transform.GetChild(i).GetComponentInChildren<Button>().interactable)
             {
-                storeParent.transform.GetChild(i).GetComponentInChildren<Button>().interactable = false;
-            }
-            else
-            {
-                storeParent.transform.GetChild(i).GetComponentInChildren<Button>().interactable = true;
+                if (Mathf.Abs(int.Parse(storeParent.transform.GetChild(i).Find("gold_amount").GetComponent<TMP_Text>().text)) > gold_amount)
+                {
+                    storeParent.transform.GetChild(i).GetComponentInChildren<Button>().interactable = false;
+                    //Debug.Log("false");
+                }
             }
         }
     }
@@ -1330,8 +1331,11 @@ public class Manager_Game : MonoBehaviour
         newBuilding.name = buildingInstanceActive.GetComponent<SpriteRenderer>().sprite.name;
         newBuilding.GetComponent<ClickDetecterForBuildings>().managerGame = this;//at the end, add this manually for performance
 
-        hasNoBuilding = false;//for demo only
-      //  addTaskToABuilding();//for demo only
+        if (hasNoBuilding)
+        {
+            hasNoBuilding = false;//for demo only
+            addTaskToABuilding();//for demo only
+        }
     }
 
 

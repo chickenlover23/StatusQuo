@@ -73,7 +73,7 @@ public class ClickDetecterForBuildings : MonoBehaviour, IPointerDownHandler, IPo
 
     private bool arrayContains(string[] arr, string str)
     {
-        Debug.Log("here");
+        //Debug.Log("here");
         for(int i = 0; i < arr.Length; i++)
         {
             if (arr[i] == str)

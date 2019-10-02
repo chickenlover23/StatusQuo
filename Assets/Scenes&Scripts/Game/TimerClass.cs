@@ -11,6 +11,7 @@ public class TimerClass : MonoBehaviour
     Task tempTask;
     bool noActiveTasks;
     int len2, len;
+    
 
     //private void Update()
     //{
@@ -71,6 +72,7 @@ public class TimerClass : MonoBehaviour
 
     private void Start()
     {
+        lastTime = Time.time;
         InvokeRepeating("decreaseTaskTime", 0.1f, 0.1f);
     }
 
@@ -80,7 +82,7 @@ public class TimerClass : MonoBehaviour
     {
         len = taskInfos.Count - 1;
 
-
+        diffTime = Time.time - lastTime;
 
         for (int i = len; i > -1; i--)
         {
@@ -115,6 +117,8 @@ public class TimerClass : MonoBehaviour
                 taskInfos.RemoveAt(i);
             }
         }
+
+        lastTime = Time.time;
     }
 }
 
