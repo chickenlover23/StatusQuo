@@ -602,56 +602,58 @@ public class Manager_Game : MonoBehaviour
         }
         else
         {
-            JsonData storeBuildings = JsonMapper.ToObject(www.downloadHandler.text);
-
-            if (storeBuildings["status"].ToString() == "error")
+            try
             {
-                Debug.LogError("Getting store buildings failed");
-            }
-            else
-            {
-                GameObject item;
-                int ind;
+                JsonData storeBuildings = JsonMapper.ToObject(www.downloadHandler.text);
 
-                for (int i = 0; i < storeBuildings["data"].Count; i++)
+                if (storeBuildings["status"].ToString() == "error")
                 {
-                    ind = loadBuildingInformation(storeBuildings["data"][i]);
-                    if (ind != -1)
-                    {
-                        item = Instantiate(storeItemPrefab, storeParent.transform);
-                        item.transform.Find("Image").GetComponent<Image>().sprite = building_prefabs[ind].GetComponent<SpriteRenderer>().sprite;
-                        item.transform.Find("Header").GetComponent<TMP_Text>().text = storeBuildings["data"][i]["name"].ToString();
-                        item.transform.Find("gold_amount").GetComponent<TMP_Text>().text = "-" + storeBuildings["data"][i]["price"].ToString();
-                        item.transform.Find("silver_amount").GetComponent<TMP_Text>().text = "+" + storeBuildings["data"][i]["income"].ToString();
-                        item.name = storeBuildings["data"][i]["name"].ToString();
-
-
-                        item.GetComponent<BuildingInformation>().id = Int32.Parse(storeBuildings["data"][i]["id"].ToString());
-                        item.GetComponent<BuildingInformation>().name = storeBuildings["data"][i]["name"].ToString();
-                        item.GetComponent<BuildingInformation>().price = Int32.Parse(storeBuildings["data"][i]["price"].ToString());
-                        item.GetComponent<BuildingInformation>().income = Int32.Parse(storeBuildings["data"][i]["income"].ToString());
-                        item.GetComponent<BuildingInformation>().maxCount = Int32.Parse(storeBuildings["data"][i]["max_count"].ToString());
-
-                        item.GetComponentInChildren<Button>().onClick.AddListener(delegate { startBuying(); });
-                        item.GetComponentInChildren<Button>().GetComponent<TouchOnUI>().managerGame = this;
-
-                        if (user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(item.GetComponent<BuildingInformation>().name))
-                        {
-                            if (item.GetComponent<BuildingInformation>().maxCount <= user.GetComponent<UserResourceInformation>().numberOfBuildings[item.GetComponent<BuildingInformation>().name])
-                            {
-                                item.GetComponentInChildren<Button>().interactable = false;
-                            }
-                        }
-
-
-                    }
-
-                    //else
-                    //{
-                    //    Debug.Log(storeBuildings["data"][i]["name"].ToString() + " prefab not found in the prefabs array");
-                    //}
-
+                    Debug.LogError("Getting store buildings failed");
                 }
+                else
+                {
+                    GameObject item;
+                    int ind;
+
+                    for (int i = 0; i < storeBuildings["data"].Count; i++)
+                    {
+                        ind = loadBuildingInformation(storeBuildings["data"][i]);
+                        if (ind != -1)
+                        {
+                            item = Instantiate(storeItemPrefab, storeParent.transform);
+                            item.transform.Find("Image").GetComponent<Image>().sprite = building_prefabs[ind].GetComponent<SpriteRenderer>().sprite;
+                            item.transform.Find("Header").GetComponent<TMP_Text>().text = storeBuildings["data"][i]["name"].ToString();
+                            item.transform.Find("gold_amount").GetComponent<TMP_Text>().text = "-" + storeBuildings["data"][i]["price"].ToString();
+                            item.transform.Find("silver_amount").GetComponent<TMP_Text>().text = "+" + storeBuildings["data"][i]["income"].ToString();
+                            item.name = storeBuildings["data"][i]["name"].ToString();
+
+
+                            item.GetComponent<BuildingInformation>().id = Int32.Parse(storeBuildings["data"][i]["id"].ToString());
+                            item.GetComponent<BuildingInformation>().name = storeBuildings["data"][i]["name"].ToString();
+                            item.GetComponent<BuildingInformation>().price = Int32.Parse(storeBuildings["data"][i]["price"].ToString());
+                            item.GetComponent<BuildingInformation>().income = Int32.Parse(storeBuildings["data"][i]["income"].ToString());
+                            item.GetComponent<BuildingInformation>().maxCount = Int32.Parse(storeBuildings["data"][i]["max_count"].ToString());
+
+                            item.GetComponentInChildren<Button>().onClick.AddListener(delegate { startBuying(); });
+                            item.GetComponentInChildren<Button>().GetComponent<TouchOnUI>().managerGame = this;
+
+                            if (user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(item.GetComponent<BuildingInformation>().name))
+                            {
+                                if (item.GetComponent<BuildingInformation>().maxCount <= user.GetComponent<UserResourceInformation>().numberOfBuildings[item.GetComponent<BuildingInformation>().name])
+                                {
+                                    item.GetComponentInChildren<Button>().interactable = false;
+                                }
+                            }
+
+
+                        }
+                    }
+                    checkAffordableStoreBuildings();
+                    addTaskToABuilding();
+                }
+            }
+            catch(Exception e)
+            {
                 checkAffordableStoreBuildings();
                 addTaskToABuilding();
             }

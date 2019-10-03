@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using LitJson;
 using SocketIO;
 
 public class ClienTest : MonoBehaviour
@@ -66,12 +66,10 @@ public class ClienTest : MonoBehaviour
         //  header.text=evt.data.GetField("handle").str+" is typing...";
         Debug.Log("Okey");
         Debug.LogError(evt.data.GetField("message").str);
+        JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+        Debug.Log(data.ToJson());
     }
-    //void onForeignMessage(SocketIOEvent evt)
-    //{
-    //    goo.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = evt.data.GetField("handle").str+":"+ evt.data.GetField("message").str;
-    //   // Debug.Log("HEREEEEEE");
-    //}
+    
 
 
     void registerToSocket(SocketIOEvent evt)
@@ -88,29 +86,5 @@ public class ClienTest : MonoBehaviour
         //    return;
         //}
         socket.Emit("register", message);
-    }
-
-    public void onUserTypeMessage()
-    {
-        message.Clear();
-        message.AddField("handle",user_id);
-        socket.Emit("typing", message);
-    }
-    //public void sendMessage()
-    //{
-    //    message.Clear();
-    //  //  message.AddField("to", toUser.text);
-    //    message.AddField("message", content.text);
-    //    message.AddField("handle", userName.text);
-    //    socket.Emit("chat", message);//chat
-        
-    //    content.text = "";
-    //}
-
-    public string Get8CharacterRandomString()
-    {
-        string path = Path.GetRandomFileName();
-        path = path.Replace(".", ""); // Remove period.
-        return path.Substring(0, 8);  // Return 8 character string
     }
 }
