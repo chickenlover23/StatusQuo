@@ -1284,7 +1284,7 @@ public class Manager_Game : MonoBehaviour
             }
             else//moved a building
             {
-                if (!(selectedBuilding.transform.localPosition == buildingInstanceActive.transform.localPosition || selectedBuilding.GetComponent<SpriteRenderer>().flipX == buildingInstanceActive.GetComponent<SpriteRenderer>().flipX))
+                if (selectedBuilding.transform.localPosition != buildingInstanceActive.transform.localPosition || selectedBuilding.GetComponent<SpriteRenderer>().flipX != buildingInstanceActive.GetComponent<SpriteRenderer>().flipX)
                 {
                     StartCoroutine(sendMoveRequest(type, oldPos, pos, flipX));
                 }
