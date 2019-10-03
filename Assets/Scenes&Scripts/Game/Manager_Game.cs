@@ -1282,7 +1282,17 @@ public class Manager_Game : MonoBehaviour
             }
             else//moved a building
             {
-                StartCoroutine(sendMoveRequest(type, oldPos, pos, flipX));
+                if (!(selectedBuilding.transform.localPosition == buildingInstanceActive.transform.localPosition || selectedBuilding.GetComponent<SpriteRenderer>().flipX == buildingInstanceActive.GetComponent<SpriteRenderer>().flipX))
+                {
+                    StartCoroutine(sendMoveRequest(type, oldPos, pos, flipX));
+                }
+                else // tried moving but didn't changed anything
+                {
+                    dragging = false;
+                    isBuildingInstanceActive = false;
+                    buildingInstanceActive.SetActive(false);
+                    selectedBuilding.SetActive(true);
+                }
             }
 
         }
@@ -1348,7 +1358,6 @@ public class Manager_Game : MonoBehaviour
 
     private void moveApproved()
     {
-
         dragging = false;
         isBuildingInstanceActive = false;
         buildingInstanceActive.SetActive(false);
