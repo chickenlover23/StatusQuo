@@ -120,11 +120,11 @@ public class TouchCamera : MonoBehaviour
                 minCamMagnitude = 3f;
                 break;
             case (4)://prezident
-                maxCamMagnitude = 3f;
-                minCamMagnitude = 5f;
+                maxCamMagnitude = 5f;
+                minCamMagnitude = 3f;
                 break;
         }
 
-        GetComponent<Camera>().orthographicSize = Mathf.Clamp(GetComponent<Camera>().orthographicSize, minCamMagnitude, maxCamMagnitude);
+        GetComponent<Camera>().orthographicSize = (minCamMagnitude + maxCamMagnitude)/2f;
     }
 }
