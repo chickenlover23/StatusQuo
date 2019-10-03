@@ -330,7 +330,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "fredcefer\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
     type: 2}
   m_fontSharedMaterials: []
@@ -806,8 +806,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
-  m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
+  m_fontAsset: {fileID: 11400000, guid: a9f91359ead44f7409035a153f61eeb6, type: 2}
+  m_sharedMaterial: {fileID: 1003142449802469868, guid: a9f91359ead44f7409035a153f61eeb6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -839,7 +839,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_textAlignment: 544
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -994,7 +994,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 2019-08-12 45:65:45
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
     type: 2}
   m_fontSharedMaterials: []
@@ -1561,7 +1561,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b65a143cb4dbd434792bdf3f2864b908, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -6536867156101101541, guid: b65a143cb4dbd434792bdf3f2864b908,
     type: 2}
   m_fontSharedMaterials: []
@@ -4755,7 +4755,8 @@ GameObject:
   - component: {fileID: 376005966}
   - component: {fileID: 376005965}
   m_Layer: 5
-  m_Name: TMP SubMeshUI [GothamMedium SDF Material + LiberationSans SDF Atlas]
+  m_Name: TMP SubMeshUI [Designosaur Regular SDF Material + Designosaur Regular SDF_fallback
+    Atlas]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4800,7 +4801,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f34089a72785bcb408f33d48037f0daf, type: 2}
   m_spriteAsset: {fileID: 0}
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
@@ -4977,7 +4978,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'Status:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
     type: 2}
   m_fontSharedMaterials: []
@@ -7212,7 +7213,7 @@ PrefabInstance:
     - target: {fileID: 3704428680459988827, guid: 4e2e0c1623f12c5428db2b01f0e8dac0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3704428680459988826, guid: 4e2e0c1623f12c5428db2b01f0e8dac0,
         type: 3}
@@ -8660,7 +8661,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_GlobalFontAsset: {fileID: 0}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
@@ -9025,7 +9026,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: b65a143cb4dbd434792bdf3f2864b908, type: 2}
+  m_GlobalFontAsset: {fileID: 0}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
@@ -10740,7 +10741,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 697407017}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 961346d7e16a445ff93777573e78efd6, type: 3}
   m_Name: 
@@ -10758,7 +10759,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 697407017}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d5c40d40ac2d8245b96a8683c117f86, type: 3}
   m_Name: 
@@ -11152,7 +11153,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_GlobalFontAsset: {fileID: 0}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
@@ -11466,7 +11467,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "fredcefer\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
     type: 2}
   m_fontSharedMaterials: []
@@ -12520,7 +12521,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b65a143cb4dbd434792bdf3f2864b908, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -6536867156101101541, guid: b65a143cb4dbd434792bdf3f2864b908,
     type: 2}
   m_fontSharedMaterials: []
@@ -12967,7 +12968,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 2019-08-12 45:65:45
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
     type: 2}
   m_fontSharedMaterials: []
@@ -13126,7 +13127,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "haz\u0131rk\u0131 \u015Fifr\u0259"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
     type: 2}
   m_fontSharedMaterials: []
@@ -14878,7 +14879,8 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1105035710}
   m_Father: {fileID: 946662877}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14907,7 +14909,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Bronz
+  m_text: "g\xFCm\xFC\u015F"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14935,12 +14937,12 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 45
+  m_fontSize: 80
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 45
+  m_fontSizeMax: 80
   m_fontStyle: 10
   m_textAlignment: 514
   m_characterSpacing: 0
@@ -14983,14 +14985,14 @@ MonoBehaviour:
     linkCount: 0
     lineCount: 1
     pageCount: 1
-    materialCount: 1
+    materialCount: 2
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1105035711}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -16612,7 +16614,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: b65a143cb4dbd434792bdf3f2864b908, type: 2}
+  m_GlobalFontAsset: {fileID: 0}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
@@ -18521,6 +18523,80 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1102306606}
   m_CullTransparentMesh: 0
+--- !u!1 &1105035709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1105035710}
+  - component: {fileID: 1105035712}
+  - component: {fileID: 1105035711}
+  m_Layer: 5
+  m_Name: TMP SubMeshUI [LiberationSans SDF Material + LiberationSans SDF Atlas]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1105035710
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105035709}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 886448488}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1105035711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105035709}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_spriteAsset: {fileID: 0}
+  m_material: {fileID: 0}
+  m_sharedMaterial: {fileID: 0}
+  m_isDefaultMaterial: 0
+  m_padding: 11.25
+  m_canvasRenderer: {fileID: 1105035712}
+  m_TextComponent: {fileID: 886448489}
+  m_materialReferenceIndex: 1
+--- !u!222 &1105035712
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105035709}
+  m_CullTransparentMesh: 0
 --- !u!1 &1112900987
 GameObject:
   m_ObjectHideFlags: 0
@@ -19747,7 +19823,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b65a143cb4dbd434792bdf3f2864b908, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -6536867156101101541, guid: b65a143cb4dbd434792bdf3f2864b908,
     type: 2}
   m_fontSharedMaterials: []
@@ -22655,7 +22731,7 @@ GameObject:
   - component: {fileID: 1277078545}
   - component: {fileID: 1277078544}
   m_Layer: 5
-  m_Name: TMP SubMeshUI [GothamMedium SDF Material + LiberationSans SDF Atlas]
+  m_Name: TMP SubMeshUI [Designosaur Regular SDF Material + LiberationSans SDF Atlas]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22855,7 +22931,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'Email:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
     type: 2}
   m_fontSharedMaterials: []
@@ -24334,7 +24410,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "Qo\u015Fuldu:"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
     type: 2}
   m_fontSharedMaterials: []
@@ -24807,7 +24883,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "fredcefer\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
     type: 2}
   m_fontSharedMaterials: []
@@ -26631,7 +26707,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "yeni \u015Fifr\u0259"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
     type: 2}
   m_fontSharedMaterials: []
@@ -26754,7 +26830,8 @@ GameObject:
   - component: {fileID: 1553121625}
   - component: {fileID: 1553121624}
   m_Layer: 5
-  m_Name: TMP SubMeshUI [GothamMedium SDF Material + LiberationSans SDF Atlas]
+  m_Name: TMP SubMeshUI [Designosaur Regular SDF Material + Designosaur Regular SDF_fallback
+    Atlas]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26799,7 +26876,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f34089a72785bcb408f33d48037f0daf, type: 2}
   m_spriteAsset: {fileID: 0}
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
@@ -27274,7 +27351,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "Ya\u015F g\xFCn\xFC:"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
     type: 2}
   m_fontSharedMaterials: []
@@ -27349,7 +27426,7 @@ MonoBehaviour:
     linkCount: 0
     lineCount: 1
     pageCount: 1
-    materialCount: 3
+    materialCount: 2
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
@@ -27663,7 +27740,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_GlobalFontAsset: {fileID: 0}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
@@ -27767,7 +27844,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "fredcefer\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
     type: 2}
   m_fontSharedMaterials: []
@@ -28084,7 +28161,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: b65a143cb4dbd434792bdf3f2864b908, type: 2}
+  m_GlobalFontAsset: {fileID: 0}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
@@ -28189,7 +28266,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "yeni \u015Fifr\u0259"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
     type: 2}
   m_fontSharedMaterials: []
@@ -28507,7 +28584,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.037595823}
   m_AnchorMax: {x: 0.25069645, y: 1}
-  m_AnchoredPosition: {x: 0, y: -10.000061}
+  m_AnchoredPosition: {x: 0, y: -10.000122}
   m_SizeDelta: {x: 12.599976, y: 16}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1691313182
@@ -31018,7 +31095,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "\u0130stifad\u0259\xE7i ad\u0131:"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
     type: 2}
   m_fontSharedMaterials: []
@@ -31093,7 +31170,7 @@ MonoBehaviour:
     linkCount: 0
     lineCount: 1
     pageCount: 1
-    materialCount: 3
+    materialCount: 2
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
@@ -33457,7 +33534,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_GlobalFontAsset: {fileID: 0}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
@@ -34250,7 +34327,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "T\u0259yinat:"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
     type: 2}
   m_fontSharedMaterials: []
@@ -35206,7 +35283,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Bronzdan Qizila konvertor
+  m_text: "G\xFCm\xFC\u015Fd\u0259n Qizila konvertor"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 98dfe2b2181c3654f8c508cdd30a2424, type: 2}
   m_sharedMaterial: {fileID: 4987399450724163076, guid: 98dfe2b2181c3654f8c508cdd30a2424,
@@ -35235,13 +35312,13 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 100
+  m_fontSize: 88.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 100
-  m_fontStyle: 32
+  m_fontStyle: 16
   m_textAlignment: 514
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -35283,7 +35360,7 @@ MonoBehaviour:
     linkCount: 0
     lineCount: 1
     pageCount: 1
-    materialCount: 1
+    materialCount: 2
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
@@ -36810,8 +36887,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "Hesabdan \xE7\u0131xma\u011Fa \u0259minsiniz?"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
-  m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
+  m_fontAsset: {fileID: 11400000, guid: a9f91359ead44f7409035a153f61eeb6, type: 2}
+  m_sharedMaterial: {fileID: 1003142449802469868, guid: a9f91359ead44f7409035a153f61eeb6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -36843,7 +36920,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_textAlignment: 544
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -36885,7 +36962,7 @@ MonoBehaviour:
     linkCount: 0
     lineCount: 1
     pageCount: 1
-    materialCount: 3
+    materialCount: 2
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
@@ -37142,11 +37219,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PopUpTask
       objectReference: {fileID: 0}
-    - target: {fileID: 7622613123453531162, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4867238437218667939, guid: 805c458b3d7fdf44085ea6b7631cae57,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -37281,133 +37353,6 @@ PrefabInstance:
     - target: {fileID: 1804448144, guid: 805c458b3d7fdf44085ea6b7631cae57, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1804448144, guid: 805c458b3d7fdf44085ea6b7631cae57, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2554824303447497118, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.16329849
-      objectReference: {fileID: 0}
-    - target: {fileID: 2554824303447497118, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0.5370153
-      objectReference: {fileID: 0}
-    - target: {fileID: 2554824303447497118, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.83670163
-      objectReference: {fileID: 0}
-    - target: {fileID: 2554824303447497118, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0.74390393
-      objectReference: {fileID: 0}
-    - target: {fileID: 2215829821741262449, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715515751717899, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715515751717899, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715515751717899, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715515751717899, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715515751717899, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715515751717899, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514676475258, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514676475258, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514676475258, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514676475258, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514676475258, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514676475258, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514909161833, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514909161833, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514909161833, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514909161833, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514909161833, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6654715514909161833, guid: 805c458b3d7fdf44085ea6b7631cae57,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 713249861, guid: 805c458b3d7fdf44085ea6b7631cae57, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 713249861, guid: 805c458b3d7fdf44085ea6b7631cae57, type: 3}
-      propertyPath: m_padding
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 805c458b3d7fdf44085ea6b7631cae57, type: 3}
@@ -37555,10 +37500,10 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "H\u0259r bina \xF6z al\u0131\u015F qiym\u0259tinin yarisina sat\u0131l\u0131r"
+  m_text: "H\u0259r bina \xF6z al\u0131\u015F qiym\u0259tinin yarisina sat\u0131l\u0131r!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
-  m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
+  m_fontAsset: {fileID: 11400000, guid: a9f91359ead44f7409035a153f61eeb6, type: 2}
+  m_sharedMaterial: {fileID: 1003142449802469868, guid: a9f91359ead44f7409035a153f61eeb6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -37590,7 +37535,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_textAlignment: 544
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -37625,14 +37570,14 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 6499598041574716113}
-    characterCount: 44
+    characterCount: 45
     spriteCount: 0
     spaceCount: 6
     wordCount: 7
     linkCount: 0
     lineCount: 2
     pageCount: 1
-    materialCount: 3
+    materialCount: 2
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
@@ -37852,7 +37797,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 100
-  m_fontStyle: 32
+  m_fontStyle: 16
   m_textAlignment: 514
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -38632,13 +38577,13 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 87.1
+  m_fontSize: 79.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 100
-  m_fontStyle: 32
+  m_fontStyle: 16
   m_textAlignment: 514
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -38678,7 +38623,7 @@ MonoBehaviour:
     spaceCount: 3
     wordCount: 4
     linkCount: 0
-    lineCount: 1
+    lineCount: 2
     pageCount: 1
     materialCount: 2
   m_isUsingLegacyAnimationComponent: 0

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TimerClass : MonoBehaviour
@@ -73,17 +74,20 @@ public class TimerClass : MonoBehaviour
     private void Start()
     {
         lastTime = Time.time;
-        InvokeRepeating("decreaseTaskTime", 0.1f, 0.1f);
+        StartCoroutine(decreaseTaskTime());
+        //InvokeRepeating("decreaseTaskTime", 0.1f, 0.1f);
     }
 
 
 
-    public void decreaseTaskTime()
+    IEnumerator decreaseTaskTime()
     {
+        
+        yield return new WaitForSeconds(0f);
         len = taskInfos.Count - 1;
 
         diffTime = Time.time - lastTime;
-
+        //Debug.Log(diffTime);
         for (int i = len; i > -1; i--)
         {
             noActiveTasks = true;
@@ -104,7 +108,7 @@ public class TimerClass : MonoBehaviour
                 }
                 else
                 {
-                    taskInfos[i].currentTasks[j].remainingAllSeconds -= 0.1f;
+                    taskInfos[i].currentTasks[j].remainingAllSeconds -= diffTime;
                     noActiveTasks = false;
                 }
             }
@@ -119,6 +123,7 @@ public class TimerClass : MonoBehaviour
         }
 
         lastTime = Time.time;
+        StartCoroutine(decreaseTaskTime());
     }
 }
 

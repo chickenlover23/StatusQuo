@@ -70,7 +70,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 1.25
+  m_padding: 0
   m_canvasRenderer: {fileID: 713249862}
   m_TextComponent: {fileID: 3741195617166122812}
   m_materialReferenceIndex: 1
@@ -1030,7 +1030,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 100
-  m_fontStyle: 32
+  m_fontStyle: 16
   m_textAlignment: 514
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1155,8 +1155,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a6864855a4db8d84ebb98043561a1e50, type: 2}
-  m_sharedMaterial: {fileID: -2797418238640007370, guid: a6864855a4db8d84ebb98043561a1e50,
+  m_fontAsset: {fileID: 11400000, guid: a9f91359ead44f7409035a153f61eeb6, type: 2}
+  m_sharedMaterial: {fileID: 1003142449802469868, guid: a9f91359ead44f7409035a153f61eeb6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1188,7 +1188,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_textAlignment: 544
   m_characterSpacing: 0
   m_wordSpacing: 0

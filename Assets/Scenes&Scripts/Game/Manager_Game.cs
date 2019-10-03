@@ -419,18 +419,6 @@ public class Manager_Game : MonoBehaviour
     //    }
     //}
 
-    public void addTasktest()
-    {
-        Task newTask = new Task();
-        //newTask.taskHeader = "Kommunal";
-        newTask.taskDescription = "Siz mülkünüzün kommunal xərclərini ödəməlisiniz!";
-        newTask.taskGold = "+200";
-        newTask.taskBronze = "-50";
-        newTask.taskBlack = "-20";
-        newTask.allSeconds = 60f;
-        newTask.remainingAllSeconds = 60f;
-        addTask(newTask, "Ev");
-    }
 
 
     public void addTask(Task newTask, string buildingType_id)
@@ -465,12 +453,11 @@ public class Manager_Game : MonoBehaviour
                 checkNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject, notification_normal.name);
                 setProperNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject);
 
-                gameObject.GetComponent<TimerClass>().taskInfos.Add(newTaskInfo);
-                if (!gameObject.GetComponent<TimerClass>().timerIsRunning)
+                if (!gameObject.GetComponent<TimerClass>().taskInfos.Contains(newTaskInfo))
                 {
-                    gameObject.GetComponent<TimerClass>().timerIsRunning = true;
+                    gameObject.GetComponent<TimerClass>().taskInfos.Add(newTaskInfo);
                 }
-
+                
                 //if(currentTaskInfo.currentTasks.Count > 1)
                 //{
                 //    taskRight.interactable = true;
@@ -1596,37 +1583,37 @@ public class Manager_Game : MonoBehaviour
 
     void addTaskToABuilding()
     {
-        //if (relevantTasksList.Count == 0)
-        //{
-        //    //Debug.Log("list is zero");
-        //    StartCoroutine(getUserMissionsTemp(0));
-        //    return;
-        //}
-        //int _ind = UnityEngine.Random.Range(0, relevantTasksList.Count - 1);
-        //Vector2Int tempTaskInfo = relevantTasksList[_ind];
-        //relevantTasksList.RemoveAt(_ind);
+        if (relevantTasksList.Count == 0)
+        {
+            //Debug.Log("list is zero");
+            StartCoroutine(getUserMissionsTemp(0));
+            return;
+        }
+        int _ind = UnityEngine.Random.Range(0, relevantTasksList.Count - 1);
+        Vector2Int tempTaskInfo = relevantTasksList[_ind];
+        relevantTasksList.RemoveAt(_ind);
 
-        //bool added = false;
-        ////check if there is a building for the task
-        //for (int i = 0; i < buildingsTilemapsActive.transform.childCount; i++)
-        //{
+        bool added = false;
+        //check if there is a building for the task
+        for (int i = 0; i < buildingsTilemapsActive.transform.childCount; i++)
+        {
 
-        //    if (buildingsTilemapsActive.transform.GetChild(i).GetComponent<BuildingInformation>().id == tempTaskInfo[1])
-        //    {
-        //        //Debug.Log("task selected and sent api request to get the detailes");
-        //        added = true;
+            if (buildingsTilemapsActive.transform.GetChild(i).GetComponent<BuildingInformation>().id == tempTaskInfo[1])
+            {
+                //Debug.Log("task selected and sent api request to get the detailes");
+                added = true;
 
-        //        StartCoroutine(getUserMissionsTemp(1, tempTaskInfo[0]));
-        //        break;
-        //    }
+                StartCoroutine(getUserMissionsTemp(1, tempTaskInfo[0]));
+                break;
+            }
 
-        //}
-        ////if a bulding is deleted and there is no clone of it then
-        //if (!added)
-        //{
-        //    //Debug.Log("a bulding is deleted and there is no clone of it then");
-        //    addTaskToABuilding();
-        //}
+        }
+        //if a bulding is deleted and there is no clone of it then
+        if (!added)
+        {
+            //Debug.Log("a bulding is deleted and there is no clone of it then");
+            addTaskToABuilding();
+        }
 
 
     }
