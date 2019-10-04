@@ -637,9 +637,9 @@ public class Manager_Game : MonoBehaviour
                             item.GetComponentInChildren<Button>().onClick.AddListener(delegate { startBuying(); });
                             item.GetComponentInChildren<Button>().GetComponent<TouchOnUI>().managerGame = this;
 
-                            if (user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(item.GetComponent<BuildingInformation>().name))
+                            if (user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(item.GetComponent<BuildingInformation>().id.ToString()))
                             {
-                                if (item.GetComponent<BuildingInformation>().maxCount <= user.GetComponent<UserResourceInformation>().numberOfBuildings[item.GetComponent<BuildingInformation>().name])
+                                if (item.GetComponent<BuildingInformation>().maxCount <= user.GetComponent<UserResourceInformation>().numberOfBuildings[item.GetComponent<BuildingInformation>().id.ToString()])
                                 {
                                     item.GetComponentInChildren<Button>().interactable = false;
                                 }
@@ -793,13 +793,13 @@ public class Manager_Game : MonoBehaviour
                     data.flipX = Convert.ToInt16(userResources["data"][i]["flipX"].ToString());
                     userDataCollectors.Add(data);
 
-                    if (!user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(userResources["data"][i]["name"].ToString()))
+                    if (!user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(userResources["data"][i]["type_id"].ToString()))
                     {
-                        user.GetComponent<UserResourceInformation>().numberOfBuildings[userResources["data"][i]["name"].ToString()] = 1;
+                        user.GetComponent<UserResourceInformation>().numberOfBuildings[userResources["data"][i]["type_id"].ToString()] = 1;
                     }
                     else
                     {
-                        user.GetComponent<UserResourceInformation>().numberOfBuildings[userResources["data"][i]["name"].ToString()] += 1;
+                        user.GetComponent<UserResourceInformation>().numberOfBuildings[userResources["data"][i]["type_id"].ToString()] += 1;
                     }
 
                 }
@@ -1067,17 +1067,26 @@ public class Manager_Game : MonoBehaviour
         }
     }
 
+
     private void checkAffordableStoreBuildings()
     {
         int gold_amount = int.Parse(goldBar.text);
         for (int i = 0; i < storeParent.transform.childCount; i++)
         {
-            if (storeParent.transform.GetChild(i).GetComponentInChildren<Button>().interactable)
+            if (Mathf.Abs(int.Parse(storeParent.transform.GetChild(i).Find("gold_amount").GetComponent<TMP_Text>().text)) > gold_amount)
             {
-                if (Mathf.Abs(int.Parse(storeParent.transform.GetChild(i).Find("gold_amount").GetComponent<TMP_Text>().text)) > gold_amount)
+                storeParent.transform.GetChild(i).GetComponentInChildren<Button>().interactable = false;
+            }
+            else
+            {
+                storeParent.transform.GetChild(i).GetComponentInChildren<Button>().interactable = true;
+            }
+
+            if (user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(storeParent.transform.GetChild(i).GetComponent<BuildingInformation>().id.ToString()))
+            {
+                if (storeParent.transform.GetChild(i).GetComponent<BuildingInformation>().maxCount <= user.GetComponent<UserResourceInformation>().numberOfBuildings[storeParent.transform.GetChild(i).GetComponent<BuildingInformation>().id.ToString()])
                 {
                     storeParent.transform.GetChild(i).GetComponentInChildren<Button>().interactable = false;
-                    //Debug.Log("false");
                 }
             }
         }
@@ -1267,19 +1276,19 @@ public class Manager_Game : MonoBehaviour
 
             if (activeForBuying)
             {
-                if (user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(selectedBuilding.GetComponent<BuildingInformation>().name))
+                if (user.GetComponent<UserResourceInformation>().numberOfBuildings.ContainsKey(selectedBuilding.GetComponent<BuildingInformation>().id.ToString()))
                 {
-                    user.GetComponent<UserResourceInformation>().numberOfBuildings[selectedBuilding.GetComponent<BuildingInformation>().name] += 1;
+                    user.GetComponent<UserResourceInformation>().numberOfBuildings[selectedBuilding.GetComponent<BuildingInformation>().id.ToString()] += 1;
                 }
                 else
                 {
-                    user.GetComponent<UserResourceInformation>().numberOfBuildings[selectedBuilding.GetComponent<BuildingInformation>().name] = 1;
+                    user.GetComponent<UserResourceInformation>().numberOfBuildings[selectedBuilding.GetComponent<BuildingInformation>().id.ToString()] = 1;
                 }
 
-                if (user.GetComponent<UserResourceInformation>().numberOfBuildings[selectedBuilding.GetComponent<BuildingInformation>().name] >= selectedBuilding.GetComponent<BuildingInformation>().maxCount)
-                {
-                    storeParent.transform.Find(selectedBuilding.GetComponent<BuildingInformation>().name).GetComponentInChildren<Button>().interactable = false;
-                }
+                //if (user.GetComponent<UserResourceInformation>().numberOfBuildings[selectedBuilding.GetComponent<BuildingInformation>().id.ToString()] >= selectedBuilding.GetComponent<BuildingInformation>().maxCount)
+                //{
+                //    storeParent.transform.Find(selectedBuilding.GetComponent<BuildingInformation>().name).GetComponentInChildren<Button>().interactable = false;
+                //}
                 StartCoroutine(setNewUserBuilding(selectedBuilding, type, pos, level, flipX));
             }
             else//moved a building
@@ -1340,6 +1349,11 @@ public class Manager_Game : MonoBehaviour
 
     public void startMoving(GameObject temp_setectedBuilding)
     {
+
+        if(isBuildingInstanceActive & !activeForBuying)
+        {
+            selectedBuilding.SetActive(true);
+        }
         isBuildingInstanceActive = true;
         activeForBuying = false;
 
@@ -1388,11 +1402,11 @@ public class Manager_Game : MonoBehaviour
         buildingInstanceActive.SetActive(false);
         isBuildingInstanceActive = false;
         Destroy(_tempBuilding);
-        user.GetComponent<UserResourceInformation>().numberOfBuildings[_tempBuilding.GetComponent<BuildingInformation>().name] -= 1;
-        if (user.GetComponent<UserResourceInformation>().numberOfBuildings[_tempBuilding.GetComponent<BuildingInformation>().name] < _tempBuilding.GetComponent<BuildingInformation>().maxCount)
-        {
-            storeParent.transform.Find(selectedBuilding.GetComponent<BuildingInformation>().name).GetComponentInChildren<Button>().interactable = true;
-        }
+        user.GetComponent<UserResourceInformation>().numberOfBuildings[_tempBuilding.GetComponent<BuildingInformation>().id.ToString()] -= 1;
+        //if (user.GetComponent<UserResourceInformation>().numberOfBuildings[_tempBuilding.GetComponent<BuildingInformation>().id.ToString()] < _tempBuilding.GetComponent<BuildingInformation>().maxCount)
+        //{
+        //    storeParent.transform.Find(selectedBuilding.GetComponent<BuildingInformation>().name).GetComponentInChildren<Button>().interactable = true;
+        //}
     }
 
 

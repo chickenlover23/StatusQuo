@@ -161,6 +161,7 @@ public class Manager_Profile : MonoBehaviour
         }
 
     }
+
     public void openEditPanel(bool f)
     {
         if (countEdit % 2 == 0)
@@ -437,24 +438,31 @@ public class Manager_Profile : MonoBehaviour
         {
             Debug.LogError(unityWebRequest.error);
         }
-        else
-        {
-            try
-            {
+        //else
+        //{
+        //    //try
+        //    //{
 
                 
-                    PlayerPrefs.SetString("email", "");
-                    PlayerPrefs.SetString("password", "");
-                    PlayerPrefs.SetString("access_token", "");
+        //    //        PlayerPrefs.SetString("email", "");
+        //    //        PlayerPrefs.SetString("password", "");
+        //    //        PlayerPrefs.SetString("access_token", "");
 
-                    SceneManager.LoadSceneAsync("Login");
+        //    //        SceneManager.LoadSceneAsync("Login");
 
                 
-            }
-            catch(Exception ex)
-            {
-                Debug.Log(ex);
-            }
-        }
+        //    //}
+        //    //catch(Exception ex)
+        //    //{
+        //    //    Debug.Log(ex);
+        //    //}
+        //}
+
+        PlayerPrefs.SetString("email", "");
+        PlayerPrefs.SetString("password", "");
+        PlayerPrefs.SetString("access_token", "");
+
+        SceneManager.LoadSceneAsync("Login");
+
     }
 }

@@ -72,32 +72,50 @@ public class Manager_Register : MonoBehaviour
         UnityWebRequest www = UnityWebRequest.Post(All_Urls.getUrl().register, form);
         yield return www.SendWebRequest();
 
-        JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
-        blurredLoadPanel.SetActive(false);
-        if (www.error != null || www.isNetworkError || www.isHttpError)
+        bool err = false;
+        JsonData data = null;
+
+        try
         {
-            Debug.Log(www.error);
-            GetComponent<Toast>().ShowToast("Xəta");
+            data = JsonMapper.ToObject(www.downloadHandler.text);
         }
-        else
+        catch
         {
-            if (data["status"].ToString() == "success")
+            GetComponent<Toast>().ShowToast("Bu email artıq qeydiyyatdan keçib");
+
+            err = true;
+        }
+
+
+        if(!err)
+        {
+            if (www.error != null || www.isNetworkError || www.isHttpError)
             {
-                mail.text = "";
-                username.text = "";
-                pass.text = "";
-                confirmPass.text = "";
-                dateYear.text = "";
-                dateMonth.text = "";
-                dateDay.text = "";
-                managerLogin.animateRegister();
-                //Debug.Log();
+                Debug.Log(www.error);
+                GetComponent<Toast>().ShowToast("Xəta");
             }
             else
             {
-                GetComponent<Toast>().ShowToast("Xəta");
+                if (data["status"].ToString() == "success")
+                {
+                    mail.text = "";
+                    username.text = "";
+                    pass.text = "";
+                    confirmPass.text = "";
+                    dateYear.text = "";
+                    dateMonth.text = "";
+                    dateDay.text = "";
+                    managerLogin.animateRegister();
+                    //Debug.Log();
+                }
+                else
+                {
+                    GetComponent<Toast>().ShowToast("Xəta");
+                }
             }
         }
+
+        blurredLoadPanel.SetActive(false);
     }
 
 
