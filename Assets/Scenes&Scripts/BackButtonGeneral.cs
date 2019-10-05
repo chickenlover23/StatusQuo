@@ -42,7 +42,12 @@ public class BackButtonGeneral : MonoBehaviour
                     }
                     break;
                 case ("Game"):
-                    if (manager_game.isBuildingInstanceActive)
+                    if (sellBuilding.activeSelf)
+                    {
+                        sellBuilding.SetActive(false);
+                        blurPanel.SetActive(false);
+                    }
+                    else if (manager_game.isBuildingInstanceActive)
                     {
                         manager_game.cancelBuyOrMove();
                     }
@@ -84,11 +89,6 @@ public class BackButtonGeneral : MonoBehaviour
                     else if (allTasks.activeSelf)
                     {
                         allTasks.SetActive(false);
-                        blurPanel.SetActive(false);
-                    }
-                    else if (sellBuilding.activeSelf)
-                    {
-                        sellBuilding.SetActive(false);
                         blurPanel.SetActive(false);
                     }
                     else
