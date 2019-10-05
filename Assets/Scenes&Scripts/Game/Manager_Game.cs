@@ -76,6 +76,9 @@ public class Manager_Game : MonoBehaviour
 
     public bool isTouchOnUI;
 
+    [HideInInspector]
+    public bool isSideMenuOpen, isNotificationsPanelOpen, isProfileOpen;
+
     float taskLerpSpeed = 0.25f;
     GameObject buildingInstanceActive, selectedBuilding;
     bool dragging, isBuildingInstanceActive, activeForBuying;
@@ -201,17 +204,19 @@ public class Manager_Game : MonoBehaviour
         bool isopen = storeAnimator.GetBool("open");
         storeAnimator.SetBool("open", !isopen);
         if (isopen)
+        {
             marketUpDown.transform.eulerAngles = new Vector3(
                         marketUpDown.transform.eulerAngles.x,
                         marketUpDown.transform.eulerAngles.y,
-                        marketUpDown.transform.eulerAngles.z + 180
-                    );
+                        marketUpDown.transform.eulerAngles.z + 180);
+        }
         else
+        {
             marketUpDown.transform.eulerAngles = new Vector3(
                         marketUpDown.transform.eulerAngles.x,
                         marketUpDown.transform.eulerAngles.y,
-                        marketUpDown.transform.eulerAngles.z - 180
-                    );
+                        marketUpDown.transform.eulerAngles.z - 180);
+        }
     }
 
     public void openMenu(bool f)
@@ -222,12 +227,14 @@ public class Manager_Game : MonoBehaviour
             string clipName = sideMenuClip.name;
             if (f)
             {
+                isSideMenuOpen = true;
                 menuSide.clip = sideMenuClip;
                 menuSide[clipName].speed = 1;
                 menuSide.Play(clipName);
             }
             else
             {
+                isSideMenuOpen = false;
                 menuSide[clipName].speed = -1;
                 menuSide[clipName].time = menuSide[clipName].length;
                 menuSide.Play(clipName);
@@ -248,12 +255,14 @@ public class Manager_Game : MonoBehaviour
             string clipName = sideMenuClip.name;
             if (f)
             {
+                isNotificationsPanelOpen = true;
                 notificationsPanel.clip = sideMenuClip;
                 notificationsPanel[clipName].speed = 1;
                 notificationsPanel.Play(clipName);
             }
             else
             {
+                isNotificationsPanelOpen = false;
                 notificationsPanel[clipName].speed = -1;
                 notificationsPanel[clipName].time = menuSide[clipName].length;
                 notificationsPanel.Play(clipName);
@@ -273,6 +282,7 @@ public class Manager_Game : MonoBehaviour
         string clipName = profShowerClip.name;
         if (f)
         {
+            isProfileOpen = true;
             if (storeAnimator.GetBool("open"))
             {
                 animateStore();
@@ -284,6 +294,11 @@ public class Manager_Game : MonoBehaviour
         }
         else
         {
+            isProfileOpen = false;
+            if (GetComponent<Manager_Profile>().isEditModeOn)
+            {
+                GetComponent<Manager_Profile>().openEditPanel();
+            }
             profileShower[clipName].speed = -1;
             profileShower[clipName].time = profileShower[clipName].length;
             profileShower.Play(clipName);
@@ -425,50 +440,52 @@ public class Manager_Game : MonoBehaviour
     {
         Debug.Log("add Taks is called");
         int len = buildingsTilemapsActive.transform.childCount;
+        bool added = false;
         TaskInformation newTaskInfo;
         for (int i = 0; i < len; i++)
         {
 
             if (buildingsTilemapsActive.transform.GetChild(i).GetComponent<BuildingInformation>().id.ToString() == buildingType_id)
             {
-                Debug.Log("add task found correct building");
-                newTaskInfo = buildingsTilemapsActive.transform.GetChild(i).gameObject.GetComponent<TaskInformation>();
-
-                newTaskInfo.hasTask = true;
-                newTaskInfo.hasTaskResult = false;
-
-                Task temp = new Task();
-                temp.allSeconds = newTask.allSeconds;
-                temp.remainingAllSeconds = newTask.remainingAllSeconds;
-                temp.taskGold = newTask.taskGold;
-                temp.taskBronze = newTask.taskBronze;
-                temp.taskBlack = newTask.taskBlack;
-                temp.taskId = newTask.taskId;
-                //temp.taskHeader = newTask.taskHeader;
-                temp.taskDescription = newTask.taskDescription;
-                ///currentTaskInfo.enabled = true; ????
-                newTaskInfo.currentTasks.Add(temp);
-
-                //activates the notification, change it to smth good
-                checkNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject, notification_normal.name);
-                setProperNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject);
-
-                if (!gameObject.GetComponent<TimerClass>().taskInfos.Contains(newTaskInfo))
-                {
-                    gameObject.GetComponent<TimerClass>().taskInfos.Add(newTaskInfo);
-                }
                 
-                //if(currentTaskInfo.currentTasks.Count > 1)
-                //{
-                //    taskRight.interactable = true;
-                //    taskLeft.interactable = true;
-                //}
-                //else
-                //{
-                //    taskRight.interactable = false;
-                //    taskLeft.interactable = false;
-                //}
-                return;
+                for(int j = 0; j < buildingsTilemapsActive.transform.GetChild(i).gameObject.GetComponent<TaskInformation>().currentTasks.Count; j++)
+                {
+                    if(buildingsTilemapsActive.transform.GetChild(i).gameObject.GetComponent<TaskInformation>().currentTasks[j].taskId == newTask.taskId)
+                    {
+                        added = true;
+                        break;
+                    }
+                }
+                if (!added)
+                {
+                    Debug.Log("add task found correct building");
+                    newTaskInfo = buildingsTilemapsActive.transform.GetChild(i).gameObject.GetComponent<TaskInformation>();
+
+                    newTaskInfo.hasTask = true;
+                    newTaskInfo.hasTaskResult = false;
+
+                    Task temp = new Task();
+                    temp.allSeconds = newTask.allSeconds;
+                    temp.remainingAllSeconds = newTask.remainingAllSeconds;
+                    temp.taskGold = newTask.taskGold;
+                    temp.taskBronze = newTask.taskBronze;
+                    temp.taskBlack = newTask.taskBlack;
+                    temp.taskId = newTask.taskId;
+                    //temp.taskHeader = newTask.taskHeader;
+                    temp.taskDescription = newTask.taskDescription;
+                    ///currentTaskInfo.enabled = true; ????
+                    newTaskInfo.currentTasks.Add(temp);
+
+                    //activates the notification, change it to smth good
+                    checkNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject, notification_normal.name);
+                    setProperNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject);
+
+                    if (!gameObject.GetComponent<TimerClass>().taskInfos.Contains(newTaskInfo))
+                    {
+                        gameObject.GetComponent<TimerClass>().taskInfos.Add(newTaskInfo);
+                    }
+                    return;
+                }
             }
 
         }
@@ -649,13 +666,13 @@ public class Manager_Game : MonoBehaviour
                         }
                     }
                     checkAffordableStoreBuildings();
-                    addTaskToABuilding();
+                    //addTaskToABuilding();
                 }
             }
             catch(Exception e)
             {
                 checkAffordableStoreBuildings();
-                addTaskToABuilding();
+                //addTaskToABuilding();
             }
         }
     }
@@ -1342,7 +1359,7 @@ public class Manager_Game : MonoBehaviour
         if (hasNoBuilding)
         {
             hasNoBuilding = false;//for demo only
-            addTaskToABuilding();//for demo only
+            //addTaskToABuilding();//for demo only
         }
     }
 

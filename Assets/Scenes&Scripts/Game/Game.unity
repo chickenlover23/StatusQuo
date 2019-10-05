@@ -1099,11 +1099,11 @@ RectTransform:
   m_Father: {fileID: 1467906827}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 0.00015258789, y: 0}
-  m_SizeDelta: {x: 217.64706, y: 187.98956}
-  m_Pivot: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 0.00000016619201, y: 0.02879026}
+  m_AnchorMax: {x: 0.23705177, y: 0.97120976}
+  m_AnchoredPosition: {x: 0.00012207031, y: 0.000061035156}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.49999982, y: 0.5}
 --- !u!114 &87083626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2930,17 +2930,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 697407018}
-        m_MethodName: listenToStoreScroll
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &288327728
@@ -4332,7 +4321,6 @@ GameObject:
   - component: {fileID: 424995800}
   - component: {fileID: 424995803}
   - component: {fileID: 424995802}
-  - component: {fileID: 424995801}
   m_Layer: 5
   m_Name: GoProfile
   m_TagString: Untagged
@@ -4359,51 +4347,6 @@ RectTransform:
   m_AnchoredPosition: {x: 270.45, y: 3}
   m_SizeDelta: {x: 61.53846, y: 84.70588}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &424995801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 424995799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 424995802}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &424995802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4418,7 +4361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5936,7 +5879,7 @@ PrefabInstance:
     - target: {fileID: 3704428680459988827, guid: 4e2e0c1623f12c5428db2b01f0e8dac0,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3704428680459988826, guid: 4e2e0c1623f12c5428db2b01f0e8dac0,
         type: 3}
@@ -8816,6 +8759,7 @@ GameObject:
   - component: {fileID: 697407022}
   - component: {fileID: 697407023}
   - component: {fileID: 697407024}
+  - component: {fileID: 697407025}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -8918,6 +8862,9 @@ MonoBehaviour:
     type: 3}
   user: {fileID: 1223217293}
   isTouchOnUI: 0
+  isSideMenuOpen: 0
+  isNotificationsPanelOpen: 0
+  isProfileOpen: 0
 --- !u!4 &697407019
 Transform:
   m_ObjectHideFlags: 0
@@ -8971,6 +8918,7 @@ MonoBehaviour:
   passwordErrorText: {fileID: 2061699506}
   editSprite: {fileID: 21300000, guid: f68aa6b08d9ee17408b31824d34dc5d5, type: 3}
   cancelSprite: {fileID: 21300000, guid: 183c3b738adcaff48991a148be0b266e, type: 3}
+  isEditModeOn: 0
 --- !u!114 &697407021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9005,12 +8953,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 697407017}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 961346d7e16a445ff93777573e78efd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: ws://37.228.119.74:3000/socket.io/?EIO=4&transport=websocket
+  url: ws://167.99.247.4:3030/socket.io/?EIO=4&transport=websocket
   autoConnect: 1
   reconnectDelay: 5
   ackExpirationTime: 1800
@@ -9023,12 +8971,29 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 697407017}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d5c40d40ac2d8245b96a8683c117f86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   user_id: 13
+--- !u!114 &697407025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697407017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9daea83b089e2ed4196d353c81587a78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager_login: {fileID: 0}
+  manager_game: {fileID: 697407018}
+  manager_profile: {fileID: 697407020}
+  logOutPopup: {fileID: 3860353161149034377}
+  blurPanel: {fileID: 0}
 --- !u!1 &698819173
 GameObject:
   m_ObjectHideFlags: 0
@@ -13144,7 +13109,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 697407020}
         m_MethodName: openEditPanel
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -30972,9 +30937,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.023581056, y: 0.8426389}
   m_AnchorMax: {x: 0.07722972, y: 0.9515278}
-  m_AnchoredPosition: {x: 0.00061035156, y: 0}
+  m_AnchoredPosition: {x: 0.00036621094, y: 0.00024414062}
   m_SizeDelta: {x: 0, y: -0.000030517578}
-  m_Pivot: {x: 9.447933, y: 0.99999976}
+  m_Pivot: {x: 0.4999994, y: 0.50000006}
 --- !u!114 &2126588086
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -17,74 +17,40 @@ public class ClienTest : MonoBehaviour
     void Start()
     {
         message = new JSONObject();
+
         socket = GetComponent<SocketIOComponent>();
-        //string random_name = Get8CharacterRandomString();
-       // userName.text = "unity_"+random_name;
-        //register_server
-        
+        socket.On("message", onTaskGet);
 
-        // This line will set up the listener function
-        //socket.On("gamehunter_database_test-channel", onForeignMessage);
-        socket.On("message", onChat);
-        //socket.On("chat", onForeignMessage);
-        //socket.BroadcastMessage("typing", onUserTypeMessage);
-        //registerToSocket( );
-
-        //socket.Emit("register", message);
-        StartCoroutine(BeepBoop());
+        StartCoroutine(startSocketConnection());
     }
 
-     IEnumerator BeepBoop()
+     IEnumerator startSocketConnection()
     {
         message.Clear();
         message.AddField("nickname", user_id);
-        Debug.Log(message);
-        // wait 1 seconds and continue
+
         yield return new WaitForSeconds(1);
 
         socket.Emit("register", message);
-
-        // wait 3 seconds and continue
-        yield return new WaitForSeconds(3);
-
-        socket.Emit("beep");
-
-        // wait 2 seconds and continue
-        yield return new WaitForSeconds(2);
-
-        socket.Emit("beep");
-
-        // wait ONE FRAME and continue
-        yield return new WaitForEndOfFrame();
-
-        socket.Emit("beep");
-        socket.Emit("beep");
     }
 
-    void onChat(SocketIOEvent evt)
+    void onTaskGet(SocketIOEvent evt)
     {
-        //  header.text=evt.data.GetField("handle").str+" is typing...";
-        Debug.Log("Okey");
-        Debug.LogError(evt.data.GetField("message").str);
         JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+        Debug.Log(data["task_data"]["mission_details"][0]["building_id"].ToString());
+
+        Task newTask = new Task();
+        newTask.allSeconds = int.Parse(data["task_data"]["minutes"].ToString())*60f;
+        newTask.remainingAllSeconds = newTask.allSeconds;
+        newTask.taskGold = data["task_data"]["mission_details"][0]["gold"].ToString();
+        newTask.taskBronze = data["task_data"]["mission_details"][0]["bronze"].ToString();
+        newTask.taskBlack = data["task_data"]["mission_details"][0]["black"].ToString();
+        newTask.taskDescription = data["task_data"]["mission_details"][0]["name"].ToString();
+        newTask.taskId = data["task_data"]["mission_id"].ToString();
+
+        GetComponent<Manager_Game>().addTask(newTask, data["task_data"]["mission_details"][0]["building_id"].ToString());
         Debug.Log(data.ToJson());
+        return;
     }
     
-
-
-    void registerToSocket(SocketIOEvent evt)
-    {
-        socket = GetComponent<SocketIOComponent>();
-        message.Clear();
-        message.AddField("nickname", user_id);
-        Debug.Log(message);
-        //if (!socket.IsConnected && c < 1000)
-        //{
-        //    Debug.Log("Bashlamayib");
-        //    registerToSocket(socket);
-        //    c++;
-        //    return;
-        //}
-        socket.Emit("register", message);
-    }
 }

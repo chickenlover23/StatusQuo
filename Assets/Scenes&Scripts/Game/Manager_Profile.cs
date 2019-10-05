@@ -33,7 +33,8 @@ public class Manager_Profile : MonoBehaviour
     public Sprite editSprite, cancelSprite;
 
 
-    int countEdit = 1;
+    [HideInInspector]
+    public bool isEditModeOn;
     private List<(Sprite foreground, Sprite backGround, string pic_id)> editableAvatarIcons;
     private GameObject gameObjectForUserTimeLine;
 
@@ -162,19 +163,14 @@ public class Manager_Profile : MonoBehaviour
 
     }
 
-    public void openEditPanel(bool f)
+    public void openEditPanel()
     {
-        if (countEdit % 2 == 0)
-        {
-            f = !f;
-            countEdit = 0;
-        }
-
+       
         currentPassInput.text = "";
         newPassInput.text = "";
         newConfirmPassInput.text = "";
 
-        if (f)
+        if (!isEditModeOn)
         {
             editableAvatarIcons = makeProfilePicSelectable();
             editIcon.sprite = cancelSprite;
@@ -209,10 +205,10 @@ public class Manager_Profile : MonoBehaviour
             rightSidePanel.SetActive(true);
         }
 
-
-        countEdit++;
-
+        isEditModeOn = !isEditModeOn;
     }
+
+
     public void reloadSceneDatas()
     {
         UserResourceInformation userResourceInformation = user.GetComponent<UserResourceInformation>();

@@ -6,18 +6,19 @@ using UnityEngine.SceneManagement;
 public class BackButtonGeneral : MonoBehaviour
 {
     [Header("Scene: Login")]
-    public GameObject LoginManager;
-    //[Header("Scene: Game")]
+    public Manager_Login manager_login;
+    [Header("Scene: Game")]
+    //for store
+    public Manager_Game manager_game;
+    public Manager_Profile manager_profile;
+    public GameObject logOutPopup;
+    public GameObject blurPanel;
+    // sidemenu, 
 
 
-    private Manager_Login manager_login;
 
 
 
-    private void Awake()
-    {
-        manager_login = LoginManager.GetComponent<Manager_Login>();
-    }
 
     private void Update()
     {
@@ -36,7 +37,31 @@ public class BackButtonGeneral : MonoBehaviour
                     }
                     break;
                 case ("Game"):
-                    SceneManager.LoadSceneAsync("Login");
+                    if (manager_game.storeAnimator.GetBool("open"))
+                    {
+                        manager_game.animateStore();
+                    }
+                    else if (manager_game.isNotificationsPanelOpen)
+                    {
+                        manager_game.openNotificationsPanel(false);
+                    }
+                    else if (manager_game.isSideMenuOpen)
+                    {
+                        manager_game.openMenu(false);
+                    }
+                    else if (manager_profile.isEditModeOn)
+                    {
+                        manager_profile.openEditPanel();
+                    }
+                    else if (manager_game.isProfileOpen)
+                    {
+                        manager_game.openProfil(false);
+                    }
+                    else
+                    {
+                        logOutPopup.SetActive(!logOutPopup.activeSelf);
+                        blurPanel.SetActive(!blurPanel.activeSelf);
+                    }
                     break;
             }
         }
