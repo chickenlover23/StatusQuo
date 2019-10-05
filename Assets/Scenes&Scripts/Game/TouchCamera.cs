@@ -66,7 +66,9 @@ public class TouchCamera : MonoBehaviour
         }
         else if (Input.touchCount == 2)
         {
-            
+            oldTouchPositions[0] = null;
+            oldTouchPositions[1] = null;
+
                 if (!gameManager.isTouchOnUI)
                 {
 
