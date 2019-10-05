@@ -13,7 +13,12 @@ public class BackButtonGeneral : MonoBehaviour
     public Manager_Profile manager_profile;
     public GameObject logOutPopup;
     public GameObject blurPanel;
-    // sidemenu, 
+    public GameObject convertorPopup;
+    public GameObject taskPopup;
+    public GameObject taskResultPopup;
+    public GameObject allTasks;
+    public GameObject sellBuilding;
+    
 
 
 
@@ -37,7 +42,11 @@ public class BackButtonGeneral : MonoBehaviour
                     }
                     break;
                 case ("Game"):
-                    if (manager_game.storeAnimator.GetBool("open"))
+                    if (manager_game.isBuildingInstanceActive)
+                    {
+                        manager_game.cancelBuyOrMove();
+                    }
+                    else if (manager_game.storeAnimator.GetBool("open"))
                     {
                         manager_game.animateStore();
                     }
@@ -56,6 +65,31 @@ public class BackButtonGeneral : MonoBehaviour
                     else if (manager_game.isProfileOpen)
                     {
                         manager_game.openProfil(false);
+                    }
+                    else if(convertorPopup.activeSelf)
+                    {
+                        convertorPopup.SetActive(false);
+                        blurPanel.SetActive(false);
+                    }
+                    else if (taskPopup.activeSelf)
+                    {
+                        taskPopup.SetActive(false);
+                        blurPanel.SetActive(false);
+                    }
+                    else if (taskResultPopup.activeSelf)
+                    {
+                        taskResultPopup.SetActive(false);
+                        blurPanel.SetActive(false);
+                    }
+                    else if (allTasks.activeSelf)
+                    {
+                        allTasks.SetActive(false);
+                        blurPanel.SetActive(false);
+                    }
+                    else if (sellBuilding.activeSelf)
+                    {
+                        sellBuilding.SetActive(false);
+                        blurPanel.SetActive(false);
                     }
                     else
                     {

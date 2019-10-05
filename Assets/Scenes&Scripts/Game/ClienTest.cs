@@ -11,8 +11,7 @@ public class ClienTest : MonoBehaviour
     JSONObject message;
 
     SocketIOComponent socket;
-    [SerializeField]
-    private int user_id=13;
+
 
     void Start()
     {
@@ -21,10 +20,10 @@ public class ClienTest : MonoBehaviour
         socket = GetComponent<SocketIOComponent>();
         socket.On("message", onTaskGet);
 
-        StartCoroutine(startSocketConnection());
+        //StartCoroutine(startSocketConnection());
     }
 
-     IEnumerator startSocketConnection()
+     public IEnumerator startSocketConnection(string user_id)
     {
         message.Clear();
         message.AddField("nickname", user_id);
@@ -37,6 +36,7 @@ public class ClienTest : MonoBehaviour
     void onTaskGet(SocketIOEvent evt)
     {
         JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+        Debug.Log(data.ToJson());
         Debug.Log(data["task_data"]["mission_details"][0]["building_id"].ToString());
 
         Task newTask = new Task();
@@ -47,9 +47,9 @@ public class ClienTest : MonoBehaviour
         newTask.taskBlack = data["task_data"]["mission_details"][0]["black"].ToString();
         newTask.taskDescription = data["task_data"]["mission_details"][0]["name"].ToString();
         newTask.taskId = data["task_data"]["mission_id"].ToString();
-
+       
         GetComponent<Manager_Game>().addTask(newTask, data["task_data"]["mission_details"][0]["building_id"].ToString());
-        Debug.Log(data.ToJson());
+       
         return;
     }
     

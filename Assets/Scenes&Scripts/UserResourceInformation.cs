@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class UserResourceInformation : MonoBehaviour
 {
+    public string userId;
     public string email;
     public string username;
     public string dob;

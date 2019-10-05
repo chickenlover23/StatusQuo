@@ -77,11 +77,11 @@ public class Manager_Game : MonoBehaviour
     public bool isTouchOnUI;
 
     [HideInInspector]
-    public bool isSideMenuOpen, isNotificationsPanelOpen, isProfileOpen;
+    public bool isSideMenuOpen, isNotificationsPanelOpen, isProfileOpen, isBuildingInstanceActive;
 
     float taskLerpSpeed = 0.25f;
     GameObject buildingInstanceActive, selectedBuilding;
-    bool dragging, isBuildingInstanceActive, activeForBuying;
+    bool dragging, activeForBuying;
     Vector3 w_position, diffPos;
     Vector3Int t_position;
     Ray ray;
@@ -387,7 +387,7 @@ public class Manager_Game : MonoBehaviour
     {
         if (taskInfo.hasTask && taskInfo.currentTasks.Count > 0)
         {
-            Debug.Log("has task true");
+            //Debug.Log("has task true");
 
             currentTaskInfo = taskInfo;
             if (taskInfo.currentTasks.Count == 1)
@@ -701,7 +701,7 @@ public class Manager_Game : MonoBehaviour
             {
                 try
                 {
-
+                    userResourceInformation.userId = userResources["data"]["id"].ToString();
                     userResourceInformation.email = userResources["data"]["email"].ToString();
                     userResourceInformation.username = userResources["data"]["username"].ToString();
                     userResourceInformation.dob = userResources["data"]["dob"].ToString();
@@ -715,6 +715,9 @@ public class Manager_Game : MonoBehaviour
                     userResourceInformation.black = Int32.Parse(userResources["data"]["black"].ToString());
                     userResourceInformation.water_capacity = Int32.Parse(userResources["data"]["water_capacity"].ToString());
                     userResourceInformation.created_at = userResources["data"]["created_at"].ToString();
+
+                    StartCoroutine(GetComponent<ClienTest>().startSocketConnection(userResourceInformation.userId));
+
                     if (userResources["data"]["role_date"] == null)
                     {
                         userResourceInformation.role_date = userResources["data"]["created_at"].ToString();
@@ -727,8 +730,9 @@ public class Manager_Game : MonoBehaviour
 
                     updateUserResources("-" + userResourceInformation.gold.ToString(), "-" + userResourceInformation.bronze.ToString(), "-" + userResourceInformation.black.ToString());
 
-                    checkUserStatus(userResourceInformation.role_id);
 
+                    checkUserStatus(userResourceInformation.role_id);
+                       
                     StartCoroutine(getUserBuildings());
                     loadDatasToSideMenu(userResourceInformation);
 
