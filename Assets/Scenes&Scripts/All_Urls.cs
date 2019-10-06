@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class All_Urls
 {
-    public static bool val = false;//true -->  Global ; false -->  Local
+    public static bool val = true;//true -->  Global ; false -->  Local
 
     private static string global_url = "http://anar.labproxy.com";
     private static string local_url = "http://statusco.test";

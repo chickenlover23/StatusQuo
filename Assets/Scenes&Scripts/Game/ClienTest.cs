@@ -43,8 +43,6 @@ public class ClienTest : MonoBehaviour
         try
         {
             JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
-            Debug.Log(data.ToJson());
-            // Debug.Log(data["task_data"]["mission_details"][0]["building_id"].ToString());
 
             Task newTask = new Task();
             newTask.allSeconds = int.Parse(data["task_data"]["minutes"].ToString()) * 60f;
@@ -59,7 +57,7 @@ public class ClienTest : MonoBehaviour
         }
         catch(Exception ex)
         {
-
+            Debug.LogException(ex);
         }
         return;
     }
@@ -69,7 +67,7 @@ public class ClienTest : MonoBehaviour
         try
         {
             JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
-            Debug.Log(data.ToJson());
+
             for (int i = 0; i < data.Count; i++)
             {
                 Task newTask = new Task();
@@ -83,10 +81,13 @@ public class ClienTest : MonoBehaviour
                 Debug.Log(data[i]["mission_details"][0]["building_id"].ToString());
                 GetComponent<Manager_Game>().addTask(newTask, data[i]["mission_details"][0]["building_id"].ToString());
             }
-        }catch(Exception ex)
+        }
+        catch (Exception ex)
         {
-            Debug.Log(ex);
+            Debug.LogException(ex);
         }
     }
+
+    //i wrote this code here because 
     
 }
