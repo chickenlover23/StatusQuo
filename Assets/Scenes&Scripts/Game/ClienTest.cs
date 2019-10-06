@@ -78,7 +78,7 @@ public class ClienTest : MonoBehaviour
                 newTask.taskBlack = data[i]["mission_details"][0]["black"].ToString();
                 newTask.taskDescription = data[i]["mission_details"][0]["name"].ToString();
                 newTask.taskId = data[i]["mission_id"].ToString();
-                Debug.Log(data[i]["mission_details"][0]["building_id"].ToString());
+                Debug.LogWarning(data.ToJson());
                 GetComponent<Manager_Game>().addTask(newTask, data[i]["mission_details"][0]["building_id"].ToString());
             }
         }
@@ -88,6 +88,45 @@ public class ClienTest : MonoBehaviour
         }
     }
 
-    //i wrote this code here because 
-    
+    public IEnumerator updateMinsOfMissions(JSONObject form)
+    {
+        yield return new WaitForEndOfFrame();
+        socket.Emit("update_mission_mins", form);
+        Debug.Log("ZZZZZZZZZ" + form);
+    }
+
+    private void OnApplicationQuit()
+    {
+        addBTNTes();
+    }
+    //this func will used to update minutes of users' tasks
+    public void addBTNTes()
+    {
+        JSONObject jSONObject = new JSONObject();
+        JSONObject missionAndMins = new JSONObject();
+        JSONObject missionANdMMINS2 = new JSONObject();
+        missionAndMins.AddField("mission_id",11);
+        missionAndMins.AddField("mins", 1);
+
+        missionANdMMINS2.AddField("mission_id", 5);
+        missionANdMMINS2.AddField("mins", 3);
+
+        jSONObject.Add(missionAndMins);
+        jSONObject.Add(missionANdMMINS2);
+
+        JSONObject wholeJSON = new JSONObject();
+
+        wholeJSON.AddField("user_id",50);
+        wholeJSON.AddField("tasks", jSONObject);
+
+        StartCoroutine(updateMinsOfMissions(wholeJSON));
+    }
+
+
+    [System.Serializable]
+    public class MissionAndMins
+    {
+        public int mission_id;
+        public int mins;
+    }
 }
