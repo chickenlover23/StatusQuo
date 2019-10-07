@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ScrollTransformations : MonoBehaviour
 {
@@ -92,6 +93,8 @@ public class ScrollTransformations : MonoBehaviour
     {
         startLerp = false;
         storeInteractButton.gameObject.SetActive(false);
+        //EventSystem.current.SetSelectedGameObject(null);
+        //EventSystem.current.SetSelectedGameObject(storeScroll.gameObject, new BaseEventData(EventSystem.current));
     }
 
 }

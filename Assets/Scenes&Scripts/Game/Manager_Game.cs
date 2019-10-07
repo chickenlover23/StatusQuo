@@ -438,7 +438,7 @@ public class Manager_Game : MonoBehaviour
 
     public void addTask(Task newTask, string buildingType_id)
     {
-        Debug.Log("add Taks is called");
+       // Debug.Log("add Taks is called");
         int len = buildingsTilemapsActive.transform.childCount;
         bool added = false;
         TaskInformation newTaskInfo;
@@ -458,7 +458,7 @@ public class Manager_Game : MonoBehaviour
                 }
                 if (!added)
                 {
-                    Debug.Log("add task found correct building");
+                   // Debug.Log("add task found correct building");
                     newTaskInfo = buildingsTilemapsActive.transform.GetChild(i).gameObject.GetComponent<TaskInformation>();
 
                     newTaskInfo.hasTask = true;
@@ -881,7 +881,7 @@ public class Manager_Game : MonoBehaviour
         form.AddField("position", OldPos);
         form.AddField("newPosition", pos);
         form.AddField("flipX", flipX);
-        Debug.Log(flipX);
+        //Debug.Log(flipX);
 
         UnityWebRequest www = UnityWebRequest.Post(All_Urls.getUrl().moveBuilding, form);
         www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
