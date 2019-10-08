@@ -24,8 +24,9 @@ public class ClienTest : MonoBehaviour
 
         //if user has any existing task then get it 
         socket.On("checktask", OnLoginTaskCheck);
-        
+
         //StartCoroutine(startSocketConnection());
+        socket.On("checkElections",OnElectionsCheck);
     }
 
     public IEnumerator startSocketConnection(string user_id)
@@ -87,6 +88,15 @@ public class ClienTest : MonoBehaviour
             Debug.LogException(ex);
         }
     }
+
+    //to get candidates data for elections 
+    void OnElectionsCheck(SocketIOEvent evt)
+    {
+        Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
+        return;
+        JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+    }
+
 
     public IEnumerator updateMinsOfMissions(JSONObject form)
     {
