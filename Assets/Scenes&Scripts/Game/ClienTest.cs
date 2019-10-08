@@ -122,6 +122,7 @@ public class ClienTest : MonoBehaviour
         StartCoroutine(updateMinsOfMissions(wholeJSON));
     }
 
+   
 
     [System.Serializable]
     public class MissionAndMins
