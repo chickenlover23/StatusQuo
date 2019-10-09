@@ -9040,7 +9040,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   url: ws://37.228.119.74:3000/socket.io/?EIO=4&transport=websocket
   autoConnect: 1
-  reconnectDelay: 5
+  reconnectDelay: 3
   ackExpirationTime: 1800
   pingInterval: 25
   pingTimeout: 60
@@ -22734,7 +22734,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1332992398
 RectTransform:
   m_ObjectHideFlags: 0
