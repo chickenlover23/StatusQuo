@@ -104,7 +104,6 @@ public class Manager_Game : MonoBehaviour
 
     private void Update()
     {
-
         if (Input.touchCount == 1)
         {
             if (isBuildingInstanceActive)

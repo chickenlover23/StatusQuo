@@ -12,22 +12,59 @@ public class ElectionScript : MonoBehaviour
     public Manager_Game manager_game;
     public UserResourceInformation userInformation;
     public Toast toast;
+    public GameObject electionExit;
     public GameObject electionPanel;
     public Transform electionPanelParent;
     public GameObject electionPanelItemPrefab;
     public GameObject electionPanelPreviousStatusItemPrefab;
     public Button submit;
+    public TMP_Text electionTimer;
+
+    public Button electionPanelButton;
 
     string selectedCandidateId;
     string activeElectionType;
-
+    float allSeconds = 0;
+    bool IsElectionActive;
     Transform electionPanelPreviousStatusParent;
     GameObject tempCandidate, tempPrevious;
 
+    string minute;
+    string second;
+
+
+
+    private void Update()
+    {
+        if (IsElectionActive)
+        {
+            minute = ((int)allSeconds / 60).ToString();
+            second = ((int)allSeconds % 60).ToString();
+
+            if (minute.Length == 1)
+            {
+                minute = "0" + minute;
+            }
+            if (second.Length == 1)
+            {
+                second = "0" + second;
+            }
+
+            electionTimer.text = minute + ":" + second;
+            allSeconds -= Time.deltaTime;
+            if (allSeconds <= 0)
+            {
+                IsElectionActive = false;
+                electionPanelButton.interactable = false;
+            }
+        }      
+    }
 
 
     public void FillElectionPanel(List<Candidate> candidates, string electionType, int minutes)
     {
+        startElectionTimer(minutes);
+
         activeElectionType = electionType;
         submit.interactable = false;
         Debug.Log(candidates.Count);
@@ -72,6 +109,13 @@ public class ElectionScript : MonoBehaviour
     }
 
 
+    public void startElectionTimer(int minutes)
+    {
+        allSeconds = minutes * 60;
+
+        IsElectionActive = true;
+    }
+
 
     public void selectCandidate()
     {
@@ -91,6 +135,7 @@ public class ElectionScript : MonoBehaviour
         submit.interactable = true;
     }
 
+
     public void voteForSelectedCandidate()
     {
         if (!selectedCandidateId.Equals(""))
@@ -98,6 +143,8 @@ public class ElectionScript : MonoBehaviour
             StartCoroutine(vote());
         }
     }
+
+
 
 
     IEnumerator vote()
@@ -124,7 +171,15 @@ public class ElectionScript : MonoBehaviour
             if (data["status"].ToString() == "success")
             {
                 toast.ShowToast(data["message"].ToString());
+
                 electionPanel.SetActive(false);
+                electionExit.SetActive(true);
+                submit.gameObject.SetActive(false);
+
+                for (int i = 0; i < electionPanelParent.childCount; i++)
+                {
+                    electionPanelParent.GetChild(i).Find("voteButton").GetComponent<Button>().interactable = false;
+                }
             }
             else
             {
