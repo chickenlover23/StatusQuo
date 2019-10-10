@@ -555,6 +555,7 @@ public class Manager_Game : MonoBehaviour
     {
         StartCoroutine(setUsersTaskResults(_building, _task.taskId, Helper.castToInt(b), _task.taskGold, _task.taskBronze, _task.taskBlack, _task.taskDescription));
     }
+
     public void taskYesNo(bool b)
     {
         GameObject _building = currentTaskInfo.gameObject;
@@ -1082,8 +1083,8 @@ public class Manager_Game : MonoBehaviour
             else
             {
                 //toast(userResources["data"]["message"])///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                Debug.LogError("Setting user task result failed");
-                Debug.Log(data.ToJson());
+                //Debug.LogError("Setting user task result failed");
+                //Debug.Log(data.ToJson());
             }
         }
     }

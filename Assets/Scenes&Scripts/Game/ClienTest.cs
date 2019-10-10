@@ -9,10 +9,14 @@ using System;
 
 public class ClienTest : MonoBehaviour
 {
+    public ElectionScript electionScript;
+
+
     JSONObject message;
 
     SocketIOComponent socket;
 
+    bool electionPanelFilled = false;
 
     void Start()
     {
@@ -27,6 +31,8 @@ public class ClienTest : MonoBehaviour
 
         //StartCoroutine(startSocketConnection());
         socket.On("checkElections",OnElectionsCheck);
+
+        //StartCoroutine(sendLawData());
     }
 
     public IEnumerator startSocketConnection(string user_id)
@@ -92,9 +98,88 @@ public class ClienTest : MonoBehaviour
     //to get candidates data for elections 
     void OnElectionsCheck(SocketIOEvent evt)
     {
-        Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
-        return;
-        JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+        if (!electionPanelFilled)
+        {
+            electionPanelFilled = true;
+
+            Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
+            //return;
+            JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+
+            List<Candidate> candidates = new List<Candidate>();
+            List<string> used = new List<string>();
+            Candidate temp;
+            int ind;
+            string roleId;
+            DateTime start, finish;
+            
+            start = DateTime.ParseExact(data["started_at"].ToString(), "yyyy-M-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            finish = DateTime.ParseExact(data["expired_at"].ToString(), "yyyy-M-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+
+            for (int i = 0; i < data["cand_data"].Count; i++)
+            {
+                Debug.Log(candidates.Count);
+                temp = new Candidate();
+
+                if (!used.Contains(data["cand_data"][i]["candidate_id"].ToString()))
+                {
+                    used.Add(data["cand_data"][i]["candidate_id"].ToString());
+
+                    temp.candidate_id = data["cand_data"][i]["candidate_id"].ToString();
+                    temp.userName = data["cand_data"][i]["username"].ToString();
+                    temp.gold = data["cand_data"][i]["gold"].ToString();
+                    temp.silver = data["cand_data"][i]["bronze"].ToString();
+                    temp.black = data["cand_data"][i]["black"].ToString();
+                    temp.currentAvatarId = data["cand_data"][i]["avatar_id"].ToString();
+
+                    temp.previousStatusInformation.Add((data["cand_data"][i]["avatar_id"].ToString(), data["cand_data"][i]["count"].ToString()));
+                    candidates.Add(temp);
+                }
+                else
+                {
+                    roleId = data["cand_data"][i]["avatar_id"].ToString();
+                    print((data["cand_data"][i]["role_name"].ToString()));
+                    ind = used.IndexOf(data["cand_data"][i]["candidate_id"].ToString());
+
+                    if (data["cand_data"][i]["role_name"].ToString() == "Bələdiyyə")
+                    {
+                        roleId = "2";
+                    }
+                    else if (data["cand_data"][i]["role_name"].ToString() == "Parlament")
+                    {
+                        roleId = "3";
+                    }
+                    else if (data["cand_data"][i]["role_name"].ToString() == "Prezident")
+                    {
+                        roleId = "4";
+                    }
+
+
+                    candidates[ind].previousStatusInformation.Add((roleId, data["cand_data"][i]["count"].ToString()));
+                }
+            }
+
+            Debug.Log((int)(finish - start).TotalMinutes);
+            
+            electionScript.FillElectionPanel(candidates, data["election_type"].ToString(), (int)(finish-start).TotalMinutes);
+        }
+    }
+
+
+
+    private IEnumerator sendLawData()
+    {
+        JSONObject message1;
+        message1 = new JSONObject();
+
+        // Data = { [rule_id : 12 ,rule_id : 13 ]}
+        message1.AddField("id", "3");
+        message1.AddField("data", "[1, 3]");
+        Debug.Log("Send Law data " + message1);
+        // wait 1 seconds and continue
+        yield return new WaitForSeconds(1);
+
+        socket.Emit("sendLawData", message1);
     }
 
 
@@ -126,13 +211,15 @@ public class ClienTest : MonoBehaviour
 
         JSONObject wholeJSON = new JSONObject();
 
-        wholeJSON.AddField("user_id",50);
+        wholeJSON.AddField("user_id", 50);
         wholeJSON.AddField("tasks", jSONObject);
 
-        StartCoroutine(updateMinsOfMissions(wholeJSON));
+        //StartCoroutine(updateMinsOfMissions(wholeJSON));
+        socket.Emit("update_mission_mins", wholeJSON);
+        Debug.Log("ZZZZZZZZZ" + wholeJSON);
     }
 
-   
+
 
     [System.Serializable]
     public class MissionAndMins

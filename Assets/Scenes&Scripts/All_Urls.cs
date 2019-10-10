@@ -46,6 +46,7 @@ public class All_Urls
             urls.setUsersTaskResults = globalUrls.setUsersTaskResults;
             urls.userGetFine = globalUrls.userGetFine;
             urls.getUsersPossMissTemp = globalUrls.getUsersPossMissTemp;
+            urls.vote = globalUrls.vote;
 
         }
         else//Local Urls Will be used
@@ -68,8 +69,9 @@ public class All_Urls
             urls.moveBuilding = localUrls.moveBuilding;
             urls.getUserTaskList = localUrls.getUserTaskList;
             urls.setUsersTaskResults = localUrls.setUsersTaskResults;
-            urls.userGetFine = globalUrls.userGetFine;
-            urls.getUsersPossMissTemp = globalUrls.getUsersPossMissTemp;
+            urls.userGetFine = localUrls.userGetFine;
+            urls.getUsersPossMissTemp = localUrls.getUsersPossMissTemp;
+            urls.vote = localUrls.vote;
         }
         return urls;
     }
@@ -103,6 +105,7 @@ public class All_Urls
         public static string setUsersTaskResults = global_url + "/setUsersTaskResults";
         public static string userGetFine = global_url+"/userGetFine ";
         public static string getUsersPossMissTemp = global_url + "/getUsersPossMissTemp";
+        public static string vote = global_url + "/vote";
 
     }
     //Local URLS
@@ -134,6 +137,7 @@ public class All_Urls
         public static string setUsersTaskResults = local_url + "/setUsersTaskResults";
         public static string userGetFine = local_url + "/userGetFine ";
         public static string getUsersPossMissTemp = local_url + "/getUsersPossMissTemp";
+        public static string vote = local_url + "/vote";
 
     }
 
@@ -165,6 +169,7 @@ public class All_Urls
         public string setUsersTaskResults = string.Empty;
         public string userGetFine = string.Empty;
         public string getUsersPossMissTemp = string.Empty;
+        public string vote = string.Empty;
     }
 }
 

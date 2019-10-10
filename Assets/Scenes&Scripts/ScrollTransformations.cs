@@ -11,7 +11,8 @@ public class ScrollTransformations : MonoBehaviour
     float e = 0.0001f;
 
     public ScrollRect storeScroll;
-    public Button leftButton, rightButton, storeInteractButton;
+    public Button leftButton, rightButton;
+    public GameObject storeInteractButton;
 
 
     public void Update()
