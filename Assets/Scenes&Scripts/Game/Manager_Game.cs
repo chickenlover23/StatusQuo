@@ -984,6 +984,8 @@ public class Manager_Game : MonoBehaviour
         int total, completed;
         for (int i = 0; i < len; i++)
         {
+            Debug.Log("all task panel succ, faill:    " + data[i].ToString());
+
             completed = Int32.Parse(data[i]["comp_succ"].ToString());
             total = Int32.Parse(data[i]["comp_fail"].ToString()) + completed;
 
@@ -1081,9 +1083,7 @@ public class Manager_Game : MonoBehaviour
             }
             else
             {
-                //toast(userResources["data"]["message"])///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                //Debug.LogError("Setting user task result failed");
-                //Debug.Log(data.ToJson());
+                GetComponent<Toast>().ShowToast(data["message"].ToString());
             }
         }
     }
@@ -1766,8 +1766,4 @@ public class Manager_Game : MonoBehaviour
             addTaskToABuilding();
         }
     }
-
-
-
 }
-

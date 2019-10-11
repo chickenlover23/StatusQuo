@@ -103,69 +103,21 @@ public class ClienTest : MonoBehaviour
             electionPanelFilled = true;
 
             Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
-            //return;
+           
             JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
 
-            List<Candidate> candidates = new List<Candidate>();
-            List<string> used = new List<string>();
-            Candidate temp;
-            int ind;
-            string roleId;
+            List<Candidate> candidates;
             DateTime start, finish;
-            
-            start = DateTime.ParseExact(data["started_at"].ToString(), "yyyy-M-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-            finish = DateTime.ParseExact(data["expired_at"].ToString(), "yyyy-M-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            electionScript.prepareCandidates(data, out candidates, out start, out finish);
 
-            for (int i = 0; i < data["cand_data"].Count; i++)
-            {
-                Debug.Log(candidates.Count);
-                temp = new Candidate();
+            electionScript.FillElectionPanel(candidates, data["election_type"].ToString(), (int)(finish - start).TotalMinutes);
 
-                if (!used.Contains(data["cand_data"][i]["candidate_id"].ToString()))
-                {
-                    used.Add(data["cand_data"][i]["candidate_id"].ToString());
-
-                    temp.candidate_id = data["cand_data"][i]["candidate_id"].ToString();
-                    temp.userName = data["cand_data"][i]["username"].ToString();
-                    temp.gold = data["cand_data"][i]["gold"].ToString();
-                    temp.silver = data["cand_data"][i]["bronze"].ToString();
-                    temp.black = data["cand_data"][i]["black"].ToString();
-                    temp.currentAvatarId = data["cand_data"][i]["avatar_id"].ToString();
-
-                    temp.previousStatusInformation.Add((data["cand_data"][i]["avatar_id"].ToString(), data["cand_data"][i]["count"].ToString()));
-                    candidates.Add(temp);
-                }
-                else
-                {
-                    roleId = data["cand_data"][i]["avatar_id"].ToString();
-                    print((data["cand_data"][i]["role_name"].ToString()));
-                    ind = used.IndexOf(data["cand_data"][i]["candidate_id"].ToString());
-
-                    if (data["cand_data"][i]["role_name"].ToString() == "Bələdiyyə")
-                    {
-                        roleId = "2";
-                    }
-                    else if (data["cand_data"][i]["role_name"].ToString() == "Parlament")
-                    {
-                        roleId = "3";
-                    }
-                    else if (data["cand_data"][i]["role_name"].ToString() == "Prezident")
-                    {
-                        roleId = "4";
-                    }
-
-
-                    candidates[ind].previousStatusInformation.Add((roleId, data["cand_data"][i]["count"].ToString()));
-                }
-            }
-
-            Debug.Log((int)(finish - start).TotalMinutes);
-            
-            electionScript.FillElectionPanel(candidates, data["election_type"].ToString(), (int)(finish-start).TotalMinutes);
+            electionScript.makeElectionsPanelVotable(true);
+            electionScript.electionPanel.SetActive(true);
         }
     }
 
-
+   
 
     private IEnumerator sendLawData()
     {

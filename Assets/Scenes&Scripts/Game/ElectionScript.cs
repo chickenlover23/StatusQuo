@@ -6,12 +6,14 @@ using TMPro;
 using LitJson;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
+using System;
 
 public class ElectionScript : MonoBehaviour
 {
     public Manager_Game manager_game;
     public UserResourceInformation userInformation;
     public Toast toast;
+    public TMP_Text electionTitle;
     public GameObject electionExit;
     public GameObject electionPanel;
     public Transform electionPanelParent;
@@ -32,7 +34,10 @@ public class ElectionScript : MonoBehaviour
     string minute;
     string second;
 
-
+    private void Awake()
+    {
+        StartCoroutine(checkElection());
+    }
 
     private void Update()
     {
@@ -99,12 +104,36 @@ public class ElectionScript : MonoBehaviour
 
             electionPanelPreviousStatusParent = tempCandidate.transform.Find("previousStatuses").GetChild(0).GetChild(0).Find("Content");
             Debug.Log(candidates[i].previousStatusInformation.Count);
-            for (int j = 0; j < candidates[i].previousStatusInformation.Count; j++)
+
+
+            tempPrevious = Instantiate(electionPanelPreviousStatusItemPrefab, electionPanelPreviousStatusParent);
+           
+            Helper.LoadAvatarImage(candidates[i].previousStatusInformation[0].roleName, tempPrevious.transform.Find("icon").GetComponent<Image>());
+            tempPrevious.transform.Find("count").GetComponentInChildren<TMP_Text>().text = candidates[i].previousStatusInformation[0].count;
+
+
+            for (int j = 1; j < candidates[i].previousStatusInformation.Count; j++)
             {
                 tempPrevious = Instantiate(electionPanelPreviousStatusItemPrefab, electionPanelPreviousStatusParent);
+                Debug.Log("electiondaki satus iconlari   " + candidates[i].previousStatusInformation[j].roleName);
                 Helper.LoadAvatarImage(candidates[i].previousStatusInformation[j].roleName, tempPrevious.transform.Find("icon").GetComponent<Image>(), false, true);
                 tempPrevious.transform.Find("count").GetComponentInChildren<TMP_Text>().text = candidates[i].previousStatusInformation[j].count;
             }
+        }
+
+
+
+        if(electionType == "1")
+        {
+            electionTitle.text = "Bələdiyyə seçkisi";
+        }
+        else if (electionType == "2")
+        {
+            electionTitle.text = " Parlament seçkisi";
+        }
+        else if (electionType == "3")
+        {
+            electionTitle.text = " Prezident seçkisi";
         }
     }
 
@@ -136,14 +165,13 @@ public class ElectionScript : MonoBehaviour
     }
 
 
-    public void voteForSelectedCandidate()
+    public void VoteForSelectedCandidate()
     {
         if (!selectedCandidateId.Equals(""))
         {
             StartCoroutine(vote());
         }
     }
-
 
 
 
@@ -173,17 +201,133 @@ public class ElectionScript : MonoBehaviour
                 toast.ShowToast(data["message"].ToString());
 
                 electionPanel.SetActive(false);
-                electionExit.SetActive(true);
-                submit.gameObject.SetActive(false);
+                makeElectionsPanelVotable(false);
+                //electionExit.SetActive(true);
+                //submit.gameObject.SetActive(false);
 
-                for (int i = 0; i < electionPanelParent.childCount; i++)
-                {
-                    electionPanelParent.GetChild(i).Find("voteButton").GetComponent<Button>().interactable = false;
-                }
+                //for (int i = 0; i < electionPanelParent.childCount; i++)
+                //{
+                //    electionPanelParent.GetChild(i).Find("voteButton").GetComponent<Button>().interactable = false;
+                //}
             }
             else
             {
                 toast.ShowToast(data["message"].ToString());
+            }
+        }
+    }
+
+
+
+    //after login checks if there is an active election and acts on depending on th whether the user voted or not 
+    IEnumerator checkElection()
+    {
+        UnityWebRequest www = UnityWebRequest.Get(All_Urls.getUrl().checkElection);
+        www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
+
+        yield return www.SendWebRequest();
+
+
+        if (www.error != null || www.isNetworkError || www.isHttpError)
+        {
+            //Debug.LogError(www.error);
+            electionPanelButton.interactable = false;
+            makeElectionsPanelVotable(false);
+        }
+        else
+        {
+            JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
+            Debug.Log(data.ToJson());
+
+            if (data["status"].ToString() == "success")
+            {
+                List<Candidate> candidates;
+                DateTime start, finish;
+                prepareCandidates(data, out candidates, out start, out finish);
+                FillElectionPanel(candidates, data["election_type"].ToString(), (int)(finish - start).TotalMinutes);
+
+                if (data["voted"].ToString() == "True")
+                {
+                    makeElectionsPanelVotable(false);
+                }
+                else
+                {
+                    makeElectionsPanelVotable(true);
+                    electionPanel.SetActive(true);
+                }
+
+                electionPanelButton.interactable = true;
+            }
+        }
+    }
+
+
+    //creates the candidates list to fill the elction panel
+    public void prepareCandidates(JsonData data, out List<Candidate> candidates, out DateTime start, out DateTime finish)
+    {
+        candidates = new List<Candidate>();
+        List<string> used = new List<string>();
+        Candidate temp;
+        int ind;
+        string roleId;
+        Debug.Log(data.ToJson());
+        start = DateTime.ParseExact(data["started_at"].ToString(), "yyyy-M-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+        finish = DateTime.ParseExact(data["expired_at"].ToString(), "yyyy-M-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+
+        for (int i = 0; i < data["cand_data"].Count; i++)
+        {
+            Debug.Log(candidates.Count);
+            temp = new Candidate();
+
+            if (!used.Contains(data["cand_data"][i]["candidate_id"].ToString()))
+            {
+                used.Add(data["cand_data"][i]["candidate_id"].ToString());
+
+                temp.candidate_id = data["cand_data"][i]["candidate_id"].ToString();
+                temp.userName = data["cand_data"][i]["username"].ToString();
+                temp.gold = data["cand_data"][i]["gold"].ToString();
+                temp.silver = data["cand_data"][i]["bronze"].ToString();
+                temp.black = data["cand_data"][i]["black"].ToString();
+                temp.currentAvatarId = data["cand_data"][i]["avatar_id"].ToString();
+
+                temp.previousStatusInformation.Add((data["cand_data"][i]["avatar_id"].ToString(), data["cand_data"][i]["count"].ToString()));
+                candidates.Add(temp);
+            }
+            else
+            {
+                roleId = data["cand_data"][i]["role_name"].ToString();
+                //print((data["cand_data"][i]["role_name"].ToString()));
+                ind = used.IndexOf(data["cand_data"][i]["candidate_id"].ToString());
+
+                candidates[ind].previousStatusInformation.Add((roleId, data["cand_data"][i]["count"].ToString()));
+            }
+        }
+    }
+
+
+    //if true user has to vote in order to close the election panel, if false then the user has already voted and can close and open the election panel at free will
+    public void makeElectionsPanelVotable(bool b)
+    {
+        if (b)
+        {
+            selectedCandidateId = "";
+            electionExit.SetActive(false);
+            submit.gameObject.SetActive(true);
+
+            for (int i = 0; i < electionPanelParent.childCount; i++)
+            {
+                electionPanelParent.GetChild(i).Find("voteButton").GetComponent<Button>().interactable = true;
+            }
+        }
+        else
+        {
+            selectedCandidateId = "";
+            electionExit.SetActive(true);
+            submit.gameObject.SetActive(false);
+
+            for (int i = 0; i < electionPanelParent.childCount; i++)
+            {
+                electionPanelParent.GetChild(i).Find("voteButton").GetComponent<Button>().interactable = false;
             }
         }
     }

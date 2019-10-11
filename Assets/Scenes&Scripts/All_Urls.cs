@@ -47,6 +47,8 @@ public class All_Urls
             urls.userGetFine = globalUrls.userGetFine;
             urls.getUsersPossMissTemp = globalUrls.getUsersPossMissTemp;
             urls.vote = globalUrls.vote;
+            urls.checkElection = globalUrls.checkElection;
+
 
         }
         else//Local Urls Will be used
@@ -72,6 +74,7 @@ public class All_Urls
             urls.userGetFine = localUrls.userGetFine;
             urls.getUsersPossMissTemp = localUrls.getUsersPossMissTemp;
             urls.vote = localUrls.vote;
+            urls.checkElection = localUrls.checkElection;
         }
         return urls;
     }
@@ -106,6 +109,7 @@ public class All_Urls
         public static string userGetFine = global_url+"/userGetFine ";
         public static string getUsersPossMissTemp = global_url + "/getUsersPossMissTemp";
         public static string vote = global_url + "/vote";
+        public static string checkElection = global_url + "/checkElections";
 
     }
     //Local URLS
@@ -138,6 +142,7 @@ public class All_Urls
         public static string userGetFine = local_url + "/userGetFine ";
         public static string getUsersPossMissTemp = local_url + "/getUsersPossMissTemp";
         public static string vote = local_url + "/vote";
+        public static string checkElection = local_url + "/checkElections";
 
     }
 
@@ -170,6 +175,8 @@ public class All_Urls
         public string userGetFine = string.Empty;
         public string getUsersPossMissTemp = string.Empty;
         public string vote = string.Empty;
+        public string checkElection = string.Empty;
+
     }
 }
 
