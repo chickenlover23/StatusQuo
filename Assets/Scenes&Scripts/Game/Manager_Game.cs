@@ -973,6 +973,7 @@ public class Manager_Game : MonoBehaviour
 
     private void fillUserTaskList(JsonData data)
     {
+        Debug.Log(data.ToJson());
 
         for (int i = allTasksItemParent.transform.childCount - 1; i > -1; i--)
         {
@@ -984,7 +985,7 @@ public class Manager_Game : MonoBehaviour
         int total, completed;
         for (int i = 0; i < len; i++)
         {
-            Debug.Log("all task panel succ, faill:    " + data[i].ToString());
+            //Debug.Log("all task panel succ, faill:    " + data[i].ToString());
 
             completed = Int32.Parse(data[i]["comp_succ"].ToString());
             total = Int32.Parse(data[i]["comp_fail"].ToString()) + completed;
