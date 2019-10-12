@@ -39,7 +39,16 @@ public class ClienTest : MonoBehaviour
 
         //get all users' messages about elections
         socket.On("user_all", OnUserGetAllMess);
-        
+
+
+        //get new users' messages about elections
+        socket.On("userOld", OnUserGetOldMess);
+
+        //get new users' messages about elections
+        socket.On("userNew", OnUserGetNewMess);
+
+        //StartCoroutine(sendLawData());
+
     }
 
     public IEnumerator startSocketConnection(string user_id)
@@ -130,6 +139,18 @@ public class ClienTest : MonoBehaviour
     //get all users' messages about elections
     void OnUserGetAllMess(SocketIOEvent evt) {
         Debug.Log("Election mess_=> "+evt.data.GetField("message").str.Replace(@"\", ""));
+    }
+
+    //get old users' messages about elections
+    void OnUserGetOldMess(SocketIOEvent evt)
+    {
+        Debug.Log("Old mess => " + evt.data.GetField("message").str.Replace(@"\", ""));
+    }
+
+    //get new users' messages about elections
+    void OnUserGetNewMess(SocketIOEvent evt)
+    {
+        Debug.Log("New mess => " + evt.data.GetField("message").str.Replace(@"\", ""));
     }
 
 
