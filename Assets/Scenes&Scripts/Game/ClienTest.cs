@@ -32,6 +32,8 @@ public class ClienTest : MonoBehaviour
         //StartCoroutine(startSocketConnection());
         socket.On("checkElections",OnElectionsCheck);
 
+        //get all users' messages about elections
+        socket.On("user_all", OnUserGetAllMess);
         //StartCoroutine(sendLawData());
     }
 
@@ -117,7 +119,11 @@ public class ClienTest : MonoBehaviour
         }
     }
 
-   
+    //get all users' messages about elections
+    void OnUserGetAllMess(SocketIOEvent evt) {
+        Debug.Log("Election mess_=> "+evt.data.GetField("message").str.Replace(@"\", ""));
+    }
+
 
     private IEnumerator sendLawData()
     {
