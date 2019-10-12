@@ -10,13 +10,15 @@ using System;
 public class ClienTest : MonoBehaviour
 {
     public ElectionScript electionScript;
-
+    public TimerClass timer;
+    public UserResourceInformation user;
+    public Laws law;
 
     JSONObject message;
 
     SocketIOComponent socket;
 
-    bool electionPanelFilled = false;
+    bool electionPanelFilled = false, lawPanelFilled = false;
 
     void Start()
     {
@@ -24,17 +26,20 @@ public class ClienTest : MonoBehaviour
 
         socket = GetComponent<SocketIOComponent>();
 
+        socket.On("ruleTaskChannelParMessage", onLawGetForPar);
+        socket.On("ruleTaskChannelPreMessage", onLawGetForPre);
+       
         socket.On("message", onTaskGet);
 
         //if user has any existing task then get it 
         socket.On("checktask", OnLoginTaskCheck);
 
         //StartCoroutine(startSocketConnection());
-        socket.On("checkElections",OnElectionsCheck);
+        socket.On("checkElections", OnElectionsCheck);
 
         //get all users' messages about elections
         socket.On("user_all", OnUserGetAllMess);
-        //StartCoroutine(sendLawData());
+        
     }
 
     public IEnumerator startSocketConnection(string user_id)
@@ -52,7 +57,7 @@ public class ClienTest : MonoBehaviour
         try
         {
             JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
-
+            Debug.Log(data.ToJson());
             Task newTask = new Task();
             newTask.allSeconds = int.Parse(data["task_data"]["minutes"].ToString()) * 60f;
             newTask.remainingAllSeconds = newTask.allSeconds;
@@ -95,6 +100,7 @@ public class ClienTest : MonoBehaviour
         {
             Debug.LogException(ex);
         }
+        return;
     }
 
     //to get candidates data for elections 
@@ -109,15 +115,17 @@ public class ClienTest : MonoBehaviour
             JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
 
             List<Candidate> candidates;
-            DateTime start, finish;
-            electionScript.prepareCandidates(data, out candidates, out start, out finish);
+            int minutes;
+            electionScript.prepareCandidates(data, out candidates, out minutes);
 
-            electionScript.FillElectionPanel(candidates, data["election_type"].ToString(), (int)(finish - start).TotalMinutes);
+            electionScript.FillElectionPanel(candidates, data["election_type"].ToString(), minutes);
 
             electionScript.makeElectionsPanelVotable(true);
             electionScript.electionPanel.SetActive(true);
         }
+        return;
     }
+    
 
     //get all users' messages about elections
     void OnUserGetAllMess(SocketIOEvent evt) {
@@ -125,56 +133,101 @@ public class ClienTest : MonoBehaviour
     }
 
 
+    void onLawGetForPar(SocketIOEvent evt)
+    {
+        try
+        {
+            if (!lawPanelFilled)
+            {
+                lawPanelFilled = true;
+                JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+                Debug.Log(data.ToJson());
+                law.FillLawPanel(data);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+        }
+        return;
+    }
+
+
+    void onLawGetForPre(SocketIOEvent evt)
+    {
+        try
+        {
+            if (!lawPanelFilled)
+            {
+                lawPanelFilled = true;
+                JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+                Debug.Log(data.ToJson());
+                law.FillLawPanel(data);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+        }
+        return;
+    }
+
+
     private IEnumerator sendLawData()
     {
-        JSONObject message1;
-        message1 = new JSONObject();
+        JSONObject message1 = new JSONObject();
 
         // Data = { [rule_id : 12 ,rule_id : 13 ]}
-        message1.AddField("id", "3");
-        message1.AddField("data", "[1, 3]");
+        message1.AddField("id", user.role_id);
+        message1.AddField("data", law.prepareLawStringForSending());
+
         Debug.Log("Send Law data " + message1);
-        // wait 1 seconds and continue
+       
+
         yield return new WaitForSeconds(1);
 
         socket.Emit("sendLawData", message1);
     }
 
-
-    public IEnumerator updateMinsOfMissions(JSONObject form)
+    public void SendLawDataToServer()
     {
-        yield return new WaitForEndOfFrame();
-        socket.Emit("update_mission_mins", form);
-        Debug.Log("ZZZZZZZZZ" + form);
+        StartCoroutine(sendLawData());
     }
+
 
     private void OnApplicationQuit()
     {
-        addBTNTes();
+        sendUnfinishedTaskToServer();
     }
+
+
     //this func will used to update minutes of users' tasks
-    public void addBTNTes()
+    public void sendUnfinishedTaskToServer()
     {
-        JSONObject jSONObject = new JSONObject();
-        JSONObject missionAndMins = new JSONObject();
-        JSONObject missionANdMMINS2 = new JSONObject();
-        missionAndMins.AddField("mission_id",11);
-        missionAndMins.AddField("mins", 1);
+        JSONObject data = new JSONObject();
+        JSONObject tasksList = new JSONObject();
+        int min;
 
-        missionANdMMINS2.AddField("mission_id", 5);
-        missionANdMMINS2.AddField("mins", 3);
+        for(int i = 0; i < timer.taskInfos.Count; i++)
+        {
+            for (int j = 0; j < timer.taskInfos[i].currentTasks.Count; j++)
+            {
+                JSONObject task = new JSONObject();
+                min = (int)Math.Ceiling(timer.taskInfos[i].currentTasks[j].remainingAllSeconds/60);
 
-        jSONObject.Add(missionAndMins);
-        jSONObject.Add(missionANdMMINS2);
+                task.AddField("mission_id", timer.taskInfos[i].currentTasks[j].taskId);
+                task.AddField("mins", min);
+                tasksList.Add(task);
+            }
+        }
 
-        JSONObject wholeJSON = new JSONObject();
-
-        wholeJSON.AddField("user_id", 50);
-        wholeJSON.AddField("tasks", jSONObject);
-
-        //StartCoroutine(updateMinsOfMissions(wholeJSON));
-        socket.Emit("update_mission_mins", wholeJSON);
-        Debug.Log("ZZZZZZZZZ" + wholeJSON);
+        data.AddField("user_id", user.userId);
+        data.AddField("tasks", tasksList);
+        if (data != null)
+        {
+            socket.Emit("update_mission_mins", data);
+        }
+        Debug.Log("ZZZZZZZZZ" + data);
     }
 
 

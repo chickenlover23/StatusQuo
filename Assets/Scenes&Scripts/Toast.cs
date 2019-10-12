@@ -64,6 +64,8 @@ public class Toast : MonoBehaviour
         fading = true;
 
     }
+
+
     /// <summary>
     /// Shows a toast with the "message" for "second" seconds
     /// </summary>

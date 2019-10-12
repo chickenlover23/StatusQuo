@@ -79,9 +79,9 @@ public class ElectionScript : MonoBehaviour
             tempCandidate = Instantiate(electionPanelItemPrefab, electionPanelParent);
 
             tempCandidate.transform.Find("userName").GetComponent<TMP_Text>().text = candidates[i].userName;
-            tempCandidate.transform.Find("resources").Find("gold").GetComponentInChildren<TMP_Text>().text = candidates[i].gold;
-            tempCandidate.transform.Find("resources").Find("silver").GetComponentInChildren<TMP_Text>().text = candidates[i].silver;
-            tempCandidate.transform.Find("resources").Find("black").GetComponentInChildren<TMP_Text>().text = candidates[i].black;
+            tempCandidate.transform.Find("resourceAndIcon").Find("resources").Find("gold").GetComponentInChildren<TMP_Text>().text = candidates[i].gold;
+            tempCandidate.transform.Find("resourceAndIcon").Find("resources").Find("silver").GetComponentInChildren<TMP_Text>().text = candidates[i].silver;
+            tempCandidate.transform.Find("resourceAndIcon").Find("resources").Find("black").GetComponentInChildren<TMP_Text>().text = candidates[i].black;
             tempCandidate.transform.Find("voteButton").GetComponent<Button>().onClick.AddListener(delegate { selectCandidate(); });
 
             tempCandidate.GetComponent<Candidate>().userName = candidates[i].userName;
@@ -100,10 +100,10 @@ public class ElectionScript : MonoBehaviour
             tempCandidate.transform.Find("previousStatuses").GetChild(0).GetComponent<TouchOnUI>().managerGame = manager_game;
 
 
-            Helper.LoadAvatarImage(candidates[i].currentAvatarId, tempCandidate.transform.Find("icon").GetComponent<Image>());
+            Helper.LoadAvatarImage(candidates[i].currentAvatarId, tempCandidate.transform.Find("resourceAndIcon").Find("icon").GetComponent<Image>());
 
             electionPanelPreviousStatusParent = tempCandidate.transform.Find("previousStatuses").GetChild(0).GetChild(0).Find("Content");
-            Debug.Log(candidates[i].previousStatusInformation.Count);
+            //Debug.Log(candidates[i].previousStatusInformation.Count);
 
 
             tempPrevious = Instantiate(electionPanelPreviousStatusItemPrefab, electionPanelPreviousStatusParent);
@@ -115,7 +115,7 @@ public class ElectionScript : MonoBehaviour
             for (int j = 1; j < candidates[i].previousStatusInformation.Count; j++)
             {
                 tempPrevious = Instantiate(electionPanelPreviousStatusItemPrefab, electionPanelPreviousStatusParent);
-                Debug.Log("electiondaki satus iconlari   " + candidates[i].previousStatusInformation[j].roleName);
+                //Debug.Log("electiondaki satus iconlari   " + candidates[i].previousStatusInformation[j].roleName);
                 Helper.LoadAvatarImage(candidates[i].previousStatusInformation[j].roleName, tempPrevious.transform.Find("icon").GetComponent<Image>(), false, true);
                 tempPrevious.transform.Find("count").GetComponentInChildren<TMP_Text>().text = candidates[i].previousStatusInformation[j].count;
             }
@@ -237,14 +237,14 @@ public class ElectionScript : MonoBehaviour
         else
         {
             JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
-            Debug.Log(data.ToJson());
+            //Debug.Log(data.ToJson());
 
             if (data["status"].ToString() == "success")
             {
                 List<Candidate> candidates;
-                DateTime start, finish;
-                prepareCandidates(data, out candidates, out start, out finish);
-                FillElectionPanel(candidates, data["election_type"].ToString(), (int)(finish - start).TotalMinutes);
+                int minutes;
+                prepareCandidates(data, out candidates, out minutes);
+                FillElectionPanel(candidates, data["election_type"].ToString(), minutes);
 
                 if (data["voted"].ToString() == "True")
                 {
@@ -263,16 +263,29 @@ public class ElectionScript : MonoBehaviour
 
 
     //creates the candidates list to fill the elction panel
-    public void prepareCandidates(JsonData data, out List<Candidate> candidates, out DateTime start, out DateTime finish)
+    public void prepareCandidates(JsonData data, out List<Candidate> candidates, out int minutes)
     {
+        try
+        {
+            DateTime finish = DateTime.ParseExact(data["expired_at"].ToString(), "yyyy-M-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture).ToUniversalTime();
+            minutes = (int)(finish - DateTime.Now.ToUniversalTime()).TotalMinutes;
+        }
+        catch
+        {
+            minutes = 0;
+        }
+        if(minutes < 0)
+        {
+            minutes = 0;
+        }
+
         candidates = new List<Candidate>();
         List<string> used = new List<string>();
         Candidate temp;
         int ind;
         string roleId;
         Debug.Log(data.ToJson());
-        start = DateTime.ParseExact(data["started_at"].ToString(), "yyyy-M-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-        finish = DateTime.ParseExact(data["expired_at"].ToString(), "yyyy-M-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+      
 
         for (int i = 0; i < data["cand_data"].Count; i++)
         {

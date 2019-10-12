@@ -18,7 +18,8 @@ public class BackButtonGeneral : MonoBehaviour
     public GameObject taskResultPopup;
     public GameObject allTasks;
     public GameObject sellBuilding;
-    
+    public GameObject electionPanel;
+    public GameObject electionExit;
 
 
 
@@ -90,6 +91,17 @@ public class BackButtonGeneral : MonoBehaviour
                     {
                         allTasks.SetActive(false);
                         blurPanel.SetActive(false);
+                    }
+                    else if (electionPanel.activeSelf)
+                    {
+                        if (electionExit.activeSelf)
+                        {
+                            electionPanel.SetActive(false);
+                        }
+                        else
+                        {
+                            GetComponent<Toast>().ShowToast("Oyuna davam etmək üçün səs verməlisiniz", 4);
+                        }
                     }
                     else
                     {

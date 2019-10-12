@@ -419,20 +419,6 @@ public class Manager_Game : MonoBehaviour
         setProperNotificationForABuilding(taskInfo.gameObject);
     }
 
-    //public void addOrShowDeprecatedTask()
-    //{
-    //    if(currentTaskInfo.currentTasks.Count > 0)
-    //    {
-    //        //Add to the notification panel
-    //    }
-    //    else
-    //    {
-    //        taskPopUpIsOpen = false;
-    //        taskPopUp.SetActive(false);
-    //        //change the notification's image to the bad one
-    //    }
-    //}
-
 
 
     public void addTask(Task newTask, string buildingType_id)
@@ -476,7 +462,8 @@ public class Manager_Game : MonoBehaviour
                     newTaskInfo.currentTasks.Add(temp);
 
                     //activates the notification, change it to smth good
-                    checkNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject, notification_normal.name);
+                    Debug.Log("burda problem ola biler");
+                    //checkNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject, notification_normal.name);
                     setProperNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject);
 
                     if (!gameObject.GetComponent<TimerClass>().taskInfos.Contains(newTaskInfo))
@@ -490,6 +477,7 @@ public class Manager_Game : MonoBehaviour
         }
         //Debug.LogErrorFormat(string.Format("Building type not found for the task {0}", newTask.taskDescription).ToString());
     }
+
     //tam olaraq men de bilmirem niye yazmisam bunu, daha dogrusu ne ise yarazadigini bildirecek ad tapa bilmedim buna
     private void checkNotificationForABuilding(GameObject _building, string notificationType)
     {
@@ -559,7 +547,7 @@ public class Manager_Game : MonoBehaviour
     {
         GameObject _building = currentTaskInfo.gameObject;
         Task _task = currentTaskInfo.currentTasks[taskIndex];
-        currentTaskInfo.currentTasks.RemoveAt(taskIndex);
+        
         string taskId = _task.taskId;
         string gold = _task.taskGold;
         string bronze = _task.taskBronze;
@@ -973,7 +961,7 @@ public class Manager_Game : MonoBehaviour
 
     private void fillUserTaskList(JsonData data)
     {
-        Debug.Log(data.ToJson());
+        //Debug.Log(data.ToJson());
 
         for (int i = allTasksItemParent.transform.childCount - 1; i > -1; i--)
         {
@@ -1039,6 +1027,8 @@ public class Manager_Game : MonoBehaviour
             Debug.Log(data.ToJson());
             if (data["status"].ToString() == "success")
             {
+                currentTaskInfo.currentTasks.RemoveAt(taskIndex);
+                Debug.Log("cecececeehe");
                 TaskResult taskResult = new TaskResult();
                 taskResult.gold = data["items"]["gold"].ToString();
                 taskResult.bronze = data["items"]["bronze"].ToString();
@@ -1084,7 +1074,8 @@ public class Manager_Game : MonoBehaviour
             }
             else
             {
-                GetComponent<Toast>().ShowToast(data["message"].ToString());
+                Debug.Log("hehe");
+                GetComponent<Toast>().ShowToast(data["message"].ToString(), 4f);
             }
         }
     }
