@@ -7,6 +7,7 @@ using LitJson;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 using System;
+using UnityEngine.SceneManagement;
 
 public class ElectionScript : MonoBehaviour
 {
@@ -380,6 +381,12 @@ public class ElectionScript : MonoBehaviour
     {
         candidatePopupTitle.text = title;
         candidatePopupDescription.text = message;
+    }
+
+    public void reload()
+    {
+        PlayerPrefs.SetString("reload", "1");
+        SceneManager.LoadSceneAsync("Login");
     }
 }
 

@@ -31,6 +31,11 @@ public class Manager_Login : MonoBehaviour
         {
             StartCoroutine(IE_login(PlayerPrefs.GetString("email"), PlayerPrefs.GetString("password")));
         }
+        else if(!PlayerPrefs.GetString("reload", "").Equals("1"))
+        {
+            PlayerPrefs.SetString("reload", "0");
+            StartCoroutine(IE_login(PlayerPrefs.GetString("re_email"), PlayerPrefs.GetString("re_password")));
+        }
     }
 
 
@@ -113,6 +118,8 @@ public class Manager_Login : MonoBehaviour
         {
             JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
 
+            PlayerPrefs.SetString("re_email", _email);
+            PlayerPrefs.SetString("re_password", _pass);
 
             if (rememberMe.isOn)
             {
