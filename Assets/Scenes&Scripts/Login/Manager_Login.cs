@@ -29,10 +29,12 @@ public class Manager_Login : MonoBehaviour
     {
         if (!PlayerPrefs.GetString("email", "").Equals(""))
         {
+            Debug.Log("11111");
             StartCoroutine(IE_login(PlayerPrefs.GetString("email"), PlayerPrefs.GetString("password")));
         }
-        else if(!PlayerPrefs.GetString("reload", "").Equals("1"))
+        else if(PlayerPrefs.GetString("reload", "").Equals("1"))
         {
+            Debug.Log("22222");
             PlayerPrefs.SetString("reload", "0");
             StartCoroutine(IE_login(PlayerPrefs.GetString("re_email"), PlayerPrefs.GetString("re_password")));
         }
