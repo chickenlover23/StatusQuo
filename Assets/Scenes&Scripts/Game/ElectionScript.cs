@@ -383,7 +383,7 @@ public class ElectionScript : MonoBehaviour
             
             if (!used.Contains(data["users"][i]["candidate_id"].ToString()))
             {
-                //used.Add(data["users"][i]["candidate_id"].ToString());
+                used.Add(data["users"][i]["candidate_id"].ToString());
                 tempResult = Instantiate(electionResultPanelPrefab, electionResultPanelParent.transform);
 
                 tempResult.transform.Find("userName").GetComponent<TMP_Text>().text = data["users"][i]["username"].ToString();
