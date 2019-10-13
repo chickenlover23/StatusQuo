@@ -18,7 +18,9 @@ public class ClienTest : MonoBehaviour
 
     SocketIOComponent socket;
 
-    bool electionPanelFilled = false, lawPanelFilled = false;
+    bool electionPanelFilled = false, lawPanelFilled = false, electionResultFilled = false;
+
+
 
     void Start()
     {
@@ -119,7 +121,7 @@ public class ClienTest : MonoBehaviour
         {
             electionPanelFilled = true;
 
-            Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
+            //Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
            
             JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
 
@@ -134,11 +136,22 @@ public class ClienTest : MonoBehaviour
         }
         return;
     }
-    
+
 
     //get all users' messages about elections
-    void OnUserGetAllMess(SocketIOEvent evt) {
-        Debug.Log("Election mess_=> "+evt.data.GetField("message").str.Replace(@"\", ""));
+    void OnUserGetAllMess(SocketIOEvent evt)
+    {
+        if (!electionResultFilled)
+        {
+            electionResultFilled = true;
+
+            Debug.Log("Election mess_=> " + evt.data.GetField("message").str.Replace(@"\", ""));
+
+            JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+
+            electionScript.fillElectionResults(data);
+            electionScript.electionResultPanel.SetActive(true);
+        }
     }
 
     //get old users' messages about elections

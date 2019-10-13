@@ -21,8 +21,13 @@ public class ElectionScript : MonoBehaviour
     public GameObject electionPanelPreviousStatusItemPrefab;
     public Button submit;
     public TMP_Text electionTimer;
-
     public Button electionPanelButton;
+
+    public GameObject electionResultPanel;
+    public TMP_Text electionResultPanelTitle;
+    public GameObject electionResultPanelParent;
+    public GameObject electionResultPanelPrefab;
+
 
     string selectedCandidateId;
     string activeElectionType;
@@ -191,6 +196,7 @@ public class ElectionScript : MonoBehaviour
         if (www.error != null || www.isNetworkError || www.isHttpError)
         {
             Debug.LogError(www.error);
+            toast.ShowToast("Xəta");
         }
         else
         {
@@ -212,7 +218,7 @@ public class ElectionScript : MonoBehaviour
             }
             else
             {
-                toast.ShowToast(data["message"].ToString());
+                toast.ShowToast(data["message"].ToString(), 3);
             }
         }
     }
@@ -344,6 +350,28 @@ public class ElectionScript : MonoBehaviour
             }
         }
     }
+
+
+    public void fillElectionResults(JsonData data)
+    {
+        electionResultPanelTitle.text = data["users"][0]["role_name"].ToString() + "SEÇKİlərinin NƏTİCƏLƏRİ";
+
+        GameObject tempResult;
+
+        for (int i = 0; i < data["users"].Count; i++)
+        {
+            tempResult = Instantiate(electionResultPanelPrefab, electionResultPanelParent.transform);
+
+            tempResult.transform.Find("userName").GetComponent<TMP_Text>().text = data["users"][i]["username"].ToString();
+            tempResult.transform.Find("resources").Find("gold").GetComponentInChildren<TMP_Text>().text = data["users"][i]["gold"].ToString();
+            tempResult.transform.Find("resources").Find("silver").GetComponentInChildren<TMP_Text>().text = data["users"][i]["bronze"].ToString();
+            tempResult.transform.Find("resources").Find("black").GetComponentInChildren<TMP_Text>().text = data["users"][i]["black"].ToString();
+            tempResult.transform.Find("votes").GetComponent<TMP_Text>().text =  "səslər: " + data["selected_users_votes"][i].ToString();
+
+            Helper.LoadAvatarImage(data["users"][i]["role_name"].ToString(), tempResult.transform.Find("icon").GetComponent<Image>(), false, true);
+        }
+    }
+
 }
 
 

@@ -463,7 +463,7 @@ public class Manager_Game : MonoBehaviour
 
                     //activates the notification, change it to smth good
                     Debug.Log("burda problem ola biler");
-                    //checkNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject, notification_normal.name);
+                    checkNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject, notification_normal.name);
                     setProperNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject);
 
                     if (!gameObject.GetComponent<TimerClass>().taskInfos.Contains(newTaskInfo))
@@ -1035,6 +1035,12 @@ public class Manager_Game : MonoBehaviour
                 taskResult.black = data["items"]["black"].ToString();
                 taskResult.completed = completed;
 
+                if(currentTaskInfo.currentTasks.Count == 0)
+                {
+                    currentTaskInfo.hasTask = false;
+                }
+
+
                 if (int.Parse(taskResult.gold) > 0 && int.Parse(taskResult.bronze) > 0 && int.Parse(taskResult.black) == 0)
                 {
                     updateUserResources(taskResult.gold, "-" + taskResult.bronze, "-" + taskResult.black);
@@ -1060,13 +1066,14 @@ public class Manager_Game : MonoBehaviour
                     addToNotificationPanel(_building.GetComponent<TaskInformation>().taskResult);
                     _building.GetComponent<TaskInformation>().taskResult = taskResult;
                     _building.GetComponent<TaskInformation>().hasTaskResult = true;
+                    _building.GetComponent<TaskInformation>().hasTask = false;
                 }
-
                 else
                 {
                     Debug.Log("h3");
                     _building.GetComponent<TaskInformation>().taskResult = taskResult;
                     _building.GetComponent<TaskInformation>().hasTaskResult = true;
+                    _building.GetComponent<TaskInformation>().hasTask = false;
                 }
 
                 setProperNotificationForABuilding(_building);
@@ -1574,6 +1581,7 @@ public class Manager_Game : MonoBehaviour
             }
         }
     }
+
 
     /// <summary>
     /// Finds correct building instance and assings to "buildingInstanceActive" variable.
