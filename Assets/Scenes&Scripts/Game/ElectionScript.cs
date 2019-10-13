@@ -105,7 +105,7 @@ public class ElectionScript : MonoBehaviour
 
 
             tempCandidate.transform.Find("voteButton").GetComponent<TouchOnUI>().managerGame = manager_game;
-            tempCandidate.GetComponent<TouchOnUI>().managerGame = manager_game;
+            
             tempCandidate.transform.Find("previousStatuses").GetComponent<TouchOnUI>().managerGame = manager_game;
             tempCandidate.transform.Find("previousStatuses").GetChild(0).GetComponent<TouchOnUI>().managerGame = manager_game;
 
