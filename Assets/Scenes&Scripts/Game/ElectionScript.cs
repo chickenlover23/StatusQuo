@@ -359,21 +359,44 @@ public class ElectionScript : MonoBehaviour
 
     public void fillElectionResults(JsonData data)
     {
-        electionResultPanelTitle.text = data["users"][0]["role_name"].ToString() + "SEÇKİlərinin NƏTİCƏLƏRİ";
+        List<string> used = new List<string>();
+        int ind = 0;
+
+        if (data["election_type"].ToString() == "1")
+        {
+            electionResultPanelTitle.text = "Bələdiyyə " + "SEÇKİlərinin NƏTİCƏLƏRİ";
+        }
+        else if (data["election_type"].ToString() == "1")
+        {
+            electionResultPanelTitle.text = "parlament " + "SEÇKİlərinin NƏTİCƏLƏRİ";
+        }
+        else if (data["election_type"].ToString() == "1")
+        {
+            electionResultPanelTitle.text = "prezident " + "SEÇKİlərinin NƏTİCƏLƏRİ";
+        }
+
 
         GameObject tempResult;
-
+        Debug.Log(data["users"].Count);
         for (int i = 0; i < data["users"].Count; i++)
         {
-            tempResult = Instantiate(electionResultPanelPrefab, electionResultPanelParent.transform);
+            
+            if (!used.Contains(data["users"][i]["candidate_id"].ToString()))
+            {
+                //used.Add(data["users"][i]["candidate_id"].ToString());
+                tempResult = Instantiate(electionResultPanelPrefab, electionResultPanelParent.transform);
 
-            tempResult.transform.Find("userName").GetComponent<TMP_Text>().text = data["users"][i]["username"].ToString();
-            tempResult.transform.Find("resources").Find("gold").GetComponentInChildren<TMP_Text>().text = data["users"][i]["gold"].ToString();
-            tempResult.transform.Find("resources").Find("silver").GetComponentInChildren<TMP_Text>().text = data["users"][i]["bronze"].ToString();
-            tempResult.transform.Find("resources").Find("black").GetComponentInChildren<TMP_Text>().text = data["users"][i]["black"].ToString();
-            tempResult.transform.Find("votes").GetComponent<TMP_Text>().text =  "səslər: " + data["selected_users_votes"][i].ToString();
+                tempResult.transform.Find("userName").GetComponent<TMP_Text>().text = data["users"][i]["username"].ToString();
+                tempResult.transform.Find("resources").Find("gold").GetComponentInChildren<TMP_Text>().text = data["users"][i]["gold"].ToString();
+                tempResult.transform.Find("resources").Find("silver").GetComponentInChildren<TMP_Text>().text = data["users"][i]["bronze"].ToString();
+                tempResult.transform.Find("resources").Find("black").GetComponentInChildren<TMP_Text>().text = data["users"][i]["black"].ToString();
+                tempResult.transform.Find("votes").GetComponent<TMP_Text>().text = "səslər: " + data["selected_users_votes"][ind].ToString();
 
-            Helper.LoadAvatarImage(data["users"][i]["role_name"].ToString(), tempResult.transform.Find("icon").GetComponent<Image>(), false, true);
+                Helper.LoadAvatarImage(data["users"][i]["role_name"].ToString(), tempResult.transform.Find("icon").GetComponent<Image>(), false, true);
+                ind++;
+                Debug.Log(i);
+                
+            }
         }
     }
 

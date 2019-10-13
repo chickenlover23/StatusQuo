@@ -68,7 +68,7 @@ public class ClienTest : MonoBehaviour
         try
         {
             JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
-            Debug.Log(data.ToJson());
+            //Debug.Log(data.ToJson());
             Task newTask = new Task();
             newTask.allSeconds = int.Parse(data["task_data"]["minutes"].ToString()) * 60f;
             newTask.remainingAllSeconds = newTask.allSeconds;
@@ -150,6 +150,7 @@ public class ClienTest : MonoBehaviour
             JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
 
             electionScript.fillElectionResults(data);
+            Debug.Log("arasiiiiiiiiiiiiiiii");
             electionScript.electionResultPanel.SetActive(true);
         }
     }
