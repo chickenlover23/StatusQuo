@@ -41,7 +41,7 @@ namespace SocketIO
 	public class SocketIOComponent : MonoBehaviour
 	{
         #region Public Properties
-        //37.228.119.74
+        //167.99.247.4
         public string url = "ws://127.0.0.1:4567/socket.io/?EIO=4&transport=websocket";
 		public bool autoConnect = true;
 		public int reconnectDelay = 5;

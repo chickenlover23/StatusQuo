@@ -1522,9 +1522,26 @@ public class Manager_Game : MonoBehaviour
             text.text = number.ToString();
             StartCoroutine(addToNumber(text, number, amount, sign));
         }
-
         else
         {
+            Debug.Log("addToNumber");
+            if (text == blackBar)
+            {
+                if (Convert.ToInt32(blackBar.text) >= 5)
+                {
+                    Debug.Log("ddos");
+                    StartCoroutine(userGetFine());
+                }
+                else
+                {
+                    Debug.Log("no ddos");
+                }
+            }
+            else
+            {
+                Debug.Log("no ddos");
+            }
+            
             checkAffordableStoreBuildings();
         }
     }
@@ -1533,7 +1550,7 @@ public class Manager_Game : MonoBehaviour
     IEnumerator userGetFine()
     {
 
-        UnityWebRequest webRequest = UnityWebRequest.Get(All_Urls.getUrl().convertToGold);
+        UnityWebRequest webRequest = UnityWebRequest.Get(All_Urls.getUrl().userGetFine);
         webRequest.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
 
         yield return webRequest.SendWebRequest();
@@ -1546,10 +1563,10 @@ public class Manager_Game : MonoBehaviour
         else
         {
             JsonData data = JsonMapper.ToObject(webRequest.downloadHandler.text);
-
+            Debug.Log(data.ToJson());
             if (data["status"].ToString() == "success")
             {
-                updateUserResources("0", (Convert.ToInt32(bronzeBar.text) - Convert.ToInt32(data["bronze"].ToString())).ToString(), blackBar.text);
+                updateUserResources("0", (Convert.ToInt32(bronzeBar.text) - Convert.ToInt32(data["data"]["bronze"].ToString())).ToString(), blackBar.text);
             }
             else
             {
