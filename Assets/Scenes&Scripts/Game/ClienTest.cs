@@ -158,12 +158,22 @@ public class ClienTest : MonoBehaviour
     void OnUserGetOldMess(SocketIOEvent evt)
     {
         Debug.Log("Old mess => " + evt.data.GetField("message").str.Replace(@"\", ""));
+
+        string message = evt.data.GetField("message").str.Replace(@"\", "").ToString();
+        electionScript.CandidatePopUp("Təşəkkürlər!", message);
+        electionScript.blur.SetActive(true);
+        electionScript.candidatePopup.SetActive(true);
     }
 
     //get new users' messages about elections
     void OnUserGetNewMess(SocketIOEvent evt)
     {
         Debug.Log("New mess => " + evt.data.GetField("message").str.Replace(@"\", ""));
+
+        string message = evt.data.GetField("message").str.Replace(@"\", "").ToString();
+        electionScript.CandidatePopUp("Təbriklər!", message);
+        electionScript.blur.SetActive(true);
+        electionScript.candidatePopup.SetActive(true);
     }
 
 

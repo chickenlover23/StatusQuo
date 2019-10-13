@@ -28,6 +28,10 @@ public class ElectionScript : MonoBehaviour
     public GameObject electionResultPanelParent;
     public GameObject electionResultPanelPrefab;
 
+    public GameObject blur;
+    public GameObject candidatePopup;
+    public TMP_Text candidatePopupTitle;
+    public TMP_Text candidatePopupDescription;
 
     string selectedCandidateId;
     string activeElectionType;
@@ -372,6 +376,11 @@ public class ElectionScript : MonoBehaviour
         }
     }
 
+    public void CandidatePopUp(string title, string message)
+    {
+        candidatePopupTitle.text = title;
+        candidatePopupDescription.text = message;
+    }
 }
 
 
