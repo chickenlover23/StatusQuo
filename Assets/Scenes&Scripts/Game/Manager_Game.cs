@@ -1,4 +1,5 @@
 ﻿using LitJson;
+using SocketIO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,10 @@ using UnityEngine.UI;
 
 public class Manager_Game : MonoBehaviour
 {
+
+
+    public AudioClip buyClip, moveClip, newTaskClip, taskCompletedClip, taskEndendClip;
+
     public GameObject blurredLoadPanel;
     public int num;
     public TMP_InputField converterBronze, converterGold;
@@ -90,6 +95,8 @@ public class Manager_Game : MonoBehaviour
 
     public List<BuildingDataCollector> userDataCollectors;
 
+    float timeTemp = 0;
+    bool noInternet;
 
     private void Awake()
     {
@@ -183,6 +190,41 @@ public class Manager_Game : MonoBehaviour
                     }
                 }
                 catch (Exception e) { }
+            }
+        }
+
+
+
+
+
+        
+        {
+
+            timeTemp += Time.deltaTime;
+
+            if (timeTemp >= 4)
+            {
+                timeTemp = 0;
+                if (Helper.HasConnection())
+                {
+                    if (noInternet)
+                    {
+                        
+                        if (GetComponent<SocketIOComponent>().IsConnected)
+                        {
+                            Debug.Log("internetttt");
+                            noInternet = false;
+                            GetComponent<ClienTest>().enabled = true;
+                            StartCoroutine(GetComponent<ClienTest>().startSocketConnection(user.GetComponent<UserResourceInformation>().userId));
+                        }
+                    }
+                }
+                else
+                {
+                    noInternet = true;
+                    GetComponent<Toast>().ShowToast("İnternet bağlantınız yoxdur!");
+                    GetComponent<ClienTest>().enabled = false;
+                }
             }
         }
     }
@@ -443,7 +485,10 @@ public class Manager_Game : MonoBehaviour
                 }
                 if (!added)
                 {
-                   // Debug.Log("add task found correct building");
+
+                    GetComponent<AudioSource>().PlayOneShot(newTaskClip);
+
+                    // Debug.Log("add task found correct building");
                     newTaskInfo = buildingsTilemapsActive.transform.GetChild(i).gameObject.GetComponent<TaskInformation>();
 
                     newTaskInfo.hasTask = true;
@@ -538,9 +583,9 @@ public class Manager_Game : MonoBehaviour
     }
 
 
-    public void taskYesNo(bool b, Task _task, GameObject _building)
+    public void taskYesNo(bool b, Task _task, GameObject _building, TaskInformation _taskInfo, int taskInd)
     {
-        StartCoroutine(setUsersTaskResults(_building, _task.taskId, Helper.castToInt(b), _task.taskGold, _task.taskBronze, _task.taskBlack, _task.taskDescription));
+        StartCoroutine(setUsersTaskResults(_building, _task.taskId, Helper.castToInt(b), _task.taskGold, _task.taskBronze, _task.taskBlack, _task.taskDescription, _taskInfo, taskInd));
     }
 
     public void taskYesNo(bool b)
@@ -552,7 +597,7 @@ public class Manager_Game : MonoBehaviour
         string gold = _task.taskGold;
         string bronze = _task.taskBronze;
         string black = _task.taskBlack;
-        StartCoroutine(setUsersTaskResults(_building, taskId, Helper.castToInt(b), gold, bronze, black, _task.taskDescription));
+        StartCoroutine(setUsersTaskResults(_building, taskId, Helper.castToInt(b), gold, bronze, black, _task.taskDescription, currentTaskInfo, taskIndex));
     }
 
     private void loadPositions()
@@ -846,9 +891,10 @@ public class Manager_Game : MonoBehaviour
             //Debug.Log(userResources.ToJson());
             if (userResources["status"].ToString() == "success")
             {
+                GetComponent<AudioSource>().PlayOneShot(buyClip);
 
                 purchaseApproved(gameObject, pos);
-                updateUserResources((Int32.Parse(goldBar.text) - Int32.Parse(userResources["data"]["gold"].ToString())).ToString(), "0", "0");
+                updateUserResources((Int32.Parse(goldBar.text) - Int32.Parse(userResources["data"]["gold"].ToString())).ToString(), (Int32.Parse(bronzeBar.text) - Int32.Parse(userResources["data"]["bronze"].ToString())).ToString(), "0");
                 activeForBuying = false;
 
             }
@@ -885,6 +931,8 @@ public class Manager_Game : MonoBehaviour
 
             if (data["status"].ToString() == "success")
             {
+                GetComponent<AudioSource>().PlayOneShot(moveClip);
+
                 moveApproved();
             }
             else
@@ -1003,7 +1051,7 @@ public class Manager_Game : MonoBehaviour
         return (building_prefabs[ind].GetComponent<SpriteRenderer>().sprite);
     }
 
-    IEnumerator setUsersTaskResults(GameObject _building, string taskId, int completed, string gold, string bronze, string black, string _taskDescription)
+    IEnumerator setUsersTaskResults(GameObject _building, string taskId, int completed, string gold, string bronze, string black, string _taskDescription, TaskInformation _taskinfo, int _taskInd)
     {
         WWWForm form = new WWWForm();
         form.AddField("mission_id", taskId);
@@ -1012,10 +1060,11 @@ public class Manager_Game : MonoBehaviour
         form.AddField("bronze", bronze);
         form.AddField("black", black);
 
-
         UnityWebRequest www = UnityWebRequest.Post(All_Urls.getUrl().setUsersTaskResults, form);
         www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
         yield return www.SendWebRequest();
+
+        
 
         if (www.error != null || www.isNetworkError || www.isHttpError)
         {
@@ -1027,7 +1076,20 @@ public class Manager_Game : MonoBehaviour
             Debug.Log(data.ToJson());
             if (data["status"].ToString() == "success")
             {
-                currentTaskInfo.currentTasks.RemoveAt(taskIndex);
+
+                if(completed == 1)
+                {
+                    GetComponent<AudioSource>().PlayOneShot(taskCompletedClip);
+                }
+                else
+                {
+                    GetComponent<AudioSource>().PlayOneShot(taskEndendClip);
+                }
+
+                Debug.Log(_taskinfo.gameObject.name);
+                Debug.Log(_taskInd);
+
+                _taskinfo.currentTasks.RemoveAt(_taskInd);
                 Debug.Log("cecececeehe");
                 TaskResult taskResult = new TaskResult();
                 taskResult.gold = data["items"]["gold"].ToString();
@@ -1035,9 +1097,9 @@ public class Manager_Game : MonoBehaviour
                 taskResult.black = data["items"]["black"].ToString();
                 taskResult.completed = completed;
 
-                if(currentTaskInfo.currentTasks.Count == 0)
+                if(_taskinfo.currentTasks.Count == 0)
                 {
-                    currentTaskInfo.hasTask = false;
+                    _taskinfo.hasTask = false;
                 }
 
 

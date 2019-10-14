@@ -38,11 +38,7 @@ public class Toast : MonoBehaviour
         }
     }
 
-    public void test(string message)
-    {
-        showToast(message, 2f);
-        showToast(message, 2f);
-    }
+  
 
     private void showToast(string message, float second)
     {
@@ -71,7 +67,7 @@ public class Toast : MonoBehaviour
     /// </summary>
     /// <param name="message"></param>
     /// <param name="second"></param>
-    public void ShowToast(string message, float second = 2f)
+    public void ShowToast(string message, float second = 3f)
     {
 
         showToast(message, second);

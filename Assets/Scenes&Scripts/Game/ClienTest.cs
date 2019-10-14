@@ -16,7 +16,7 @@ public class ClienTest : MonoBehaviour
 
     JSONObject message;
 
-    SocketIOComponent socket;
+    public SocketIOComponent socket;
 
     bool electionPanelFilled = false, lawPanelFilled = false, electionResultFilled = false;
 
@@ -28,9 +28,21 @@ public class ClienTest : MonoBehaviour
 
         socket = GetComponent<SocketIOComponent>();
 
-        socket.On("ruleTaskChannelParMessage", onLawGetForPar);
-        socket.On("ruleTaskChannelPreMessage", onLawGetForPre);
-       
+
+
+        //if (user.role_id == 3)
+        {
+            socket.On("ruleTaskChannelParMessage", onLawGetForPar);
+            socket.On("ruleTaskChannelParMessageFinal", onLawGetForParFinal);
+        }
+        //else if(user.role_id == 4)
+        {
+            socket.On("ruleTaskChannelPreMessage", onLawGetForPre);
+            socket.On("ruleTaskChannelPreMessageFinal", onLawGetForPreFinal);
+        }
+
+
+
         socket.On("message", onTaskGet);
 
         //if user has any existing task then get it 
@@ -42,16 +54,20 @@ public class ClienTest : MonoBehaviour
         //get all users' messages about elections
         socket.On("user_all", OnUserGetAllMess);
 
-
         //get new users' messages about elections
         socket.On("userOld", OnUserGetOldMess);
 
         //get new users' messages about elections
         socket.On("userNew", OnUserGetNewMess);
 
-        //StartCoroutine(sendLawData());
+
+        socket.On("rule_message_all", ruleMessageAll);
 
     }
+
+
+    
+
 
     public IEnumerator startSocketConnection(string user_id)
     {
@@ -59,7 +75,7 @@ public class ClienTest : MonoBehaviour
         message.AddField("nickname", user_id);
 
         yield return new WaitForSeconds(1);
-
+        Debug.Log("bir sey " + user_id);
         socket.Emit("register", message);
     }
 
@@ -178,8 +194,17 @@ public class ClienTest : MonoBehaviour
     }
 
 
+    private void ruleMessageAll(SocketIOEvent evt)
+    {
+        JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+        Debug.Log(data.ToJson());
+    }
+
+
     void onLawGetForPar(SocketIOEvent evt)
     {
+        Debug.Log("filll");
+
         try
         {
             if (!lawPanelFilled)
@@ -187,7 +212,41 @@ public class ClienTest : MonoBehaviour
                 lawPanelFilled = true;
                 JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
                 Debug.Log(data.ToJson());
-                law.FillLawPanel(data);
+                if (data.Count > 0)
+                {
+                    law.FillLawPanel(data, 0);
+                }
+                else
+                {
+                    Debug.Log("empty");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+        }
+        return;
+    }
+
+    void onLawGetForParFinal(SocketIOEvent evt)
+    {
+        Debug.Log("filll");
+        try
+        {
+            if (!lawPanelFilled)
+            {
+                lawPanelFilled = true;
+                JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+                Debug.Log(data.ToJson());
+                if (data.Count > 0)
+                {
+                    law.FillLawPanel(data, 1);
+                }
+                else
+                {
+                    Debug.Log("empty");
+                }
             }
         }
         catch (Exception ex)
@@ -200,6 +259,8 @@ public class ClienTest : MonoBehaviour
 
     void onLawGetForPre(SocketIOEvent evt)
     {
+        Debug.Log("filll");
+
         try
         {
             if (!lawPanelFilled)
@@ -207,7 +268,14 @@ public class ClienTest : MonoBehaviour
                 lawPanelFilled = true;
                 JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
                 Debug.Log(data.ToJson());
-                law.FillLawPanel(data);
+                if (data.Count > 0)
+                {
+                    law.FillLawPanel(data, 0);
+                }
+                else
+                {
+                    Debug.Log("empty");
+                }
             }
         }
         catch (Exception ex)
@@ -218,32 +286,41 @@ public class ClienTest : MonoBehaviour
     }
 
 
-    private IEnumerator sendLawData()
+    void onLawGetForPreFinal(SocketIOEvent evt)
     {
-        JSONObject message1 = new JSONObject();
+        Debug.Log("filll");
 
-        // Data = { [rule_id : 12 ,rule_id : 13 ]}
-        message1.AddField("id", user.role_id);
-        message1.AddField("data", law.prepareLawStringForSending());
-
-        Debug.Log("Send Law data " + message1);
-       
-
-        yield return new WaitForSeconds(1);
-
-        socket.Emit("sendLawData", message1);
+        try
+        {
+            if (!lawPanelFilled)
+            {
+                lawPanelFilled = true;
+                JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+                Debug.Log(data.ToJson());
+                if (data.Count > 0)
+                {
+                    law.FillLawPanel(data, 1);
+                }
+                else
+                {
+                    Debug.Log("empty");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+        }
+        return;
     }
 
-    public void SendLawDataToServer()
-    {
-        StartCoroutine(sendLawData());
-    }
 
 
-    private void OnApplicationQuit()
-    {
-        sendUnfinishedTaskToServer();
-    }
+
+    //private void OnApplicationQuit()
+    //{
+    //    sendUnfinishedTaskToServer();
+    //}
 
 
     //this func will used to update minutes of users' tasks

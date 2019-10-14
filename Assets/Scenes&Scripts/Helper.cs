@@ -82,7 +82,24 @@ public class Helper
 
     }
 
-     
+
+    public static bool HasConnection()
+    {
+        try
+        {
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                return false;
+            }
+            else
+                return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
 
     //type means type of data that should be validate
     public static bool customValidator(string data="",int data_length=0,int type=0)
