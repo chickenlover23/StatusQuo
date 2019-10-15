@@ -158,16 +158,21 @@ public class Laws : MonoBehaviour
     {
         int cCount = acceptedLawPanelParent.transform.childCount;
         Debug.Log("filled");
+        Debug.Log(data.Count);
+        
         for (int i = 0; i < data.Count; i++)
         {
-            for (int j = 0; j < data[i].Count; i++)
+            Debug.Log("accepted laws " + data[i].Count);
+            for (int j = 0; j < data[i].Count; j++)
             {
+
                 tempLaw = Instantiate(acceptedLawPrefab, acceptedLawPanelParent.transform);
                 tempLaw.transform.Find("Text_law").GetComponent<TMP_Text>().text = data[i][j]["description"].ToString();
             }
         }
         GetComponent<AudioSource>().PlayOneShot(acceptedLawClip);
-        
+        Debug.Log("filledassssssssssssssssss");
+        Debug.Log(data.Count);
 
         for (int i = 0; i < cCount; i++)
         {
