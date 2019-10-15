@@ -33,12 +33,7 @@ public class Laws : MonoBehaviour
 
     public void FillLawPanel(JsonData data, int status = 0)
     {
-
-
-        for (int i = 0; i < lawPanelParent.transform.childCount; i++)
-        {
-            Destroy(lawPanelParent.transform.GetChild(i));
-        }
+        int cCount = lawPanelParent.transform.childCount;
 
 
         for (int i = 0; i < data.Count; i++)
@@ -63,6 +58,11 @@ public class Laws : MonoBehaviour
 
         currentStatus = status;
         print(currentStatus);
+
+        for (int i = 0; i < lawPanelParent.transform.childCount; i++)
+        {
+            Destroy(lawPanelParent.transform.GetChild(i).gameObject);
+        }
     }
 
 
@@ -156,13 +156,7 @@ public class Laws : MonoBehaviour
 
     public void FillAcceptedLawPanel(JsonData data)
     {
-
-
-        for (int i = 0; i < lawPanelParent.transform.childCount; i++)
-        {
-            Destroy(lawPanelParent.transform.GetChild(i));
-        }
-
+        int cCount = lawPanelParent.transform.childCount;
 
         for (int i = 0; i < data.Count; i++)
         {
@@ -174,6 +168,12 @@ public class Laws : MonoBehaviour
         }
         GetComponent<AudioSource>().PlayOneShot(acceptedLawClip);
         lawPanel.SetActive(true);
+
+        for (int i = 0; i < cCount; i++)
+        {
+            Destroy(lawPanelParent.transform.GetChild(i).gameObject);
+        }
+
     }
 
 

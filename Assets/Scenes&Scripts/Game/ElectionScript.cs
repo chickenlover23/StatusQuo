@@ -87,7 +87,7 @@ public class ElectionScript : MonoBehaviour
 
         for (int i = 0; i < electionPanelParent.childCount; i++)
         {
-            Destroy(electionPanelParent.GetChild(i));
+            Destroy(electionPanelParent.GetChild(i).gameObject);
         }
 
 
@@ -383,11 +383,7 @@ public class ElectionScript : MonoBehaviour
             electionResultPanelTitle.text = "prezident " + "SEÇKİlərinin NƏTİCƏLƏRİ";
         }
 
-
-        for (int i = 0; i < electionResultPanelParent.transform.childCount; i++)
-        {
-            Destroy(electionResultPanelParent.transform.GetChild(i));
-        }
+        
 
 
         GameObject tempResult;
@@ -411,6 +407,13 @@ public class ElectionScript : MonoBehaviour
                 Debug.Log(i);
                 
             }
+        }
+
+
+        int cCount = electionResultPanelParent.transform.childCount;
+        for (int i = 0; i < cCount; i++)
+        {
+            Destroy (electionResultPanelParent.transform.GetChild(i).gameObject);
         }
     }
 
