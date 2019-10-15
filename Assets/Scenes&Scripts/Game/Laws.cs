@@ -20,6 +20,7 @@ public class Laws : MonoBehaviour
 
     public ClienTest clientTest;
 
+    public AudioClip acceptedLawClip;
 
     private List<int> selectedLaws = new List<int>();
     GameObject tempLaw;
@@ -32,6 +33,14 @@ public class Laws : MonoBehaviour
 
     public void FillLawPanel(JsonData data, int status = 0)
     {
+
+
+        for (int i = 0; i < lawPanelParent.transform.childCount; i++)
+        {
+            Destroy(lawPanelParent.transform.GetChild(i));
+        }
+
+
         for (int i = 0; i < data.Count; i++)
         {
 
@@ -147,6 +156,14 @@ public class Laws : MonoBehaviour
 
     public void FillAcceptedLawPanel(JsonData data)
     {
+
+
+        for (int i = 0; i < lawPanelParent.transform.childCount; i++)
+        {
+            Destroy(lawPanelParent.transform.GetChild(i));
+        }
+
+
         for (int i = 0; i < data.Count; i++)
         {
             for (int j = 0; j < data[i].Count; i++)
@@ -155,6 +172,7 @@ public class Laws : MonoBehaviour
                 tempLaw.transform.Find("Text_law").GetComponent<TMP_Text>().text = data[i]["description"].ToString();
             }
         }
+        GetComponent<AudioSource>().PlayOneShot(acceptedLawClip);
         lawPanel.SetActive(true);
     }
 

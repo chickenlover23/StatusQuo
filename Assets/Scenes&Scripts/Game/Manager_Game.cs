@@ -13,7 +13,7 @@ using UnityEngine.UI;
 public class Manager_Game : MonoBehaviour
 {
 
-
+    public Toggle muteToggle;
     public AudioClip buyClip, moveClip, newTaskClip, taskCompletedClip, taskEndendClip;
 
     public GameObject blurredLoadPanel;
@@ -105,6 +105,19 @@ public class Manager_Game : MonoBehaviour
 
     private void Start()
     {
+        if (PlayerPrefs.GetInt("mute", 0) == 1)
+        {
+            Debug.Log("here");
+            GetComponent<AudioSource>().mute = true;
+            muteToggle.isOn = true;
+        }
+        else
+        {
+            GetComponent<AudioSource>().mute = false;
+            muteToggle.isOn = false;
+        }
+
+        muteToggle.onValueChanged.AddListener(delegate { mute(); });
         StartCoroutine(getUserTaskList());
     }
 
@@ -1085,11 +1098,13 @@ public class Manager_Game : MonoBehaviour
                     GetComponent<AudioSource>().PlayOneShot(taskEndendClip);
                 }
 
-                Debug.Log(_taskinfo.gameObject.name);
-                Debug.Log(_taskInd);
-
-                _taskinfo.currentTasks.RemoveAt(_taskInd);
-                Debug.Log("cecececeehe");
+                //Debug.Log(_taskinfo.gameObject.name);
+                //Debug.Log(_taskInd);
+                if (_taskinfo.currentTasks.Count > _taskInd)
+                {
+                    _taskinfo.currentTasks.RemoveAt(_taskInd);
+                }
+                //Debug.Log("cecececeehe");
                 TaskResult taskResult = new TaskResult();
                 taskResult.gold = data["items"]["gold"].ToString();
                 taskResult.bronze = data["items"]["bronze"].ToString();
@@ -1314,6 +1329,11 @@ public class Manager_Game : MonoBehaviour
 
     public void startBuying()
     {
+        if (isBuildingInstanceActive & !activeForBuying)
+        {
+            selectedBuilding.SetActive(true);
+        }
+
         activeForBuying = true;
         GameObject current = EventSystem.current.currentSelectedGameObject.transform.parent.gameObject;
 
@@ -1489,9 +1509,6 @@ public class Manager_Game : MonoBehaviour
         //    storeParent.transform.Find(selectedBuilding.GetComponent<BuildingInformation>().name).GetComponentInChildren<Button>().interactable = true;
         //}
     }
-
-
-
 
     public void updateConverter()
     {
@@ -1704,6 +1721,20 @@ public class Manager_Game : MonoBehaviour
     public void mute()
     {
         GetComponent<AudioSource>().mute = !GetComponent<AudioSource>().mute;
+        
+    }
+
+
+    public void saveMute()
+    {   //if serti tersine yazilib cunki editordan atilan eventler 1ci isleyir koddan atilandan
+        if (GetComponent<AudioSource>().mute)
+        {
+            PlayerPrefs.SetInt("mute", 0);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("mute", 1);
+        }
     }
 
 

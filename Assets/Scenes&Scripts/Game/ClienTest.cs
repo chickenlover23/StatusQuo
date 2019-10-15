@@ -14,11 +14,14 @@ public class ClienTest : MonoBehaviour
     public UserResourceInformation user;
     public Laws law;
 
+    public AudioClip electionClip;
+
     JSONObject message;
 
     public SocketIOComponent socket;
 
-    bool electionPanelFilled = false, lawPanelFilled = false, lawFinalPanelFilled = false, electionResultFilled = false;
+
+    bool electionPanelFilled = false, lawPanelFilled = false, lawFinalPanelFilled = false, electionResultFilled = false, lawResult = false;
 
 
 
@@ -27,10 +30,6 @@ public class ClienTest : MonoBehaviour
         message = new JSONObject();
 
         socket = GetComponent<SocketIOComponent>();
-
-
-
-
 
 
 
@@ -127,7 +126,7 @@ public class ClienTest : MonoBehaviour
                 newTask.taskBlack = data[i]["mission_details"][0]["black"].ToString();
                 newTask.taskDescription = data[i]["mission_details"][0]["name"].ToString();
                 newTask.taskId = data[i]["mission_id"].ToString();
-                Debug.LogWarning(data.ToJson());
+                //Debug.LogWarning(data.ToJson());
                 GetComponent<Manager_Game>().addTask(newTask, data[i]["mission_details"][0]["building_id"].ToString());
             }
         }
@@ -156,6 +155,7 @@ public class ClienTest : MonoBehaviour
             electionScript.FillElectionPanel(candidates, data["election_type"].ToString(), minutes);
 
             electionScript.makeElectionsPanelVotable(true);
+            GetComponent<AudioSource>().PlayOneShot(electionClip);
             electionScript.electionPanel.SetActive(true);
         }
         return;
@@ -217,12 +217,16 @@ public class ClienTest : MonoBehaviour
 
     private void ruleMessageAll(SocketIOEvent evt)
     {
-        JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
-        Debug.Log(data.ToJson());
-
-        if (data[0].Count != 0 || data[1].Count != 0)
+        if (!lawResult)
         {
-            law.FillAcceptedLawPanel(data);
+            lawResult = true;
+            JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+            Debug.Log(data.ToJson());
+
+            if (data[0].Count != 0 || data[1].Count != 0)
+            {
+                law.FillAcceptedLawPanel(data);
+            }
         }
     }
 
@@ -376,6 +380,33 @@ public class ClienTest : MonoBehaviour
             socket.Emit("update_mission_mins", data);
         }
         Debug.Log("ZZZZZZZZZ" + data);
+    }
+
+
+
+
+
+
+    public void changeBool(int ed)
+    {
+        
+        if (ed == 0)
+        {
+            electionPanelFilled = false;
+        }
+        else if(ed == 1)
+        {
+            electionResultFilled = false;
+        }
+        else if (ed == 2)
+        {
+            lawPanelFilled = false;
+            lawFinalPanelFilled = false;
+        }
+        else if(ed == 3)
+        {
+            lawResult = false;
+        }
     }
 
 

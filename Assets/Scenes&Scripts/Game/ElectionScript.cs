@@ -83,6 +83,14 @@ public class ElectionScript : MonoBehaviour
         activeElectionType = electionType;
         submit.interactable = false;
         Debug.Log(candidates.Count);
+
+
+        for (int i = 0; i < electionPanelParent.childCount; i++)
+        {
+            Destroy(electionPanelParent.GetChild(i));
+        }
+
+
         for (int i = 0; i < candidates.Count; i++)
         {
             Debug.Log("hee");
@@ -373,6 +381,12 @@ public class ElectionScript : MonoBehaviour
         else if (data["election_type"].ToString() == "1")
         {
             electionResultPanelTitle.text = "prezident " + "SEÇKİlərinin NƏTİCƏLƏRİ";
+        }
+
+
+        for (int i = 0; i < electionResultPanelParent.transform.childCount; i++)
+        {
+            Destroy(electionResultPanelParent.transform.GetChild(i));
         }
 
 
