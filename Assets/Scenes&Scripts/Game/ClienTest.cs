@@ -18,6 +18,7 @@ public class ClienTest : MonoBehaviour
 
     JSONObject message;
 
+    [HideInInspector]
     public SocketIOComponent socket;
 
 
