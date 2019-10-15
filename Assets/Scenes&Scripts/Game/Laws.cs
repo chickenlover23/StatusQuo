@@ -59,7 +59,7 @@ public class Laws : MonoBehaviour
         currentStatus = status;
         print(currentStatus);
 
-        for (int i = 0; i < lawPanelParent.transform.childCount; i++)
+        for (int i = 0; i < cCount; i++)
         {
             Destroy(lawPanelParent.transform.GetChild(i).gameObject);
         }
@@ -156,24 +156,25 @@ public class Laws : MonoBehaviour
 
     public void FillAcceptedLawPanel(JsonData data)
     {
-        int cCount = lawPanelParent.transform.childCount;
+        int cCount = acceptedLawPanelParent.transform.childCount;
 
         for (int i = 0; i < data.Count; i++)
         {
             for (int j = 0; j < data[i].Count; i++)
             {
-                tempLaw = Instantiate(lawPrefab, lawPanelParent.transform);
+                tempLaw = Instantiate(acceptedLawPrefab, acceptedLawPanelParent.transform);
                 tempLaw.transform.Find("Text_law").GetComponent<TMP_Text>().text = data[i]["description"].ToString();
             }
         }
         GetComponent<AudioSource>().PlayOneShot(acceptedLawClip);
-        lawPanel.SetActive(true);
+        
 
         for (int i = 0; i < cCount; i++)
         {
-            Destroy(lawPanelParent.transform.GetChild(i).gameObject);
+            Destroy(acceptedLawPanelParent.transform.GetChild(i).gameObject);
         }
 
+        acceptedLawPanel.SetActive(true);
     }
 
 
