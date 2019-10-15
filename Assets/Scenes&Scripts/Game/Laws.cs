@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using LitJson;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class Laws : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class Laws : MonoBehaviour
     public GameObject lawPanelParent;
     public GameObject lawPrefab;
     public Button submitButton;
+
+    public GameObject acceptedLawPanel;
+    public GameObject acceptedLawPanelParent;
+    public GameObject acceptedLawPrefab;
 
     public ClienTest clientTest;
 
@@ -29,9 +34,20 @@ public class Laws : MonoBehaviour
     {
         for (int i = 0; i < data.Count; i++)
         {
+
             tempLaw = Instantiate(lawPrefab, lawPanelParent.transform);
 
             tempLaw.transform.Find("Text_law").GetComponent<TMP_Text>().text = data[i]["description"].ToString();
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerDown;
+            entry.callback.AddListener((eventData) => { AddToSelectedLaws(i); });
+            tempLaw.transform.Find("Buttons").Find("accept").GetComponent<EventTrigger>().triggers.Add(entry);
+
+            entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerDown;
+            entry.callback.AddListener((eventData) => { DeleteFromSelectedLaws(i); });
+            tempLaw.transform.Find("Buttons").Find("decline").GetComponent<EventTrigger>().triggers.Add(entry);
+
         }
 
         lawPanel.SetActive(true);
@@ -91,6 +107,55 @@ public class Laws : MonoBehaviour
         {
             clientTest.socket.Emit("sendLawDataFinalStep", message1);
         }
+    }
+
+    public void AddToSelectedLaws(int i)
+    {
+        if (!selectedLaws.Contains(i))
+        {
+            selectedLaws.Add(i);
+        }
+
+        if(selectedLaws.Count >= 1)
+        {
+            submitButton.interactable = true;
+        }
+        else
+        {
+            submitButton.interactable = false;
+        }
+    }
+
+    public void DeleteFromSelectedLaws(int i)
+    {
+        if (selectedLaws.Contains(i))
+        {
+            selectedLaws.Remove(i);
+        }
+
+        if (selectedLaws.Count >= 1)
+        {
+            submitButton.interactable = true;
+        }
+        else
+        {
+            submitButton.interactable = false;
+        }
+    }
+
+
+
+    public void FillAcceptedLawPanel(JsonData data)
+    {
+        for (int i = 0; i < data.Count; i++)
+        {
+            for (int j = 0; j < data[i].Count; i++)
+            {
+                tempLaw = Instantiate(lawPrefab, lawPanelParent.transform);
+                tempLaw.transform.Find("Text_law").GetComponent<TMP_Text>().text = data[i]["description"].ToString();
+            }
+        }
+        lawPanel.SetActive(true);
     }
 
 

@@ -103,6 +103,10 @@ public class Manager_Login : MonoBehaviour
         //List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
         //formData.Add(new MultipartFormFileSection("email", _email));
         //formData.Add(new MultipartFormFileSection("password", _pass));
+
+        PlayerPrefs.SetString("reload", "0");
+
+
         WWWForm form = new WWWForm();
         form.AddField("email", _email);
         form.AddField("password", _pass);

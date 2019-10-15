@@ -182,7 +182,6 @@ public class Manager_Game : MonoBehaviour
                     taskTime.text = minute + ":" + second;
 
 
-
                     if (currentTaskInfo.currentTasks[taskIndex].remainingAllSeconds <= 0)
                     {
                         taskPopUpIsOpen = false;
@@ -1700,6 +1699,14 @@ public class Manager_Game : MonoBehaviour
     {
         StartCoroutine(getUserMissionsTemp(req, 4));
     }
+
+
+    public void mute()
+    {
+        GetComponent<AudioSource>().mute = !GetComponent<AudioSource>().mute;
+    }
+
+
 
     /////////////////For demo only~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

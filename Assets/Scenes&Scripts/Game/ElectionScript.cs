@@ -402,13 +402,22 @@ public class ElectionScript : MonoBehaviour
 
     public void CandidatePopUp(string title, string message)
     {
-        candidatePopupTitle.text = title;
+        candidatePopupTitle.text = title.Replace("\"", "");
         candidatePopupDescription.text = message;
     }
 
     public void reload()
     {
-        PlayerPrefs.SetString("reload", "1");
+
+        if (PlayerPrefs.GetString("re_email", "") != "" && PlayerPrefs.GetString("re_password", "") != "")
+        {
+            PlayerPrefs.SetString("reload", "1");
+        }
+        else
+        {
+            PlayerPrefs.SetString("reload", "0");
+        }
+
         SceneManager.LoadSceneAsync("Login");
     }
 }
