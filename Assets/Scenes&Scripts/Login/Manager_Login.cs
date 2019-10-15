@@ -29,12 +29,12 @@ public class Manager_Login : MonoBehaviour
     {
         if (!PlayerPrefs.GetString("email", "").Equals(""))
         {
-            Debug.Log("11111");
+            //Debug.Log("11111");
             StartCoroutine(IE_login(PlayerPrefs.GetString("email"), PlayerPrefs.GetString("password")));
         }
         else if(PlayerPrefs.GetString("reload", "").Equals("1"))
         {
-            Debug.Log("22222");
+            //Debug.Log("22222");
             PlayerPrefs.SetString("reload", "0");
             StartCoroutine(IE_login(PlayerPrefs.GetString("re_email"), PlayerPrefs.GetString("re_password")));
         }
@@ -45,7 +45,7 @@ public class Manager_Login : MonoBehaviour
     {
         if (Input.touchCount == 1)
         {
-            Debug.Log(Input.GetTouch(0).phase);
+            //Debug.Log(Input.GetTouch(0).phase);
             switch (Input.GetTouch(0).phase)
             {
                 case (TouchPhase.Began):
@@ -136,7 +136,7 @@ public class Manager_Login : MonoBehaviour
                 }
                 catch (Exception e)
                 {
-                    Debug.LogException(e);
+                    //Debug.LogException(e);
                 }
             }
             else

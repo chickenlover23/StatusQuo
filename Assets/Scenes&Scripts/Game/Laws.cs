@@ -118,14 +118,31 @@ public class Laws : MonoBehaviour
         }
     }
 
-    public void AddToSelectedLaws(int i)
+    public void AddToSelectedLaws(int j)
     {
-        if (!selectedLaws.Contains(i))
+        //if (!selectedLaws.Contains(i))
+        //{
+        //    selectedLaws.Add(i);
+        //}
+
+        //if(selectedLaws.Count >= 1)
+        //{
+        //    submitButton.interactable = true;
+        //}
+        //else
+        //{
+        //    submitButton.interactable = false;
+        //}
+        int c = 0;
+        for (int i = 0; i < lawPanelParent.transform.childCount; i++)
         {
-            selectedLaws.Add(i);
+            if (!lawPanelParent.transform.GetChild(i).Find("Buttons").Find("accept").gameObject.activeSelf)
+            {
+                c++;
+            }
         }
 
-        if(selectedLaws.Count >= 1)
+        if (c >= 1)
         {
             submitButton.interactable = true;
         }
@@ -135,14 +152,18 @@ public class Laws : MonoBehaviour
         }
     }
 
-    public void DeleteFromSelectedLaws(int i)
+    public void DeleteFromSelectedLaws(int j)
     {
-        if (selectedLaws.Contains(i))
+        int c = 0;
+        for (int i = 0; i < lawPanelParent.transform.childCount; i++)
         {
-            selectedLaws.Remove(i);
+            if (!lawPanelParent.transform.GetChild(i).Find("Buttons").Find("accept").gameObject.activeSelf)
+            {
+                c++;
+            }
         }
 
-        if (selectedLaws.Count >= 1)
+        if (c >= 1)
         {
             submitButton.interactable = true;
         }

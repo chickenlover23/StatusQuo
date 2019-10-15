@@ -3682,7 +3682,7 @@ MonoBehaviour:
   storeScroll: {fileID: 1358476330}
   leftButton: {fileID: 800653898}
   rightButton: {fileID: 1811700029}
-  storeInteractButton: {fileID: 0}
+  storeInteractButton: {fileID: 941469084}
 --- !u!114 &272743480
 MonoBehaviour:
   m_ObjectHideFlags: 0

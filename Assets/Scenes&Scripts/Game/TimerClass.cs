@@ -96,7 +96,7 @@ public class TimerClass : MonoBehaviour
 
                 if (taskInfos[i].currentTasks[j].remainingAllSeconds <= 0)
                 {
-                    Debug.Log(taskInfos[i].gameObject.name +  taskInfos[i].currentTasks[j]);
+                    //Debug.Log(taskInfos[i].gameObject.name +  taskInfos[i].currentTasks[j]);
                     //taskInfos[i].currentTasks.RemoveAt(j);
                     if (taskInfos[i].currentTasks.Count <= 0)
                     {

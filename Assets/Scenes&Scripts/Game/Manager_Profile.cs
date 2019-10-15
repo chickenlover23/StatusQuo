@@ -157,7 +157,7 @@ public class Manager_Profile : MonoBehaviour
             }
             else
             {
-                Debug.Log("Getting timeline info failed");
+                //Debug.Log("Getting timeline info failed");
             }
         }
 

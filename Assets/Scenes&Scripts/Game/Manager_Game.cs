@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
@@ -107,7 +108,7 @@ public class Manager_Game : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("mute", 0) == 1)
         {
-            Debug.Log("here");
+            //Debug.Log("here");
             GetComponent<AudioSource>().mute = true;
             muteToggle.isOn = true;
         }
@@ -224,7 +225,7 @@ public class Manager_Game : MonoBehaviour
                         
                         if (GetComponent<SocketIOComponent>().IsConnected)
                         {
-                            Debug.Log("internetttt");
+                            //Debug.Log("internetttt");
                             noInternet = false;
                             GetComponent<ClienTest>().enabled = true;
                             StartCoroutine(GetComponent<ClienTest>().startSocketConnection(user.GetComponent<UserResourceInformation>().userId));
@@ -458,14 +459,14 @@ public class Manager_Game : MonoBehaviour
         }
         else if (taskInfo.hasTaskResult)
         {
-            Debug.Log("has result true");
+            //Debug.Log("has result true");
             buildingResultOnClick(taskInfo.taskResult);
             taskInfo.hasTaskResult = false;
             //taskInfo.transform.Find("Notification").gameObject.SetActive(false);
         }
         else
         {
-            Debug.Log("no result or task");
+            //Debug.Log("no result or task");
             taskPopUpIsOpen = false;
             taskPopUp.SetActive(false);
             
@@ -519,7 +520,7 @@ public class Manager_Game : MonoBehaviour
                     newTaskInfo.currentTasks.Add(temp);
 
                     //activates the notification, change it to smth good
-                    Debug.Log("burda problem ola biler");
+                    //Debug.Log("burda problem ola biler");
                     checkNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject, notification_normal.name);
                     setProperNotificationForABuilding(buildingsTilemapsActive.transform.GetChild(i).gameObject);
 
@@ -554,7 +555,7 @@ public class Manager_Game : MonoBehaviour
         }
         else
         {
-            Debug.Log("this shouldn't have happenend");
+            //Debug.Log("this shouldn't have happenend");
         }
     }
 
@@ -641,7 +642,7 @@ public class Manager_Game : MonoBehaviour
             }
             else
             {
-                Debug.Log(string.Format("{0} prefab is null", userDataCollectors[i].name));
+                //Debug.Log(string.Format("{0} prefab is null", userDataCollectors[i].name));
             }
         }
 
@@ -661,6 +662,7 @@ public class Manager_Game : MonoBehaviour
         if (www.error != null || www.isNetworkError || www.isHttpError)
         {
             Debug.LogError(www.error);
+            SendUserToLogin();
         }
         else
         {
@@ -670,7 +672,7 @@ public class Manager_Game : MonoBehaviour
 
                 if (storeBuildings["status"].ToString() == "error")
                 {
-                    Debug.LogError("Getting store buildings failed");
+                    //Debug.LogError("Getting store buildings failed");
                 }
                 else
                 {
@@ -733,6 +735,7 @@ public class Manager_Game : MonoBehaviour
         if (www.error != null || www.isNetworkError || www.isHttpError)
         {
             Debug.LogError(www.error);
+            SendUserToLogin();
         }
         else
         {
@@ -790,8 +793,9 @@ public class Manager_Game : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Getting user resources failed");
-                Debug.LogError(userResources.ToJson());
+                SendUserToLogin();
+                //Debug.LogError("Getting user resources failed");
+                //Debug.LogError(userResources.ToJson());
             }
         }
 
@@ -836,6 +840,7 @@ public class Manager_Game : MonoBehaviour
         if (webRequest.error != null || webRequest.isNetworkError || webRequest.isHttpError)
         {
             Debug.LogError(webRequest.error);
+            SendUserToLogin();
         }
         else
         {
@@ -874,7 +879,8 @@ public class Manager_Game : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Getting user buildings failed");
+                SendUserToLogin();
+                //Debug.LogError("Getting user buildings failed");
             }
         }
     }
@@ -960,7 +966,7 @@ public class Manager_Game : MonoBehaviour
     {
         int item_id = _tempBuilding.GetComponent<BuildingInformation>().id;
         string pos = _tempBuilding.GetComponent<BuildingInformation>().pos;
-        Debug.Log(pos);
+        //Debug.Log(pos);
         WWWForm form = new WWWForm();
         form.AddField("position", pos);
         form.AddField("building_id", item_id);
@@ -1014,7 +1020,7 @@ public class Manager_Game : MonoBehaviour
             else
             {
                 //toast(data["data"]["message"])///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                Debug.LogError("Getting user TaskList failed");
+                //Debug.LogError("Getting user TaskList failed");
             }
         }
     }
@@ -1085,7 +1091,7 @@ public class Manager_Game : MonoBehaviour
         else
         {
             JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
-            Debug.Log(data.ToJson());
+            //Debug.Log(data.ToJson());
             if (data["status"].ToString() == "success")
             {
 
@@ -1133,12 +1139,12 @@ public class Manager_Game : MonoBehaviour
                 if (_building.GetComponent<TaskInformation>().hasTask)
                 {
 
-                    Debug.Log("hi");
+                    //Debug.Log("hi");
                     addToNotificationPanel(taskResult);
                 }
                 else if (_building.GetComponent<TaskInformation>().hasTaskResult)
                 {
-                    Debug.Log("hi2");
+                    //Debug.Log("hi2");
                     addToNotificationPanel(_building.GetComponent<TaskInformation>().taskResult);
                     _building.GetComponent<TaskInformation>().taskResult = taskResult;
                     _building.GetComponent<TaskInformation>().hasTaskResult = true;
@@ -1146,7 +1152,7 @@ public class Manager_Game : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("h3");
+                    //Debug.Log("h3");
                     _building.GetComponent<TaskInformation>().taskResult = taskResult;
                     _building.GetComponent<TaskInformation>().hasTaskResult = true;
                     _building.GetComponent<TaskInformation>().hasTask = false;
@@ -1157,7 +1163,7 @@ public class Manager_Game : MonoBehaviour
             }
             else
             {
-                Debug.Log("hehe");
+                //Debug.Log("hehe");
                 GetComponent<Toast>().ShowToast(data["message"].ToString(), 4f);
             }
         }
@@ -1609,22 +1615,22 @@ public class Manager_Game : MonoBehaviour
         }
         else
         {
-            Debug.Log("addToNumber");
+            //Debug.Log("addToNumber");
             if (text == blackBar)
             {
                 if (Convert.ToInt32(blackBar.text) >= 5)
                 {
-                    Debug.Log("ddos");
+                    //Debug.Log("ddos");
                     StartCoroutine(userGetFine());
                 }
                 else
                 {
-                    Debug.Log("no ddos");
+                    //Debug.Log("no ddos");
                 }
             }
             else
             {
-                Debug.Log("no ddos");
+                //Debug.Log("no ddos");
             }
             
             checkAffordableStoreBuildings();
@@ -1648,14 +1654,14 @@ public class Manager_Game : MonoBehaviour
         else
         {
             JsonData data = JsonMapper.ToObject(webRequest.downloadHandler.text);
-            Debug.Log(data.ToJson());
+            //Debug.Log(data.ToJson());
             if (data["status"].ToString() == "success")
             {
                 updateUserResources("0", (Convert.ToInt32(bronzeBar.text) - Convert.ToInt32(data["data"]["bronze"].ToString())).ToString(), blackBar.text);
             }
             else
             {
-                Debug.Log("Getting user fine failed");
+                //Debug.Log("Getting user fine failed");
             }
         }
     }
@@ -1739,6 +1745,18 @@ public class Manager_Game : MonoBehaviour
 
 
 
+    public void SendUserToLogin()
+    {
+        PlayerPrefs.SetString("reload", "0");
+        PlayerPrefs.SetString("re_email", "");
+        PlayerPrefs.SetString("re_password", "");
+        PlayerPrefs.SetString("email", "");
+        PlayerPrefs.SetString("password", "");
+        PlayerPrefs.SetString("access_token", "");
+        SceneManager.LoadSceneAsync("Login");
+    }
+
+
     /////////////////For demo only~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     List<Vector2Int> relevantTasksList = new List<Vector2Int>();
@@ -1801,12 +1819,12 @@ public class Manager_Game : MonoBehaviour
             JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
             if (req_type == 0)
             {
-                Debug.Log("Fill the list is called");
+                //Debug.Log("Fill the list is called");
                 fillRelevantTaskList(data);
             }
             else
             {
-                Debug.Log("new task is created and addTask called");
+                //Debug.Log("new task is created and addTask called");
                 //Debug.Log(data.ToJson());
                 Task newTask = new Task();
                 newTask.taskId = mission_id.ToString();
@@ -1821,7 +1839,7 @@ public class Manager_Game : MonoBehaviour
                 }
                 catch
                 {
-                    Debug.Log("New task exception");
+                    //Debug.Log("New task exception");
                     //Debug.Log(data[0][0].ToJson());
                 }
 
@@ -1832,7 +1850,7 @@ public class Manager_Game : MonoBehaviour
                 //call a coroutine that waits for 2 minutes
             }
 
-            Debug.Log(data.ToJson());
+            //Debug.Log(data.ToJson());
 
         }
     }
@@ -1842,12 +1860,12 @@ public class Manager_Game : MonoBehaviour
         yield return new WaitForSeconds(60f);
         if (hasNoBuilding)
         {
-            Debug.Log("has no building");
+            //Debug.Log("has no building");
             yield return null;
         }
         else
         {
-            Debug.Log("addTasktoBuilding is called from the 2 minute waiter");
+            //Debug.Log("addTasktoBuilding is called from the 2 minute waiter");
             addTaskToABuilding();
 
         }
@@ -1855,7 +1873,7 @@ public class Manager_Game : MonoBehaviour
 
     void fillRelevantTaskList(JsonData data)
     {
-        Debug.Log(data.ToJson());
+        //Debug.Log(data.ToJson());
         for (int i = 0; i < data.Count; i++)
         {
             for (int j = 0; j < buildingsTilemapsActive.transform.childCount; j++)
@@ -1873,12 +1891,12 @@ public class Manager_Game : MonoBehaviour
         }
         if (relevantTasksList.Count == 0)
         {
-            Debug.Log("relevant list could not be filled");
+            //Debug.Log("relevant list could not be filled");
             hasNoBuilding = true;
         }
         else
         {
-            Debug.Log("addtasktobuilding called form the list filler");
+            //Debug.Log("addtasktobuilding called form the list filler");
             hasNoBuilding = false;
             addTaskToABuilding();
         }
