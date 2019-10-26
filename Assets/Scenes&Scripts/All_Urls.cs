@@ -48,6 +48,7 @@ public class All_Urls
             urls.getUsersPossMissTemp = globalUrls.getUsersPossMissTemp;
             urls.vote = globalUrls.vote;
             urls.checkElection = globalUrls.checkElection;
+            urls.answerQuestion = globalUrls.answerQuestion;
 
 
         }
@@ -75,6 +76,7 @@ public class All_Urls
             urls.getUsersPossMissTemp = localUrls.getUsersPossMissTemp;
             urls.vote = localUrls.vote;
             urls.checkElection = localUrls.checkElection;
+            urls.answerQuestion = localUrls.answerQuestion;
         }
         return urls;
     }
@@ -110,6 +112,7 @@ public class All_Urls
         public static string getUsersPossMissTemp = global_url + "/getUsersPossMissTemp";
         public static string vote = global_url + "/vote";
         public static string checkElection = global_url + "/checkElections";
+        public static string answerQuestion = global_url + "/setQuestResult";
 
     }
     //Local URLS
@@ -143,7 +146,7 @@ public class All_Urls
         public static string getUsersPossMissTemp = local_url + "/getUsersPossMissTemp";
         public static string vote = local_url + "/vote";
         public static string checkElection = local_url + "/checkElections";
-
+        public static string answerQuestion = local_url + "/setQuestResult";
     }
 
     [SerializeField]
@@ -176,7 +179,7 @@ public class All_Urls
         public string getUsersPossMissTemp = string.Empty;
         public string vote = string.Empty;
         public string checkElection = string.Empty;
-
+        public string answerQuestion = string.Empty;
     }
 }
 

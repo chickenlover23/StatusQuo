@@ -37,6 +37,6 @@ public class PasswordEyeToggle : MonoBehaviour
 
 
             passField.ForceLabelUpdate();
-        } catch (Exception e) { };
+        } catch{ };
     }
 }

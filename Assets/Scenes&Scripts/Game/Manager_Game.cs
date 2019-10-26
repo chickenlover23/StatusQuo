@@ -85,7 +85,6 @@ public class Manager_Game : MonoBehaviour
     [HideInInspector]
     public bool isSideMenuOpen, isNotificationsPanelOpen, isProfileOpen, isBuildingInstanceActive;
 
-    float taskLerpSpeed = 0.25f;
     GameObject buildingInstanceActive, selectedBuilding;
     bool dragging, activeForBuying;
     Vector3 w_position, diffPos;

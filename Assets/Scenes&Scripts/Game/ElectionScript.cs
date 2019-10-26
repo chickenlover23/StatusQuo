@@ -82,7 +82,7 @@ public class ElectionScript : MonoBehaviour
 
         activeElectionType = electionType;
         submit.interactable = false;
-        Debug.Log(candidates.Count);
+        //Debug.Log(candidates.Count);
 
 
         for (int i = 0; i < electionPanelParent.childCount; i++)
@@ -93,7 +93,7 @@ public class ElectionScript : MonoBehaviour
 
         for (int i = 0; i < candidates.Count; i++)
         {
-            Debug.Log("hee");
+            //Debug.Log("hee");
             tempCandidate = Instantiate(electionPanelItemPrefab, electionPanelParent);
 
             tempCandidate.transform.Find("userName").GetComponent<TMP_Text>().text = candidates[i].userName;
@@ -169,8 +169,8 @@ public class ElectionScript : MonoBehaviour
       
         GameObject current = EventSystem.current.currentSelectedGameObject.transform.parent.gameObject;
         selectedCandidateId = current.GetComponent<Candidate>().candidate_id;
-        Debug.Log(current.name);
-        Debug.Log("cannddd => " + selectedCandidateId);
+        //Debug.Log(current.name);
+        //Debug.Log("cannddd => " + selectedCandidateId);
     
 
         for (int i = 0; i < electionPanelParent.childCount; i++)
@@ -303,12 +303,12 @@ public class ElectionScript : MonoBehaviour
         Candidate temp;
         int ind;
         string roleId;
-        Debug.Log(data.ToJson());
+        //Debug.Log(data.ToJson());
       
 
         for (int i = 0; i < data["cand_data"].Count; i++)
         {
-            Debug.Log(candidates.Count);
+            //Debug.Log(candidates.Count);
             temp = new Candidate();
 
             if (!used.Contains(data["cand_data"][i]["candidate_id"].ToString()))

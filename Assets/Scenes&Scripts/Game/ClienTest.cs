@@ -22,7 +22,7 @@ public class ClienTest : MonoBehaviour
     public SocketIOComponent socket;
 
 
-    bool electionPanelFilled = false, lawPanelFilled = false, lawFinalPanelFilled = false, electionResultFilled = false, lawResult = false;
+    bool electionPanelFilled = false, lawPanelFilled = false, lawFinalPanelFilled = false, electionResultFilled = false, lawResult = false, questionFilled = false;
 
 
 
@@ -64,12 +64,8 @@ public class ClienTest : MonoBehaviour
         message.AddField("nickname", user_id);
 
         yield return new WaitForSeconds(1);
-        Debug.Log("bir sey " + user_id);
+        //Debug.Log("bir sey " + user_id);
         socket.Emit("register", message);
-
-
-
-
 
         if (user.role_id == 3)
         {
@@ -216,8 +212,23 @@ public class ClienTest : MonoBehaviour
     //get Users questions 
     void OnUserGetQuest(SocketIOEvent evt)
     {
-        Debug.Log("New Question => " + evt.data.GetField("message").str.Replace(@"\", ""));
+        if (!questionFilled)
+        {
+            questionFilled = true;
+            JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+            Debug.Log("New Question => " + evt.data.GetField("message").str.Replace(@"\", ""));
+            //Debug.Log(data["id"].ToString());
+            var temp = new Question();
+            temp.questionId = data["id"].ToString();
+            temp.a = data["A"].ToString();
+            temp.b = data["B"].ToString();
+            temp.question = data["description"].ToString();
+            GetComponent<QuestionManager>().FillQuestionPopUp(temp);
+        }
     }
+
+
+
     private void ruleMessageAll(SocketIOEvent evt)
     {
         if (!lawResult)
@@ -409,6 +420,10 @@ public class ClienTest : MonoBehaviour
         else if(ed == 3)
         {
             lawResult = false;
+        }
+        else if(ed == 4)
+        {
+            questionFilled = false;
         }
     }
 

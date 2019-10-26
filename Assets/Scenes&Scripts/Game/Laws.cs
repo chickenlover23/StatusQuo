@@ -88,7 +88,7 @@ public class Laws : MonoBehaviour
 
     public void SendLawDataToServer()
     {
-        Debug.Log("send foook");
+        //Debug.Log("send foook");
         StartCoroutine(sendLawData());
     }
 
@@ -101,7 +101,7 @@ public class Laws : MonoBehaviour
         message1.AddField("id", clientTest.user.role_id);
         message1.AddField("data", prepareLawStringForSending());
 
-        Debug.Log("Send Law data " + prepareLawStringForSending());
+        //Debug.Log("Send Law data " + prepareLawStringForSending());
 
 
         yield return new WaitForSeconds(1);
