@@ -248,7 +248,6 @@ public class ClienTest : MonoBehaviour
     void onLawGetForPar(SocketIOEvent evt)
     {
         Debug.Log("filll");
-
         try
         {
             if (!lawPanelFilled)
@@ -304,7 +303,6 @@ public class ClienTest : MonoBehaviour
     void onLawGetForPre(SocketIOEvent evt)
     {
         Debug.Log("filll");
-
         try
         {
             if (!lawPanelFilled)
@@ -333,7 +331,6 @@ public class ClienTest : MonoBehaviour
     void onLawGetForPreFinal(SocketIOEvent evt)
     {
         Debug.Log("filll");
-
         try
         {
             if (!lawFinalPanelFilled)

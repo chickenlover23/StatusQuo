@@ -14,6 +14,9 @@ using UnityEngine.UI;
 public class Manager_Game : MonoBehaviour
 {
 
+    public GameObject sideMenuButton;
+    public Sprite sideMenuFilled, sideMenuEmpty;
+
     public Toggle muteToggle;
     public AudioClip buyClip, moveClip, newTaskClip, taskCompletedClip, taskEndendClip;
 
@@ -72,8 +75,6 @@ public class Manager_Game : MonoBehaviour
     public int taskIndex;
     public Animation notificationsPanel;
     public GameObject notificationsPanelParent, notificationsPanelItemPrefab;
-
-
 
 
 
@@ -1201,32 +1202,24 @@ public class Manager_Game : MonoBehaviour
         {
             temp.transform.Find("gold").gameObject.SetActive(false);
         }
-        
-        
-            temp.transform.Find("gold").GetComponent<Text>().text = taskResult.gold;
-        
-
+        temp.transform.Find("gold").GetComponent<Text>().text = taskResult.gold;
 
         if (taskResult.bronze == "0")
         {
             temp.transform.Find("bronze").gameObject.SetActive(false);
         }
-        
-        
-            temp.transform.Find("bronze").GetComponent<Text>().text = taskResult.bronze;
-       
-
+        temp.transform.Find("bronze").GetComponent<Text>().text = taskResult.bronze;
 
         if (taskResult.black == "0")
         {
             temp.transform.Find("black").gameObject.SetActive(false);
         }
-        
-        
-            temp.transform.Find("black").GetComponent<Text>().text = taskResult.black;
-        
+        temp.transform.Find("black").GetComponent<Text>().text = taskResult.black;
 
         temp.GetComponent<Button>().onClick.AddListener(notificationPanelItemOnClick);
+
+        StartCoroutine(changeMenuSprite());
+
     }
 
     //for being called from the notifications panel
@@ -1242,6 +1235,7 @@ public class Manager_Game : MonoBehaviour
         int _black = int.Parse(temp.transform.Find("black").GetComponent<Text>().text);
         taskresultDescription.text = temp.transform.Find("Text_taskDescription").GetComponent<TMP_Text>().text;
         Destroy(temp);
+        StartCoroutine(changeMenuSprite());
 
         taskresultGold.transform.parent.gameObject.SetActive(false);
         taskresultBronze.transform.parent.gameObject.SetActive(false);
@@ -1741,6 +1735,22 @@ public class Manager_Game : MonoBehaviour
             PlayerPrefs.SetInt("mute", 1);
         }
     }
+
+
+    public IEnumerator changeMenuSprite()
+    {
+        yield return new WaitForEndOfFrame();
+
+        if(notificationsPanelParent.transform.childCount > 0)
+        {
+            sideMenuButton.GetComponent<Image>().sprite = sideMenuFilled;
+        }
+        else
+        {
+            sideMenuButton.GetComponent<Image>().sprite = sideMenuEmpty;
+        }
+    }
+
 
 
 

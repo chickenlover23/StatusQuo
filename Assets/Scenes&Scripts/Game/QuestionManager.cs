@@ -58,6 +58,7 @@ public class QuestionManager : MonoBehaviour
             temp.GetComponent<Button>().onClick.AddListener(delegate { FillQuestionPopUp(); });
         }
         openedFromNotificationsPanel = false;
+        StartCoroutine(GetComponent<Manager_Game>().changeMenuSprite());
     }
 
 
@@ -95,6 +96,7 @@ public class QuestionManager : MonoBehaviour
             if (openedFromNotificationsPanel)
             {
                 Destroy(q.gameObject);
+                StartCoroutine(GetComponent<Manager_Game>().changeMenuSprite());
             }
             questionPopUp.SetActive(false);
             GetComponent<Toast>().ShowToast(data["message"].ToString());
