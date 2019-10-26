@@ -51,14 +51,12 @@ public class ClienTest : MonoBehaviour
         //get new users' messages about elections
         socket.On("userNew", OnUserGetNewMess);
 
+        //get users questions 
+        socket.On("userQuest",OnUserGetQuest);
 
         socket.On("rule_message_all", ruleMessageAll);
 
     }
-
-
-
-
 
     public IEnumerator startSocketConnection(string user_id)
     {
@@ -215,7 +213,11 @@ public class ClienTest : MonoBehaviour
         electionScript.candidatePopup.SetActive(true);
     }
 
-
+    //get Users questions 
+    void OnUserGetQuest(SocketIOEvent evt)
+    {
+        Debug.Log("New Question => " + evt.data.GetField("message").str.Replace(@"\", ""));
+    }
     private void ruleMessageAll(SocketIOEvent evt)
     {
         if (!lawResult)
