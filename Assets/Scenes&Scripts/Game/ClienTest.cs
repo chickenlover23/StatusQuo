@@ -22,7 +22,9 @@ public class ClienTest : MonoBehaviour
     public SocketIOComponent socket;
 
 
-    bool electionPanelFilled = false, lawPanelFilled = false, lawFinalPanelFilled = false, electionResultFilled = false, lawResult = false, questionFilled = false;
+    bool electionPanelFilled = false, lawPanelFilled = false, lawFinalPanelFilled = false, electionResultFilled = false, lawResult = false;
+    DateTime lastQuestionDate = DateTime.Now.AddSeconds(-50);
+
 
 
 
@@ -212,10 +214,12 @@ public class ClienTest : MonoBehaviour
     //get Users questions 
     void OnUserGetQuest(SocketIOEvent evt)
     {
-        if (!questionFilled)
+        JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", "")); 
+
+        if ((DateTime.Now - lastQuestionDate).TotalSeconds >= 40)
         {
-            questionFilled = true;
-            JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+            lastQuestionDate = DateTime.Now;
+
             Debug.Log("New Question => " + evt.data.GetField("message").str.Replace(@"\", ""));
             //Debug.Log(data["id"].ToString());
             var temp = new Question();
@@ -417,10 +421,6 @@ public class ClienTest : MonoBehaviour
         else if(ed == 3)
         {
             lawResult = false;
-        }
-        else if(ed == 4)
-        {
-            questionFilled = false;
         }
     }
 
