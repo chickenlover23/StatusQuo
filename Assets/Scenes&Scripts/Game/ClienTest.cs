@@ -22,8 +22,13 @@ public class ClienTest : MonoBehaviour
     public SocketIOComponent socket;
 
 
-    bool electionPanelFilled = false, lawPanelFilled = false, lawFinalPanelFilled = false, electionResultFilled = false, lawResult = false;
+    //bool electionPanelFilled = false, lawPanelFilled = false, lawFinalPanelFilled = false, electionResultFilled = false, lawResult = false;
     DateTime lastQuestionDate = DateTime.Now.AddSeconds(-50);
+    DateTime electionPanelFilledDate = DateTime.Now.AddSeconds(-50);
+    DateTime lawPanelFilledDate = DateTime.Now.AddSeconds(-50);
+    DateTime lawFinalPanelFilledDate = DateTime.Now.AddSeconds(-50);
+    DateTime electionResultFilledDate = DateTime.Now.AddSeconds(-50);
+    DateTime lawResultDate = DateTime.Now.AddSeconds(-50);
 
 
 
@@ -137,13 +142,14 @@ public class ClienTest : MonoBehaviour
     //to get candidates data for elections 
     void OnElectionsCheck(SocketIOEvent evt)
     {
-        if (!electionPanelFilled)
+        Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
+        if ((DateTime.Now - electionPanelFilledDate).TotalSeconds >= 40)
         {
-            electionPanelFilled = true;
+            electionPanelFilledDate = DateTime.Now;
 
-            //Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
+             
 
-            JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+             JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
 
             List<Candidate> candidates;
             int minutes;
@@ -162,7 +168,8 @@ public class ClienTest : MonoBehaviour
     //get all users' messages about elections
     void OnUserGetAllMess(SocketIOEvent evt)
     {
-        if (!electionResultFilled)
+      Debug.Log("Election mess_=> " + evt.data.GetField("message").str.Replace(@"\", ""));
+        if ((DateTime.Now - electionResultFilledDate).TotalSeconds >= 40)
         {
             JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
             Debug.Log("Election mess_=> " + evt.data.GetField("message").str.Replace(@"\", ""));
@@ -171,9 +178,8 @@ public class ClienTest : MonoBehaviour
 
                 if (data["users"].Count != 0)
                 {
-                    electionResultFilled = true;
+                    electionResultFilledDate = DateTime.Now;
 
-                    Debug.Log("Election mess_=> " + evt.data.GetField("message").str.Replace(@"\", ""));
 
 
 
@@ -214,13 +220,13 @@ public class ClienTest : MonoBehaviour
     //get Users questions 
     void OnUserGetQuest(SocketIOEvent evt)
     {
-        JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", "")); 
-
+        JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
+        Debug.Log("New Question => " + evt.data.GetField("message").str.Replace(@"\", ""));
         if ((DateTime.Now - lastQuestionDate).TotalSeconds >= 40)
         {
             lastQuestionDate = DateTime.Now;
 
-            Debug.Log("New Question => " + evt.data.GetField("message").str.Replace(@"\", ""));
+           
             //Debug.Log(data["id"].ToString());
             var temp = new Question();
             temp.questionId = data["id"].ToString();
@@ -235,11 +241,11 @@ public class ClienTest : MonoBehaviour
 
     private void ruleMessageAll(SocketIOEvent evt)
     {
-        if (!lawResult)
+            Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
+        if ((DateTime.Now - lawResultDate).TotalSeconds >= 40)
         {
-            lawResult = true;
+            lawResultDate = DateTime.Now;
             JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
-            Debug.Log(data.ToJson());
 
             if (data[0].Count != 0 || data[1].Count != 0)
             {
@@ -251,12 +257,12 @@ public class ClienTest : MonoBehaviour
 
     void onLawGetForPar(SocketIOEvent evt)
     {
-        Debug.Log("filll");
+        Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
         try
         {
-            if (!lawPanelFilled)
+            if ((DateTime.Now - lawPanelFilledDate).TotalSeconds >= 40)
             {
-                lawPanelFilled = true;
+                lawPanelFilledDate = DateTime.Now;
                 JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
                 Debug.Log(data.ToJson());
                 if (data.Count > 0)
@@ -278,12 +284,12 @@ public class ClienTest : MonoBehaviour
 
     void onLawGetForParFinal(SocketIOEvent evt)
     {
-        Debug.Log("filll");
+        Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
         try
         {
-            if (!lawFinalPanelFilled)
+            if ((DateTime.Now - lawFinalPanelFilledDate).TotalSeconds >= 40)
             {
-                lawFinalPanelFilled = true;
+                lawFinalPanelFilledDate = DateTime.Now;
                 JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
                 Debug.Log(data.ToJson());
                 if (data.Count > 0)
@@ -306,12 +312,12 @@ public class ClienTest : MonoBehaviour
 
     void onLawGetForPre(SocketIOEvent evt)
     {
-        Debug.Log("filll");
+        Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
         try
         {
-            if (!lawPanelFilled)
+            if ((DateTime.Now - lawPanelFilledDate).TotalSeconds >= 40)
             {
-                lawPanelFilled = true;
+                lawPanelFilledDate = DateTime.Now;
                 JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
                 Debug.Log(data.ToJson());
                 if (data.Count > 0)
@@ -334,12 +340,12 @@ public class ClienTest : MonoBehaviour
 
     void onLawGetForPreFinal(SocketIOEvent evt)
     {
-        Debug.Log("filll");
+        Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
         try
         {
-            if (!lawFinalPanelFilled)
+            if ((DateTime.Now - lawFinalPanelFilledDate).TotalSeconds >= 40)
             {
-                lawFinalPanelFilled = true;
+                lawFinalPanelFilledDate = DateTime.Now;
                 JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
                 Debug.Log(data.ToJson());
                 if (data.Count > 0)
@@ -397,32 +403,6 @@ public class ClienTest : MonoBehaviour
         Debug.Log("ZZZZZZZZZ" + data);
     }
 
-
-
-
-
-
-    public void changeBool(int ed)
-    {
-        
-        if (ed == 0)
-        {
-            electionPanelFilled = false;
-        }
-        else if(ed == 1)
-        {
-            electionResultFilled = false;
-        }
-        else if (ed == 2)
-        {
-            lawPanelFilled = false;
-            lawFinalPanelFilled = false;
-        }
-        else if(ed == 3)
-        {
-            lawResult = false;
-        }
-    }
 
 
 
