@@ -267,7 +267,7 @@ public class ClienTest : MonoBehaviour
                 Debug.Log(data.ToJson());
                 if (data.Count > 0)
                 {
-                    law.FillLawPanel(data, 0);
+                    law.FillLawPanel(data, 0, 0);
                 }
                 else
                 {
@@ -294,7 +294,7 @@ public class ClienTest : MonoBehaviour
                 Debug.Log(data.ToJson());
                 if (data.Count > 0)
                 {
-                    law.FillLawPanel(data, 1);
+                    law.FillLawPanel(data, 1, 0);
                 }
                 else
                 {
@@ -322,7 +322,7 @@ public class ClienTest : MonoBehaviour
                 Debug.Log(data.ToJson());
                 if (data.Count > 0)
                 {
-                    law.FillLawPanel(data, 0);
+                    law.FillLawPanel(data, 0, 1);
                 }
                 else
                 {
@@ -350,7 +350,7 @@ public class ClienTest : MonoBehaviour
                 Debug.Log(data.ToJson());
                 if (data.Count > 0)
                 {
-                    law.FillLawPanel(data, 1);
+                    law.FillLawPanel(data, 1, 1);
                 }
                 else
                 {

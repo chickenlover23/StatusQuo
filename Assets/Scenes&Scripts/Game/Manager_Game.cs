@@ -102,6 +102,7 @@ public class Manager_Game : MonoBehaviour
     private void Awake()
     {
         StartCoroutine(getUserResources());
+        StartCoroutine(test());
     }
 
     private void Start()
@@ -120,6 +121,34 @@ public class Manager_Game : MonoBehaviour
 
         muteToggle.onValueChanged.AddListener(delegate { mute(); });
         StartCoroutine(getUserTaskList());
+    }
+
+
+
+    IEnumerator test()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("price", 10);
+        form.AddField("income", 0);
+        form.AddField("item_id", 4);
+
+
+        UnityWebRequest www = UnityWebRequest.Post("http://gamestatusco.com/api/approveLaw", form);
+        www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
+        yield return www.SendWebRequest();
+
+        if (www.error != null || www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            JsonData userResources = JsonMapper.ToObject(www.downloadHandler.text);
+            Debug.Log(userResources.ToJson());
+            if (userResources["status"].ToString() == "success")
+            {
+            }
+        }
     }
 
 
@@ -744,7 +773,7 @@ public class Manager_Game : MonoBehaviour
             JsonData userResources = JsonMapper.ToObject(www.downloadHandler.text);
             UserResourceInformation userResourceInformation = user.GetComponent<UserResourceInformation>();
 
-            //Debug.Log(userResources.ToJson());
+            Debug.Log(userResources.ToJson());
             if (userResources["status"].ToString() == "success")
             {
                 try

@@ -12,6 +12,7 @@ public class Laws : MonoBehaviour
     public GameObject lawPanel;
     public GameObject lawPanelParent;
     public GameObject lawPrefab;
+    public TMP_Text lawPanelHeader;
     public Button submitButton;
 
     public GameObject acceptedLawPanel;
@@ -31,7 +32,7 @@ public class Laws : MonoBehaviour
 
 
 
-    public void FillLawPanel(JsonData data, int status = 0)
+    public void FillLawPanel(JsonData data, int lawStatus, int userStatus)
     {
         int cCount = lawPanelParent.transform.childCount;
 
@@ -54,9 +55,36 @@ public class Laws : MonoBehaviour
 
         }
 
+
+        if(lawStatus == 0)//1-ci etap
+        {
+            if(userStatus == 0)//parlament
+            {
+                lawPanelHeader.text = "Parlamentin Yeni qanunları";
+            }
+            else//prezi
+            {
+                lawPanelHeader.text = "Prezidentin Yeni qanunları";
+            }
+        }
+        else//2-ci etap
+        {
+            if (userStatus == 0)//parlament
+            {
+                lawPanelHeader.text = "Prezidentin seçdiyi qanunlar";
+            }
+            else//prezi
+            {
+                lawPanelHeader.text = "Parlamentin seçdiyi qanunlar";
+            }
+        }
+
+
+        submitButton.interactable = false;
+
         lawPanel.SetActive(true);
 
-        currentStatus = status;
+        currentStatus = lawStatus;
         print(currentStatus);
 
         for (int i = 0; i < cCount; i++)
@@ -98,10 +126,11 @@ public class Laws : MonoBehaviour
 
         // Data = { [rule_id : 12 ,rule_id : 13 ]}
         int count = 0;
+        Debug.Log(prepareLawStringForSending());
         message1.AddField("id", clientTest.user.role_id);
         message1.AddField("data", prepareLawStringForSending());
 
-        //Debug.Log("Send Law data " + prepareLawStringForSending());
+        Debug.Log("Send Law data " + prepareLawStringForSending());
 
 
         yield return new WaitForSeconds(1);
@@ -120,12 +149,17 @@ public class Laws : MonoBehaviour
 
     public void AddToSelectedLaws(int j)
     {
-        //if (!selectedLaws.Contains(i))
+
+        //int c = 0;
+        //for (int i = 0; i < lawPanelParent.transform.childCount; i++)
         //{
-        //    selectedLaws.Add(i);
+        //    if (!lawPanelParent.transform.GetChild(i).Find("Buttons").Find("accept").gameObject.activeSelf)
+        //    {
+        //        c++;
+        //    }
         //}
 
-        //if(selectedLaws.Count >= 1)
+        //if (c >= 1)
         //{
         //    submitButton.interactable = true;
         //}
@@ -133,44 +167,30 @@ public class Laws : MonoBehaviour
         //{
         //    submitButton.interactable = false;
         //}
-        int c = 0;
-        for (int i = 0; i < lawPanelParent.transform.childCount; i++)
-        {
-            if (!lawPanelParent.transform.GetChild(i).Find("Buttons").Find("accept").gameObject.activeSelf)
-            {
-                c++;
-            }
-        }
 
-        if (c >= 1)
-        {
-            submitButton.interactable = true;
-        }
-        else
-        {
-            submitButton.interactable = false;
-        }
+        submitButton.interactable = true;
     }
 
     public void DeleteFromSelectedLaws(int j)
     {
-        int c = 0;
-        for (int i = 0; i < lawPanelParent.transform.childCount; i++)
-        {
-            if (!lawPanelParent.transform.GetChild(i).Find("Buttons").Find("accept").gameObject.activeSelf)
-            {
-                c++;
-            }
-        }
+        //int c = 0;
+        //for (int i = 0; i < lawPanelParent.transform.childCount; i++)
+        //{
+        //    if (!lawPanelParent.transform.GetChild(i).Find("Buttons").Find("accept").gameObject.activeSelf)
+        //    {
+        //        c++;
+        //    }
+        //}
 
-        if (c >= 1)
-        {
-            submitButton.interactable = true;
-        }
-        else
-        {
-            submitButton.interactable = false;
-        }
+        //if (c >= 1)
+        //{
+        //    submitButton.interactable = true;
+        //}
+        //else
+        //{
+        //    submitButton.interactable = false;
+        //}
+        submitButton.interactable = false;
     }
 
 
