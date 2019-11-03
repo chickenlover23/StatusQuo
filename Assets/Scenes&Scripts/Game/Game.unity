@@ -11032,6 +11032,7 @@ GameObject:
   - component: {fileID: 697407027}
   - component: {fileID: 697407029}
   - component: {fileID: 697407028}
+  - component: {fileID: 697407030}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -11462,6 +11463,18 @@ MonoBehaviour:
   questionA: {fileID: 2093731981}
   questionB: {fileID: 3543831737407369317}
   bronzeBar: {fileID: 747533008}
+--- !u!114 &697407030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697407017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8314e17210502ed4681733d4ffa82e7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &698819173
 GameObject:
   m_ObjectHideFlags: 0
@@ -33346,7 +33359,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.037595823}
   m_AnchorMax: {x: 0.25069645, y: 1}
-  m_AnchoredPosition: {x: 0, y: -10.000122}
+  m_AnchoredPosition: {x: 0, y: -10.000092}
   m_SizeDelta: {x: 12.599976, y: 16}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1691313182
