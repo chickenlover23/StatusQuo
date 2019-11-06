@@ -18,6 +18,7 @@ public class UserResourceInformation : MonoBehaviour
     public int gold;
     public int bronze;
     public int black;
+    public int budget;
     public int water_capacity;
     public string avatar_id;
 

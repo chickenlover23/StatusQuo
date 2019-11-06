@@ -19,6 +19,8 @@ public class QuestionManager : MonoBehaviour
     Question activeQuestion = new Question();
     bool openedFromNotificationsPanel = false;
 
+    bool answerToQuestionWorking;
+    List<Question> questionsInNotificationPanel = new List<Question>();
 
 
     public void FillQuestionPopUp(Question temp)
@@ -32,9 +34,11 @@ public class QuestionManager : MonoBehaviour
         questionPopUp.SetActive(true);
     }
 
-    public void FillQuestionPopUp()
+    public void FillQuestionPopUp(int ind)
     {
+        Debug.Log(ind);
         openedFromNotificationsPanel = true;
+        activeQuestion = questionsInNotificationPanel[ind];
         questionQuestion.text = activeQuestion.question;
         questionA.text = activeQuestion.a;
         questionB.text = activeQuestion.b;
@@ -54,8 +58,13 @@ public class QuestionManager : MonoBehaviour
             temp.GetComponent<Question>().b = activeQuestion.b;
             temp.GetComponent<Question>().addedToNotificationPanel = true;
             activeQuestion = temp.GetComponent<Question>();
+            activeQuestion.indInNotificationPanelArray = questionsInNotificationPanel.Count;
+            questionsInNotificationPanel.Add(activeQuestion);
 
-            temp.GetComponent<Button>().onClick.AddListener(delegate { FillQuestionPopUp(); });
+            int indd = questionsInNotificationPanel.Count - 1;
+            temp.GetComponent<Button>().onClick.AddListener(delegate { FillQuestionPopUp(indd); });
+
+            
         }
         openedFromNotificationsPanel = false;
         StartCoroutine(GetComponent<Manager_Game>().changeMenuSprite());
@@ -64,12 +73,17 @@ public class QuestionManager : MonoBehaviour
 
     public void AnswerQuestion(int ans)
     {
-        StartCoroutine(answerToQuestion(activeQuestion, ans));
+        if (!answerToQuestionWorking)
+        {
+            StartCoroutine(answerToQuestion(activeQuestion, ans));
+        }
     }
 
 
     IEnumerator answerToQuestion(Question q, int ans)
     {
+        answerToQuestionWorking = true;
+
         WWWForm form = new WWWForm();
         form.AddField("quest_id", q.questionId);
         form.AddField("ans", ans);
@@ -79,28 +93,36 @@ public class QuestionManager : MonoBehaviour
 
         yield return webRequest.SendWebRequest();
 
-
-        if (webRequest.error != null || webRequest.isNetworkError || webRequest.isHttpError)
+        try
         {
-            Debug.LogError(webRequest.error);
+            if (webRequest.error != null || webRequest.isNetworkError || webRequest.isHttpError)
+            {
+                Debug.LogError(webRequest.error);
+            }
+            else
+            {
+                JsonData data = JsonMapper.ToObject(webRequest.downloadHandler.text);
+
+                if (data["status"].ToString() == "success")
+                {
+                    GetComponent<Manager_Game>().AddToNumber(bronzeBar, int.Parse(data["bronze"].ToString()) - int.Parse(bronzeBar.text));
+                }
+
+                if (openedFromNotificationsPanel)
+                {
+                    //questionsInNotificationPanel.RemoveAt(q.indInNotificationPanelArray);
+                    Destroy(q.gameObject);
+                    StartCoroutine(GetComponent<Manager_Game>().changeMenuSprite());
+                }
+                questionPopUp.SetActive(false);
+                GetComponent<Toast>().ShowToast(data["message"].ToString());
+                openedFromNotificationsPanel = false;
+            }
+            answerToQuestionWorking = false;
         }
-        else
+        catch
         {
-            JsonData data = JsonMapper.ToObject(webRequest.downloadHandler.text);
-
-            if (data["status"].ToString() == "success")
-            {
-                GetComponent<Manager_Game>().AddToNumber(bronzeBar, int.Parse(data["bronze"].ToString()) - int.Parse(bronzeBar.text));
-            }
-
-            if (openedFromNotificationsPanel)
-            {
-                Destroy(q.gameObject);
-                StartCoroutine(GetComponent<Manager_Game>().changeMenuSprite());
-            }
-            questionPopUp.SetActive(false);
-            GetComponent<Toast>().ShowToast(data["message"].ToString());
-            openedFromNotificationsPanel = false;
+            answerToQuestionWorking = false;
         }
     }
 }

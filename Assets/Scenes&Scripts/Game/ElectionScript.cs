@@ -44,6 +44,8 @@ public class ElectionScript : MonoBehaviour
     string minute;
     string second;
 
+    bool voteWorking;
+
     private void Awake()
     {
         StartCoroutine(checkElection());
@@ -187,7 +189,10 @@ public class ElectionScript : MonoBehaviour
     {
         if (!selectedCandidateId.Equals(""))
         {
-            StartCoroutine(vote());
+            if (!voteWorking)
+            {
+                StartCoroutine(vote());
+            }
         }
     }
 
@@ -195,6 +200,8 @@ public class ElectionScript : MonoBehaviour
 
     IEnumerator vote()
     {
+        voteWorking = true;
+
         WWWForm form = new WWWForm();
         form.AddField("candidate_id", selectedCandidateId);
         form.AddField("region_id", userInformation.region_id);
@@ -205,34 +212,35 @@ public class ElectionScript : MonoBehaviour
 
         yield return www.SendWebRequest();
 
-
-        if (www.error != null || www.isNetworkError || www.isHttpError)
+        try
         {
-            Debug.LogError(www.error);
-            toast.ShowToast("Xəta");
-        }
-        else
-        {
-            JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
-            
-            if (data["status"].ToString() == "success")
+            if (www.error != null || www.isNetworkError || www.isHttpError)
             {
-                toast.ShowToast(data["message"].ToString());
-
-                electionPanel.SetActive(false);
-                makeElectionsPanelVotable(false);
-                //electionExit.SetActive(true);
-                //submit.gameObject.SetActive(false);
-
-                //for (int i = 0; i < electionPanelParent.childCount; i++)
-                //{
-                //    electionPanelParent.GetChild(i).Find("voteButton").GetComponent<Button>().interactable = false;
-                //}
+                Debug.LogError(www.error);
+                toast.ShowToast("Xəta");
             }
             else
             {
-                toast.ShowToast(data["message"].ToString(), 3);
+                JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
+
+                if (data["status"].ToString() == "success")
+                {
+                    toast.ShowToast(data["message"].ToString());
+
+                    electionPanel.SetActive(false);
+                    makeElectionsPanelVotable(false);
+                }
+                else
+                {
+                    toast.ShowToast(data["message"].ToString(), 3);
+                }
             }
+
+            voteWorking = false;
+        }
+        catch
+        {
+            voteWorking = false;
         }
     }
 

@@ -13,6 +13,7 @@ using UnityEngine.UI;
 
 public class Manager_Game : MonoBehaviour
 {
+    public TMP_Text budgetBar;
 
     public GameObject sideMenuButton;
     public Sprite sideMenuFilled, sideMenuEmpty;
@@ -82,6 +83,11 @@ public class Manager_Game : MonoBehaviour
 
 
     public bool isTouchOnUI;
+
+    //booleans for coroutines
+    private bool setNewUserBuildingWorking, sendMoveRequestWorking, sendSellRequestWorking, convertRequestWorking, getUserTaskListWorking, userGetFineWorking;
+
+
 
     [HideInInspector]
     public bool isSideMenuOpen, isNotificationsPanelOpen, isProfileOpen, isBuildingInstanceActive;
@@ -804,6 +810,16 @@ public class Manager_Game : MonoBehaviour
                         userResourceInformation.role_date = userResources["data"]["role_date"].ToString();
                     }
 
+                    try
+                    {
+                        if (userResourceInformation.role_id == 3 || userResourceInformation.role_id == 4)
+                        {
+                            budgetBar.text = userResources["data"]["role_coin"].ToString();
+                            budgetBar.transform.parent.gameObject.SetActive(true);
+                        }
+                    }
+                    catch { Debug.Log("problem is here"); }
+
 
                     updateUserResources("-" + userResourceInformation.gold.ToString(), "-" + userResourceInformation.bronze.ToString(), "-" + userResourceInformation.black.ToString());
 
@@ -916,6 +932,8 @@ public class Manager_Game : MonoBehaviour
 
     IEnumerator setNewUserBuilding(GameObject gameObject, int type, string pos, int level, int flipX)
     {
+        setNewUserBuildingWorking = true;
+
         WWWForm form = new WWWForm();
         form.AddField("type_id", type);
         form.AddField("position", pos);
@@ -928,34 +946,44 @@ public class Manager_Game : MonoBehaviour
         www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
         yield return www.SendWebRequest();
 
-        if (www.error != null || www.isNetworkError || www.isHttpError)
+        try
         {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            JsonData userResources = JsonMapper.ToObject(www.downloadHandler.text);
-            //Debug.Log(userResources.ToJson());
-            if (userResources["status"].ToString() == "success")
+            if (www.error != null || www.isNetworkError || www.isHttpError)
             {
-                GetComponent<AudioSource>().PlayOneShot(buyClip);
-
-                purchaseApproved(gameObject, pos);
-                updateUserResources((Int32.Parse(goldBar.text) - Int32.Parse(userResources["data"]["gold"].ToString())).ToString(), (Int32.Parse(bronzeBar.text) - Int32.Parse(userResources["data"]["bronze"].ToString())).ToString(), "0");
-                activeForBuying = false;
-
+                Debug.Log(www.error);
             }
             else
             {
-                GetComponent<Toast>().ShowToast("Xəta");
-                //Debug.LogError("Setting user buildings failed");
+                JsonData userResources = JsonMapper.ToObject(www.downloadHandler.text);
                 //Debug.Log(userResources.ToJson());
+                if (userResources["status"].ToString() == "success")
+                {
+                    GetComponent<AudioSource>().PlayOneShot(buyClip);
+
+                    purchaseApproved(gameObject, pos);
+                    updateUserResources((Int32.Parse(goldBar.text) - Int32.Parse(userResources["data"]["gold"].ToString())).ToString(), (Int32.Parse(bronzeBar.text) - Int32.Parse(userResources["data"]["bronze"].ToString())).ToString(), "0");
+                    activeForBuying = false;
+
+                }
+                else
+                {
+                    GetComponent<Toast>().ShowToast("Xəta");
+                    //Debug.LogError("Setting user buildings failed");
+                    //Debug.Log(userResources.ToJson());
+                }
             }
+
+            setNewUserBuildingWorking = false;
+        }
+        catch
+        {
+            setNewUserBuildingWorking = false;
         }
     }
 
     IEnumerator sendMoveRequest(int building_id, string OldPos, string pos, int flipX)
     {
+        sendMoveRequestWorking = true;
 
         WWWForm form = new WWWForm();
         form.AddField("building_id", building_id);
@@ -968,31 +996,40 @@ public class Manager_Game : MonoBehaviour
         www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
         yield return www.SendWebRequest();
 
-        if (www.error != null || www.isNetworkError || www.isHttpError)
+        try
         {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
-
-            if (data["status"].ToString() == "success")
+            if (www.error != null || www.isNetworkError || www.isHttpError)
             {
-                GetComponent<AudioSource>().PlayOneShot(moveClip);
-
-                moveApproved();
+                Debug.Log(www.error);
             }
             else
             {
-                GetComponent<Toast>().ShowToast("Xəta");
+                JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
+
+                if (data["status"].ToString() == "success")
+                {
+                    GetComponent<AudioSource>().PlayOneShot(moveClip);
+
+                    moveApproved();
+                }
+                else
+                {
+                    GetComponent<Toast>().ShowToast("Xəta");
+                }
             }
+
+            sendMoveRequestWorking = false;
         }
-
-
+        catch
+        {
+            sendMoveRequestWorking = false;
+        }
     }
 
     IEnumerator sendSellRequest(GameObject _tempBuilding)
     {
+        sendSellRequestWorking = true;
+
         int item_id = _tempBuilding.GetComponent<BuildingInformation>().id;
         string pos = _tempBuilding.GetComponent<BuildingInformation>().pos;
         //Debug.Log(pos);
@@ -1005,52 +1042,72 @@ public class Manager_Game : MonoBehaviour
         www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
         yield return www.SendWebRequest();
 
-        if (www.error != null || www.isNetworkError || www.isHttpError)
+        try
         {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
-
-            if (data["status"].ToString() == "success")
+            if (www.error != null || www.isNetworkError || www.isHttpError)
             {
-                string addedGold = (Int32.Parse(goldBar.text) - Int32.Parse(data["message"].ToString())).ToString();
-                updateUserResources(addedGold, "0", "0");
-                sellApproved(_tempBuilding);
+                Debug.Log(www.error);
             }
             else
             {
-                GetComponent<Toast>().ShowToast("Xəta");
+                JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
+
+                if (data["status"].ToString() == "success")
+                {
+                    string addedGold = (Int32.Parse(goldBar.text) - Int32.Parse(data["message"].ToString())).ToString();
+                    updateUserResources(addedGold, "0", "0");
+                    sellApproved(_tempBuilding);
+                }
+                else
+                {
+                    GetComponent<Toast>().ShowToast("Xəta");
+                }
             }
+
+            sendSellRequestWorking = false;
+        }
+        catch
+        {
+            sendSellRequestWorking = false;
         }
     }
 
     IEnumerator getUserTaskList()
     {
+        getUserTaskListWorking = true;
+
         UnityWebRequest www = UnityWebRequest.Get(All_Urls.getUrl().getUserTaskList);
         www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
         yield return www.SendWebRequest();
 
-        if (www.error != null || www.isNetworkError || www.isHttpError)
+        try
         {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
-            //Debug.Log(data.ToJson());
-            if (data["status"].ToString() == "success")
+            if (www.error != null || www.isNetworkError || www.isHttpError)
             {
-                //Debug.Log(data["data"].ToJson());
-                //Debug.Log(data["data"].Count);
-                fillUserTaskList(data["data"]);
+                Debug.Log(www.error);
             }
             else
             {
-                //toast(data["data"]["message"])///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                //Debug.LogError("Getting user TaskList failed");
+                JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
+                //Debug.Log(data.ToJson());
+                if (data["status"].ToString() == "success")
+                {
+                    //Debug.Log(data["data"].ToJson());
+                    //Debug.Log(data["data"].Count);
+                    fillUserTaskList(data["data"]);
+                }
+                else
+                {
+                    //toast(data["data"]["message"])///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    //Debug.LogError("Getting user TaskList failed");
+                }
             }
+
+            getUserTaskListWorking = false;
+        }
+        catch
+        {
+            getUserTaskListWorking = false;
         }
     }
 
@@ -1188,7 +1245,10 @@ public class Manager_Game : MonoBehaviour
                 }
 
                 setProperNotificationForABuilding(_building);
-                StartCoroutine(getUserTaskList());
+                if (!getUserTaskListWorking)
+                {
+                    StartCoroutine(getUserTaskList());
+                }
             }
             else
             {
@@ -1418,13 +1478,19 @@ public class Manager_Game : MonoBehaviour
                 //{
                 //    storeParent.transform.Find(selectedBuilding.GetComponent<BuildingInformation>().name).GetComponentInChildren<Button>().interactable = false;
                 //}
-                StartCoroutine(setNewUserBuilding(selectedBuilding, type, pos, level, flipX));
+                if (!setNewUserBuildingWorking)
+                {
+                    StartCoroutine(setNewUserBuilding(selectedBuilding, type, pos, level, flipX));
+                }
             }
             else//moved a building
             {
                 if (selectedBuilding.transform.localPosition != buildingInstanceActive.transform.localPosition || selectedBuilding.GetComponent<SpriteRenderer>().flipX != buildingInstanceActive.GetComponent<SpriteRenderer>().flipX)
                 {
-                    StartCoroutine(sendMoveRequest(type, oldPos, pos, flipX));
+                    if (!sendMoveRequestWorking)
+                    {
+                        StartCoroutine(sendMoveRequest(type, oldPos, pos, flipX));
+                    }
                 }
                 else // tried moving but didn't changed anything
                 {
@@ -1518,7 +1584,10 @@ public class Manager_Game : MonoBehaviour
     {
         if (!(selectedBuilding.GetComponent<TaskInformation>().hasTask || selectedBuilding.GetComponent<TaskInformation>().currentTasks.Count > 0))
         {
-            StartCoroutine(sendSellRequest(selectedBuilding));
+            if (!sendSellRequestWorking)
+            {
+                StartCoroutine(sendSellRequest(selectedBuilding));
+            }
         }
         else
         {
@@ -1563,7 +1632,10 @@ public class Manager_Game : MonoBehaviour
         }
         else
         {
-            StartCoroutine(convertRequest(Int32.Parse(converterBronze.text)));
+            if (!convertRequestWorking)
+            {
+                StartCoroutine(convertRequest(Int32.Parse(converterBronze.text)));
+            }
             converterPopUp.SetActive(false);
         }
     }
@@ -1576,6 +1648,8 @@ public class Manager_Game : MonoBehaviour
 
     IEnumerator convertRequest(int bronzeAmount)
     {
+        convertRequestWorking = true;
+
         WWWForm form = new WWWForm();
         form.AddField("bronze_amount", bronzeAmount);
 
@@ -1584,24 +1658,32 @@ public class Manager_Game : MonoBehaviour
 
         yield return webRequest.SendWebRequest();
 
-
-        if (webRequest.error != null || webRequest.isNetworkError || webRequest.isHttpError)
+        try
         {
-            Debug.LogError(webRequest.error);
-        }
-        else
-        {
-            JsonData data = JsonMapper.ToObject(webRequest.downloadHandler.text);
-
-            if (data["status"].ToString() == "success")
+            if (webRequest.error != null || webRequest.isNetworkError || webRequest.isHttpError)
             {
-                updateUserResources((Convert.ToInt32(goldBar.text) - Convert.ToInt32(data["gold"].ToString())).ToString(), (Convert.ToInt32(bronzeBar.text) - Convert.ToInt32(data["bronze"].ToString())).ToString(), "0");
+                Debug.LogError(webRequest.error);
             }
             else
             {
-                GetComponent<Toast>().ShowToast("Bank sistemi fəaliyyətdə deyil!");
-                //Debug.Log("Converting failed");
+                JsonData data = JsonMapper.ToObject(webRequest.downloadHandler.text);
+
+                if (data["status"].ToString() == "success")
+                {
+                    updateUserResources((Convert.ToInt32(goldBar.text) - Convert.ToInt32(data["gold"].ToString())).ToString(), (Convert.ToInt32(bronzeBar.text) - Convert.ToInt32(data["bronze"].ToString())).ToString(), "0");
+                }
+                else
+                {
+                    GetComponent<Toast>().ShowToast("Bank sistemi fəaliyyətdə deyil!");
+                    //Debug.Log("Converting failed");
+                }
             }
+
+            convertRequestWorking = false;
+        }
+        catch
+        {
+            convertRequestWorking = false;
         }
     }
 
@@ -1643,7 +1725,10 @@ public class Manager_Game : MonoBehaviour
                 if (Convert.ToInt32(blackBar.text) >= 5)
                 {
                     //Debug.Log("ddos");
-                    StartCoroutine(userGetFine());
+                    if (!userGetFineWorking)
+                    {
+                        StartCoroutine(userGetFine());
+                    }
                 }
                 else
                 {
@@ -1662,29 +1747,37 @@ public class Manager_Game : MonoBehaviour
 
     IEnumerator userGetFine()
     {
+        userGetFineWorking = true;
 
         UnityWebRequest webRequest = UnityWebRequest.Get(All_Urls.getUrl().userGetFine);
         webRequest.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
 
         yield return webRequest.SendWebRequest();
 
-
-        if (webRequest.error != null || webRequest.isNetworkError || webRequest.isHttpError)
-        {
-            Debug.LogError(webRequest.error);
-        }
-        else
-        {
-            JsonData data = JsonMapper.ToObject(webRequest.downloadHandler.text);
-            //Debug.Log(data.ToJson());
-            if (data["status"].ToString() == "success")
+        try {
+            if (webRequest.error != null || webRequest.isNetworkError || webRequest.isHttpError)
             {
-                updateUserResources("0", (Convert.ToInt32(bronzeBar.text) - Convert.ToInt32(data["data"]["bronze"].ToString())).ToString(), blackBar.text);
+                Debug.LogError(webRequest.error);
             }
             else
             {
-                //Debug.Log("Getting user fine failed");
+                JsonData data = JsonMapper.ToObject(webRequest.downloadHandler.text);
+                //Debug.Log(data.ToJson());
+                if (data["status"].ToString() == "success")
+                {
+                    updateUserResources("0", (Convert.ToInt32(bronzeBar.text) - Convert.ToInt32(data["data"]["bronze"].ToString())).ToString(), blackBar.text);
+                }
+                else
+                {
+                    //Debug.Log("Getting user fine failed");
+                }
             }
+
+            userGetFineWorking = false;
+        }
+        catch
+        {
+            userGetFineWorking = false;
         }
     }
 

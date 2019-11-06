@@ -19,6 +19,8 @@ public class Laws : MonoBehaviour
     public GameObject acceptedLawPanelParent;
     public GameObject acceptedLawPrefab;
 
+    public TMP_Text budgetBar;
+
     public ClienTest clientTest;
 
     public AudioClip acceptedLawClip;
@@ -28,21 +30,32 @@ public class Laws : MonoBehaviour
 
     private int currentStatus;
 
-    
 
+    private int coinToSubtract = 0;
 
 
     public void FillLawPanel(JsonData data, int lawStatus, int userStatus)
     {
-        int cCount = lawPanelParent.transform.childCount;
+        coinToSubtract = 0;
 
+        int cCount = lawPanelParent.transform.childCount;
 
         for (int i = 0; i < data.Count; i++)
         {
-
             tempLaw = Instantiate(lawPrefab, lawPanelParent.transform);
 
+            if (data[i]["price"].ToString() == "0")
+            {
+                tempLaw.transform.Find("price").GetComponent<TMP_Text>().text = "+" + data[i]["income"].ToString();
+            }
+            else
+            {
+                tempLaw.transform.Find("price").GetComponent<TMP_Text>().text = "-" + data[i]["price"].ToString();
+            }
+
+           
             tempLaw.transform.Find("Text_law").GetComponent<TMP_Text>().text = data[i]["description"].ToString();
+ 
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerDown;
             entry.callback.AddListener((eventData) => { AddToSelectedLaws(i); });
@@ -52,7 +65,6 @@ public class Laws : MonoBehaviour
             entry.eventID = EventTriggerType.PointerDown;
             entry.callback.AddListener((eventData) => { DeleteFromSelectedLaws(i); });
             tempLaw.transform.Find("Buttons").Find("decline").GetComponent<EventTrigger>().triggers.Add(entry);
-
         }
 
 
@@ -102,8 +114,9 @@ public class Laws : MonoBehaviour
         {
             if (!lawPanelParent.transform.GetChild(i).Find("Buttons").Find("accept").gameObject.activeSelf)
             {
-              
                 s += i.ToString() + ",";
+
+                coinToSubtract += int.Parse(lawPanelParent.transform.GetChild(i).Find("price").GetComponent<TMP_Text>().text);
             }
         }
 
@@ -130,12 +143,14 @@ public class Laws : MonoBehaviour
         message1.AddField("id", clientTest.user.role_id);
         message1.AddField("data", prepareLawStringForSending());
 
+        GetComponent<Manager_Game>().AddToNumber(GetComponent<Manager_Game>().budgetBar, -coinToSubtract);
+
         Debug.Log("Send Law data " + prepareLawStringForSending());
 
 
         yield return new WaitForSeconds(1);
-
-        print(currentStatus);
+        coinToSubtract = 0;
+        //print(currentStatus);
 
         if (currentStatus == 0)
         {
