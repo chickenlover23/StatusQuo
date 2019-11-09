@@ -9,7 +9,7 @@ public class OneSignalMine : MonoBehaviour
         // Enable line below to enable logging if you are having issues setting up OneSignal. (logLevel, visualLogLevel)
         //OneSignal.SetLogLevel(OneSignal.LOG_LEVEL.INFO, OneSignal.LOG_LEVEL.INFO);
 
-        OneSignal.StartInit("eaa86f0c-b1b7-4ed2-beed-7dd5cad89abc")
+        OneSignal.StartInit("d941062c-71c4-47a6-ab87-e4fe5a73a755")
           .HandleNotificationOpened(HandleNotificationOpened)
           .EndInit();
 
