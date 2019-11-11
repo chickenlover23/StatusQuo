@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using LitJson;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.Networking;
 
 public class Laws : MonoBehaviour
 {
@@ -25,18 +26,16 @@ public class Laws : MonoBehaviour
 
     public AudioClip acceptedLawClip;
 
-    private List<int> selectedLaws = new List<int>();
+    
     GameObject tempLaw;
 
     private int currentStatus;
 
-
-    private int coinToSubtract = 0;
-
+    private string lawId;
 
     public void FillLawPanel(JsonData data, int lawStatus, int userStatus)
     {
-        coinToSubtract = 0;
+        Debug.Log(data.ToJson());
 
         int cCount = lawPanelParent.transform.childCount;
 
@@ -53,7 +52,8 @@ public class Laws : MonoBehaviour
                 tempLaw.transform.Find("price").GetComponent<TMP_Text>().text = "-" + data[i]["price"].ToString();
             }
 
-           
+            lawId = data[i]["id"].ToString();
+
             tempLaw.transform.Find("Text_law").GetComponent<TMP_Text>().text = data[i]["description"].ToString();
  
             EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -115,8 +115,6 @@ public class Laws : MonoBehaviour
             if (!lawPanelParent.transform.GetChild(i).Find("Buttons").Find("accept").gameObject.activeSelf)
             {
                 s += i.ToString() + ",";
-
-                coinToSubtract += int.Parse(lawPanelParent.transform.GetChild(i).Find("price").GetComponent<TMP_Text>().text);
             }
         }
 
@@ -131,6 +129,7 @@ public class Laws : MonoBehaviour
     {
         //Debug.Log("send foook");
         StartCoroutine(sendLawData());
+        StartCoroutine(subtractLawPrice());
     }
 
     private IEnumerator sendLawData()
@@ -143,13 +142,10 @@ public class Laws : MonoBehaviour
         message1.AddField("id", clientTest.user.role_id);
         message1.AddField("data", prepareLawStringForSending());
 
-        GetComponent<Manager_Game>().AddToNumber(GetComponent<Manager_Game>().budgetBar, -coinToSubtract);
-
         Debug.Log("Send Law data " + prepareLawStringForSending());
 
 
         yield return new WaitForSeconds(1);
-        coinToSubtract = 0;
         //print(currentStatus);
 
         if (currentStatus == 0)
@@ -208,8 +204,6 @@ public class Laws : MonoBehaviour
         submitButton.interactable = false;
     }
 
-
-
     public void FillAcceptedLawPanel(JsonData data)
     {
         int cCount = acceptedLawPanelParent.transform.childCount;
@@ -238,5 +232,37 @@ public class Laws : MonoBehaviour
         acceptedLawPanel.SetActive(true);
     }
 
+
+    IEnumerator subtractLawPrice()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("rule_id", lawId);
+
+
+        UnityWebRequest www = UnityWebRequest.Post(All_Urls.getUrl().subtractLawPrice, form);
+        www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
+        yield return www.SendWebRequest();
+
+        Debug.Log("+++++++++++++++++++++");
+        if (www.error != null || www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log("erorrr__________________________________");
+            Debug.Log(www.error);
+        }
+        else
+        {
+            JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
+            Debug.Log("-----------------------");
+            Debug.Log(data.ToJson());
+            if (data["status"].ToString() == "success")
+            {
+                GetComponent<Manager_Game>().AddToNumber(GetComponent<Manager_Game>().budgetBar, int.Parse(budgetBar.text)-int.Parse(data["data"]["role_coin"].ToString()));
+            }
+            else if (data["status"].ToString() == "fail")
+            {
+                GetComponent<Toast>().ShowToast(data["message"].ToString(), 5);
+            }            
+        }
+    }
 
 }

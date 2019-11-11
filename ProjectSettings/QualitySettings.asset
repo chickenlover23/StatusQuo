@@ -90,7 +90,7 @@ QualitySettings:
     shadowmaskMode: 0
     skinWeights: 2
     textureQuality: 0
-    anisotropicTextures: 0
+    anisotropicTextures: 1
     antiAliasing: 0
     softParticles: 0
     softVegetation: 0
@@ -125,7 +125,7 @@ QualitySettings:
     shadowmaskMode: 1
     skinWeights: 2
     textureQuality: 0
-    anisotropicTextures: 0
+    anisotropicTextures: 1
     antiAliasing: 0
     softParticles: 0
     softVegetation: 1
@@ -160,7 +160,7 @@ QualitySettings:
     shadowmaskMode: 1
     skinWeights: 4
     textureQuality: 0
-    anisotropicTextures: 0
+    anisotropicTextures: 2
     antiAliasing: 0
     softParticles: 0
     softVegetation: 1
@@ -195,7 +195,7 @@ QualitySettings:
     shadowmaskMode: 1
     skinWeights: 4
     textureQuality: 0
-    anisotropicTextures: 0
+    anisotropicTextures: 2
     antiAliasing: 0
     softParticles: 0
     softVegetation: 1
@@ -217,7 +217,7 @@ QualitySettings:
     resolutionScalingFixedDPIFactor: 1
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
-    Android: 2
+    Android: 1
     Nintendo 3DS: 5
     Nintendo Switch: 5
     PS4: 5

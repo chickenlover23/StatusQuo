@@ -66,7 +66,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Relentlessly pursues moth scratch the box but licks your face but plan steps
-    fo
+    fonbnbnbnbnbnbnbnbnbnbnbnbnbnbn
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 514
+  m_textAlignment: 4098
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -109,8 +109,8 @@ MonoBehaviour:
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_wordWrappingRatios: 0
+  m_overflowMode: 5
   m_firstOverflowCharacterIndex: 71
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
@@ -135,13 +135,13 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 2891600843216772901}
-    characterCount: 79
+    characterCount: 108
     spriteCount: 0
     spaceCount: 13
     wordCount: 14
     linkCount: 0
-    lineCount: 3
-    pageCount: 1
+    lineCount: 5
+    pageCount: 3
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -307,6 +307,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d03c3818a30a940ac9219e0250ee6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  addedToNotificationPanel: 0
+  indInNotificationPanelArray: 0
   question: 
   a: 
   b: 

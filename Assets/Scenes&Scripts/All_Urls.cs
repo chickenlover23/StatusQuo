@@ -50,6 +50,8 @@ public class All_Urls
             urls.checkElection = globalUrls.checkElection;
             urls.answerQuestion = globalUrls.answerQuestion;
 
+            urls.subtractLawPrice = globalUrls.subtractLawPrice;
+
 
         }
         else//Local Urls Will be used
@@ -77,6 +79,8 @@ public class All_Urls
             urls.vote = localUrls.vote;
             urls.checkElection = localUrls.checkElection;
             urls.answerQuestion = localUrls.answerQuestion;
+
+            urls.subtractLawPrice = localUrls.subtractLawPrice;
         }
         return urls;
     }
@@ -113,6 +117,8 @@ public class All_Urls
         public static string vote = global_url + "/vote";
         public static string checkElection = global_url + "/checkElections";
         public static string answerQuestion = global_url + "/setQuestResult";
+        
+        public static string subtractLawPrice = global_url + "/approveLaw";
 
     }
     //Local URLS
@@ -147,6 +153,8 @@ public class All_Urls
         public static string vote = local_url + "/vote";
         public static string checkElection = local_url + "/checkElections";
         public static string answerQuestion = local_url + "/setQuestResult";
+
+        public static string subtractLawPrice = local_url + "/approveLaw";
     }
 
     [SerializeField]
@@ -180,6 +188,8 @@ public class All_Urls
         public string vote = string.Empty;
         public string checkElection = string.Empty;
         public string answerQuestion = string.Empty;
+
+        public string subtractLawPrice = string.Empty; 
     }
 }
 

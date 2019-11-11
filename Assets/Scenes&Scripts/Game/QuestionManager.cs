@@ -20,11 +20,17 @@ public class QuestionManager : MonoBehaviour
     bool openedFromNotificationsPanel = false;
 
     bool answerToQuestionWorking;
-    List<Question> questionsInNotificationPanel = new List<Question>();
+    Dictionary<int, Question> questionsInNotificationPanel = new Dictionary<int, Question>();
+
+    int counter = 0;
 
 
     public void FillQuestionPopUp(Question temp)
     {
+        if (questionPopUp.activeSelf)
+        {
+            AddQuestionToNotificationPanel();
+        }
         openedFromNotificationsPanel = false;
         activeQuestion = temp;
 
@@ -58,13 +64,13 @@ public class QuestionManager : MonoBehaviour
             temp.GetComponent<Question>().b = activeQuestion.b;
             temp.GetComponent<Question>().addedToNotificationPanel = true;
             activeQuestion = temp.GetComponent<Question>();
-            activeQuestion.indInNotificationPanelArray = questionsInNotificationPanel.Count;
-            questionsInNotificationPanel.Add(activeQuestion);
+            activeQuestion.keyInNotificationPanelDictionary = counter;
+            questionsInNotificationPanel[counter] = activeQuestion;
 
-            int indd = questionsInNotificationPanel.Count - 1;
-            temp.GetComponent<Button>().onClick.AddListener(delegate { FillQuestionPopUp(indd); });
+            int indd = counter;
 
-            
+            counter++;
+            temp.GetComponent<Button>().onClick.AddListener(delegate { FillQuestionPopUp(indd); }); 
         }
         openedFromNotificationsPanel = false;
         StartCoroutine(GetComponent<Manager_Game>().changeMenuSprite());
@@ -110,7 +116,9 @@ public class QuestionManager : MonoBehaviour
 
                 if (openedFromNotificationsPanel)
                 {
-                    //questionsInNotificationPanel.RemoveAt(q.indInNotificationPanelArray);
+                    //questionsInNotificationPanel.RemoveAt(q.keyInNotificationPanelDictionary);
+                    questionsInNotificationPanel.Remove(q.keyInNotificationPanelDictionary);
+
                     Destroy(q.gameObject);
                     StartCoroutine(GetComponent<Manager_Game>().changeMenuSprite());
                 }
