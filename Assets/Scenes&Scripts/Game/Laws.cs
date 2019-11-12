@@ -256,7 +256,7 @@ public class Laws : MonoBehaviour
             Debug.Log(data.ToJson());
             if (data["status"].ToString() == "success")
             {
-                GetComponent<Manager_Game>().AddToNumber(GetComponent<Manager_Game>().budgetBar, int.Parse(budgetBar.text)-int.Parse(data["data"]["role_coin"].ToString()));
+                GetComponent<Manager_Game>().AddToNumber(GetComponent<Manager_Game>().budgetBar, -int.Parse(budgetBar.text)+int.Parse(data["data"]["role_coin"].ToString()));
             }
             else if (data["status"].ToString() == "fail")
             {

@@ -789,8 +789,9 @@ public class Manager_Game : MonoBehaviour
                     {
                         if (userResourceInformation.role_id == 3 || userResourceInformation.role_id == 4 || userResourceInformation.role_id == 2)
                         {
-                            budgetBar.text = userResources["data"]["role_coin"].ToString();
+                            //budgetBar.text = userResources["data"]["role_coin"].ToString();
                             budgetBar.transform.parent.gameObject.SetActive(true);
+                            AddToNumber(budgetBar, int.Parse(userResources["data"]["role_coin"].ToString()));
                         }
                     }
                     catch { Debug.Log("problem is here"); }
