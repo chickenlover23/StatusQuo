@@ -116,11 +116,13 @@ public class Manager_Game : MonoBehaviour
         {
             //Debug.Log("here");
             GetComponent<AudioSource>().mute = true;
+            cam.GetComponent<AudioSource>().mute = true;
             muteToggle.isOn = true;
         }
         else
         {
             GetComponent<AudioSource>().mute = false;
+            cam.GetComponent<AudioSource>().mute = false;
             muteToggle.isOn = false;
         }
 
@@ -787,7 +789,7 @@ public class Manager_Game : MonoBehaviour
 
                     try
                     {
-                        if (userResourceInformation.role_id == 3 || userResourceInformation.role_id == 4 || userResourceInformation.role_id == 2)
+                        if (userResourceInformation.role_id == 3 || userResourceInformation.role_id == 4)
                         {
                             //budgetBar.text = userResources["data"]["role_coin"].ToString();
                             budgetBar.transform.parent.gameObject.SetActive(true);
@@ -1818,7 +1820,7 @@ public class Manager_Game : MonoBehaviour
     public void mute()
     {
         GetComponent<AudioSource>().mute = !GetComponent<AudioSource>().mute;
-        
+        cam.GetComponent<AudioSource>().mute = GetComponent<AudioSource>().mute;
     }
 
 
