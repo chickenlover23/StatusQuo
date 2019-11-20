@@ -398,7 +398,7 @@ public class ElectionScript : MonoBehaviour
         }
 
         GameObject tempResult;
-        Debug.Log(data["users"].Count);
+        //Debug.Log(data["users"].Count);
         for (int i = 0; i < data["users"].Count; i++)
         {
             
@@ -415,7 +415,7 @@ public class ElectionScript : MonoBehaviour
 
                 Helper.LoadAvatarImage(data["users"][i]["role_name"].ToString(), tempResult.transform.Find("icon").GetComponent<Image>(), false, true);
                 ind++;
-                Debug.Log(i);
+                //Debug.Log(i);
                 
             }
         }

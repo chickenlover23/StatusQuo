@@ -42,7 +42,7 @@ public class QuestionManager : MonoBehaviour
 
     public void FillQuestionPopUp(int ind)
     {
-        Debug.Log(ind);
+    //    Debug.Log(ind);
         openedFromNotificationsPanel = true;
         activeQuestion = questionsInNotificationPanel[ind];
         questionQuestion.text = activeQuestion.question;

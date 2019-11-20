@@ -80,7 +80,7 @@ public class TimerClass : MonoBehaviour
 
     IEnumerator decreaseTaskTime()
     {
-        Debug.Log(DateTime.Now);
+        //Debug.Log(DateTime.Now);
         yield return new WaitForSeconds(0f);
         len = taskInfos.Count - 1;
 

@@ -35,7 +35,7 @@ public class Laws : MonoBehaviour
 
     public void FillLawPanel(JsonData data, int lawStatus, int userStatus)
     {
-        Debug.Log(data.ToJson());
+        //Debug.Log(data.ToJson());
 
         int cCount = lawPanelParent.transform.childCount;
 
@@ -138,11 +138,11 @@ public class Laws : MonoBehaviour
 
         // Data = { [rule_id : 12 ,rule_id : 13 ]}
         int count = 0;
-        Debug.Log(prepareLawStringForSending());
+        //Debug.Log(prepareLawStringForSending());
         message1.AddField("id", clientTest.user.role_id);
         message1.AddField("data", prepareLawStringForSending());
 
-        Debug.Log("Send Law data " + prepareLawStringForSending());
+        //Debug.Log("Send Law data " + prepareLawStringForSending());
 
 
         yield return new WaitForSeconds(1);
@@ -207,12 +207,12 @@ public class Laws : MonoBehaviour
     public void FillAcceptedLawPanel(JsonData data)
     {
         int cCount = acceptedLawPanelParent.transform.childCount;
-        Debug.Log("filled");
-        Debug.Log(data.Count);
+      //  Debug.Log("filled");
+       // Debug.Log(data.Count);
         
         for (int i = 0; i < data.Count; i++)
         {
-            Debug.Log("accepted laws " + data[i].Count);
+         //   Debug.Log("accepted laws " + data[i].Count);
             for (int j = 0; j < data[i].Count; j++)
             {
 
@@ -221,8 +221,8 @@ public class Laws : MonoBehaviour
             }
         }
         GetComponent<AudioSource>().PlayOneShot(acceptedLawClip);
-        Debug.Log("filledassssssssssssssssss");
-        Debug.Log(data.Count);
+       // Debug.Log("filledassssssssssssssssss");
+       // Debug.Log(data.Count);
 
         for (int i = 0; i < cCount; i++)
         {
@@ -243,17 +243,17 @@ public class Laws : MonoBehaviour
         www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
         yield return www.SendWebRequest();
 
-        Debug.Log("+++++++++++++++++++++");
+        //Debug.Log("+++++++++++++++++++++");
         if (www.error != null || www.isNetworkError || www.isHttpError)
         {
-            Debug.Log("erorrr__________________________________");
+         //   Debug.Log("erorrr__________________________________");
             Debug.Log(www.error);
         }
         else
         {
             JsonData data = JsonMapper.ToObject(www.downloadHandler.text);
-            Debug.Log("-----------------------");
-            Debug.Log(data.ToJson());
+          //  Debug.Log("-----------------------");
+          //  Debug.Log(data.ToJson());
             if (data["status"].ToString() == "success")
             {
                 GetComponent<Manager_Game>().AddToNumber(GetComponent<Manager_Game>().budgetBar, -int.Parse(budgetBar.text)+int.Parse(data["data"]["role_coin"].ToString()));

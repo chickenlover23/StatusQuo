@@ -134,7 +134,7 @@ public class ClienTest : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.LogException(ex);
+          //  Debug.LogException(ex);
         }
         return;
     }
@@ -142,7 +142,7 @@ public class ClienTest : MonoBehaviour
     //to get candidates data for elections 
     void OnElectionsCheck(SocketIOEvent evt)
     {
-        Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
+        //Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
         if ((DateTime.Now - electionPanelFilledDate).TotalSeconds >= 40)
         {
             electionPanelFilledDate = DateTime.Now;
@@ -168,11 +168,11 @@ public class ClienTest : MonoBehaviour
     //get all users' messages about elections
     void OnUserGetAllMess(SocketIOEvent evt)
     {
-      Debug.Log("Election mess_=> " + evt.data.GetField("message").str.Replace(@"\", ""));
+      //Debug.Log("Election mess_=> " + evt.data.GetField("message").str.Replace(@"\", ""));
         if ((DateTime.Now - electionResultFilledDate).TotalSeconds >= 40)
         {
             JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
-            Debug.Log("Election mess_=> " + evt.data.GetField("message").str.Replace(@"\", ""));
+            //Debug.Log("Election mess_=> " + evt.data.GetField("message").str.Replace(@"\", ""));
             try
             {
 
@@ -184,7 +184,7 @@ public class ClienTest : MonoBehaviour
 
 
                     electionScript.fillElectionResults(data);
-                    Debug.Log("arasiiiiiiiiiiiiiiii");
+                   // Debug.Log("arasiiiiiiiiiiiiiiii");
                     electionScript.electionResultPanel.SetActive(true);
                 }
                 else
@@ -198,7 +198,7 @@ public class ClienTest : MonoBehaviour
     //get old users' messages about elections
     void OnUserGetOldMess(SocketIOEvent evt)
     {
-        Debug.Log("Old mess => " + evt.data.GetField("message").str.Replace(@"\", ""));
+        //Debug.Log("Old mess => " + evt.data.GetField("message").str.Replace(@"\", ""));
 
         string message = evt.data.GetField("message").str.Replace(@"\", "").ToString();
         electionScript.CandidatePopUp("Təşəkkürlər!", message);
@@ -209,7 +209,7 @@ public class ClienTest : MonoBehaviour
     //get new users' messages about elections
     void OnUserGetNewMess(SocketIOEvent evt)
     {
-        Debug.Log("New mess => " + evt.data.GetField("message").str.Replace(@"\", ""));
+        //Debug.Log("New mess => " + evt.data.GetField("message").str.Replace(@"\", ""));
 
         string message = evt.data.GetField("message").str.Replace(@"\", "").ToString();
         electionScript.CandidatePopUp("Təbriklər!", message);
@@ -221,7 +221,7 @@ public class ClienTest : MonoBehaviour
     void OnUserGetQuest(SocketIOEvent evt)
     {
         JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
-        Debug.Log("New Question => " + evt.data.GetField("message").str.Replace(@"\", ""));
+       // Debug.Log("New Question => " + evt.data.GetField("message").str.Replace(@"\", ""));
         if ((DateTime.Now - lastQuestionDate).TotalSeconds >= 40)
         {
             lastQuestionDate = DateTime.Now;
@@ -241,7 +241,7 @@ public class ClienTest : MonoBehaviour
 
     private void ruleMessageAll(SocketIOEvent evt)
     {
-            Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
+         //   Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
         if ((DateTime.Now - lawResultDate).TotalSeconds >= 40)
         {
             lawResultDate = DateTime.Now;
@@ -257,14 +257,14 @@ public class ClienTest : MonoBehaviour
 
     void onLawGetForPar(SocketIOEvent evt)
     {
-        Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
+        //Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
         try
         {
             if ((DateTime.Now - lawPanelFilledDate).TotalSeconds >= 40)
             {
                 lawPanelFilledDate = DateTime.Now;
                 JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
-                Debug.Log(data.ToJson());
+          //      Debug.Log(data.ToJson());
                 if (data.Count > 0)
                 {
                     law.FillLawPanel(data, 0, 0);
@@ -284,14 +284,14 @@ public class ClienTest : MonoBehaviour
 
     void onLawGetForParFinal(SocketIOEvent evt)
     {
-        Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
+        //Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
         try
         {
             if ((DateTime.Now - lawFinalPanelFilledDate).TotalSeconds >= 40)
             {
                 lawFinalPanelFilledDate = DateTime.Now;
                 JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
-                Debug.Log(data.ToJson());
+          //      Debug.Log(data.ToJson());
                 if (data.Count > 0)
                 {
                     law.FillLawPanel(data, 1, 0);
@@ -312,14 +312,14 @@ public class ClienTest : MonoBehaviour
 
     void onLawGetForPre(SocketIOEvent evt)
     {
-        Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
+        //Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
         try
         {
             if ((DateTime.Now - lawPanelFilledDate).TotalSeconds >= 40)
             {
                 lawPanelFilledDate = DateTime.Now;
                 JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
-                Debug.Log(data.ToJson());
+          //      Debug.Log(data.ToJson());
                 if (data.Count > 0)
                 {
                     law.FillLawPanel(data, 0, 1);
@@ -340,14 +340,14 @@ public class ClienTest : MonoBehaviour
 
     void onLawGetForPreFinal(SocketIOEvent evt)
     {
-        Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
+        //Debug.Log(evt.data.GetField("message").str.Replace(@"\", ""));
         try
         {
             if ((DateTime.Now - lawFinalPanelFilledDate).TotalSeconds >= 40)
             {
                 lawFinalPanelFilledDate = DateTime.Now;
                 JsonData data = JsonMapper.ToObject(evt.data.GetField("message").str.Replace(@"\", ""));
-                Debug.Log(data.ToJson());
+            //    Debug.Log(data.ToJson());
                 if (data.Count > 0)
                 {
                     law.FillLawPanel(data, 1, 1);
@@ -400,7 +400,7 @@ public class ClienTest : MonoBehaviour
         {
             socket.Emit("update_mission_mins", data);
         }
-        Debug.Log("ZZZZZZZZZ" + data);
+        //Debug.Log("ZZZZZZZZZ" + data);
     }
 
 

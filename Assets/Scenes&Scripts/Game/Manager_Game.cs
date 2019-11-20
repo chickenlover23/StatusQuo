@@ -756,7 +756,7 @@ public class Manager_Game : MonoBehaviour
             JsonData userResources = JsonMapper.ToObject(www.downloadHandler.text);
             UserResourceInformation userResourceInformation = user.GetComponent<UserResourceInformation>();
 
-            Debug.Log(userResources.ToJson());
+            //Debug.Log(userResources.ToJson());
             if (userResources["status"].ToString() == "success")
             {
                 try
@@ -862,7 +862,7 @@ public class Manager_Game : MonoBehaviour
 
         if (webRequest.error != null || webRequest.isNetworkError || webRequest.isHttpError)
         {
-            Debug.LogError(webRequest.error);
+         //   Debug.LogError(webRequest.error);
             SendUserToLogin();
         }
         else
