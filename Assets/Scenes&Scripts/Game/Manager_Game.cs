@@ -132,8 +132,6 @@ public class Manager_Game : MonoBehaviour
 
 
 
-   
-
 
     private void Update()
     {
@@ -968,7 +966,14 @@ public class Manager_Game : MonoBehaviour
         form.AddField("position", OldPos);
         form.AddField("newPosition", pos);
         form.AddField("flipX", flipX);
+
+        //Debug.Log("-----------------------------------");
+        //Debug.Log(building_id);
         //Debug.Log(flipX);
+        //Debug.Log(pos);
+        //Debug.Log(OldPos);
+        //Debug.Log("-----------------------------------");
+
 
         UnityWebRequest www = UnityWebRequest.Post(All_Urls.getUrl().moveBuilding, form);
         www.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("access_token"));
@@ -995,13 +1000,14 @@ public class Manager_Game : MonoBehaviour
                     GetComponent<Toast>().ShowToast("Xəta");
                 }
             }
-
+            
             sendMoveRequestWorking = false;
         }
         catch
         {
             sendMoveRequestWorking = false;
         }
+        //Debug.Log("move ended");
     }
 
     IEnumerator sendSellRequest(GameObject _tempBuilding)
@@ -1554,6 +1560,7 @@ public class Manager_Game : MonoBehaviour
         selectedBuilding.transform.position = buildingInstanceActive.transform.position;
         selectedBuilding.GetComponent<SpriteRenderer>().flipX = buildingInstanceActive.GetComponent<SpriteRenderer>().flipX;
         selectedBuilding.GetComponent<BuildingInformation>().flipX = Helper.castToInt(buildingInstanceActive.GetComponent<SpriteRenderer>().flipX);
+        selectedBuilding.GetComponent<BuildingInformation>().pos = Helper.castToString(selectedBuilding.transform.localPosition);
         selectedBuilding.SetActive(true);
     }
 
